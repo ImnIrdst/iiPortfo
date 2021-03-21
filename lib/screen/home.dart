@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
-import 'package:iiportfo/data/secret_loader.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -12,14 +11,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _items = mockData;
+  List<PortfoItemData> _items = [];
 
   @override
   void initState() {
-    final secret = SecretLoader()
-        .load()
-        .then((secret) => {print(secret.coinMarketCapApiKey)});
-
+    getPortfolioItems().then((value) {
+      setState(() {
+        _items = value;
+      });
+    });
     super.initState();
   }
 
@@ -60,10 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (context, i) => PortfoItem(_items[i]),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _showImportBottomSheet,
         tooltip: 'Import',
-        child: Icon(Icons.add),
+        icon: Icon(Icons.add),
+        label: Text("IMPORT"),
       ),
     );
   }
@@ -78,7 +79,14 @@ class PortfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Text(_item.name),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_item.rank.toString()),
+          Text(_item.name),
+          Text(_item.priceUSD.toString()),
+        ],
+      ),
     );
   }
 }

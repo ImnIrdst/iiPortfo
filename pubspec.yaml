@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.1
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
@@ -17,3 +18,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - lib/assets/secrets.json
