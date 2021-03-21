@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:iiportfo/utils.dart';
+import 'package:iiportfo/utils/datetime_utils.dart';
 
 class Quote {
   final int rank;

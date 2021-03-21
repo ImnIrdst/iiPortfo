@@ -1,7 +1,3 @@
-extension DateTimeUtils on DateTime {
-  int toPosix() => this.toUtc().millisecondsSinceEpoch ~/ 1000;
-}
-
 extension ExtendedIterable<E> on Iterable<E> {
   Iterable<T> mapIndexed<T>(T f(E e, int i)) {
     var i = 0;
