@@ -85,6 +85,7 @@ class PortfoItem extends StatelessWidget {
           Text(_item.rank.toString()),
           Text(_item.name),
           Text(_item.priceUSD.toString()),
+          Text(_item.priceIRR.toString()),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:http/http.dart' as http;
+import 'package:iiportfo/utils.dart';
 
 class Quote {
   final int rank;
@@ -10,39 +11,35 @@ class Quote {
   Quote({this.rank, this.name, this.priceUSD});
 }
 
-class CoinMarketCapAPI {
-  static final baseUrl = "pro-api.coinmarketcap.com";
-  static final quotesApiUrl = "/v2/cryptocurrency/quotes/latest";
+class NobitexAPI {
+  // url = "https://api.nobitex.ir/market/udf/history?symbol=%s&resolution=60&from=%.0f&to=%.0f" \
+  // % (coin, start.timestamp(), end.timestamp())
+  static final baseUrl = "api.nobitex.ir";
+  static final quotesApiUrl = "/market/udf/history";
 
-  static Future<List<PortfoItemData>> getQuotes(List<String> symbols) async {
-    // final secret = await SecretLoader().load();
-    // final apiKey = secret.coinMarketCapApiKey;
+  static Future<double> getUSDTPriceInIRR() async {
+    final to = DateTime.now();
+    final from = to.subtract(Duration(hours: 1));
 
-    // final url = Uri.https(baseUrl, quotesApiUrl, {
-    //   "symbol": getSymbols().join(","),
-    // });
-    //
-    // final response = await http.get(url, headers: {
-    //   "Accepts": "application/json",
-    //   "X-CMC_PRO_API_KEY": apiKey,
-    // });
-    final data = jsonDecode(mockResponseBody)["data"];
+    final url = Uri.https(baseUrl, quotesApiUrl, {
+      "symbol": "USDTIRT",
+      "resolution": 60.toString(),
+      "from": from.toPosix().toString(),
+      "to": to.toPosix().toString(),
+    });
 
-    final coin = data["ADA"][0];
-    print(coin["cmc_rank"]);
-    print(coin["name"]);
-    print(coin["quote"]["USD"]["price"]);
+    final response = await http.get(url);
 
-    return symbols.map((it) {
-      final coin = data[it][0];
-      return PortfoItemData(
-          rank: coin["cmc_rank"],
-          name: coin["name"],
-          priceUSD: coin["quote"]["USD"]["price"]);
-    }).toList();
+    final json = jsonDecode(response.body);
+    final double c = json['c'][0];
+    final double o = json['o'][0];
+
+    return ((c + o) / 2) * 10;
   }
 }
 
+// https://api.nobitex.ir/market/udf/history?symbol=USDTIRR&resolution=60&from=1616325535&to=1616329135
+// https://api.nobitex.ir/market/udf/history?symbol=USDTIRT&resolution=60&from=1616328600&to=1616332200
 final mockResponseBody = """
 {
     "status": {
