@@ -1,20 +1,26 @@
 import 'dart:convert';
 
-import 'package:iiportfo/data/portfo_item_data.dart';
-
 class Quote {
+  final int id;
   final int rank;
   final String name;
   final double priceUSD;
 
-  Quote({this.rank, this.name, this.priceUSD});
+  Quote({this.id, this.rank, this.name, this.priceUSD});
+
+  get imageUrl {
+    return Uri.https(
+      "s2.coinmarketcap.com",
+      "/static/img/coins/128x128/$id.png",
+    );
+  }
 }
 
 class CoinMarketCapAPI {
   static final baseUrl = "pro-api.coinmarketcap.com";
   static final quotesApiUrl = "/v2/cryptocurrency/quotes/latest";
 
-  static Future<List<PortfoItemData>> getQuotes(List<String> symbols) async {
+  static Future<List<Quote>> getQuotes(List<String> symbols) async {
     // final secret = await SecretLoader().load();
     // final apiKey = secret.coinMarketCapApiKey;
 
@@ -28,14 +34,10 @@ class CoinMarketCapAPI {
     // });
     final data = jsonDecode(mockResponseBody)["data"];
 
-    final coin = data["ADA"][0];
-    print(coin["cmc_rank"]);
-    print(coin["name"]);
-    print(coin["quote"]["USD"]["price"]);
-
     return symbols.map((it) {
       final coin = data[it][0];
-      return PortfoItemData(
+      return Quote(
+          id: coin["id"],
           rank: coin["cmc_rank"],
           name: coin["name"],
           priceUSD: coin["quote"]["USD"]["price"]);

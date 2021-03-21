@@ -6,10 +6,17 @@ import 'package:iiportfo/utils/iterable_utils.dart';
 class PortfoItemData {
   final int rank;
   final String name;
+  final Uri imageUrl;
   final double priceUSD;
   final double priceIRR;
 
-  PortfoItemData({this.rank, this.name, this.priceUSD, this.priceIRR});
+  PortfoItemData({
+    this.rank,
+    this.imageUrl,
+    this.name,
+    this.priceUSD,
+    this.priceIRR,
+  });
 }
 
 Future<List<PortfoItemData>> getPortfolioItems() async {
@@ -18,14 +25,16 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
   final quotes = await CoinMarketCapAPI.getQuotes(symbols);
   final usdt = await NobitexAPI.getUSDTPriceInIRR();
 
-  return quotes
-      .mapIndexed(
-        (q, i) => PortfoItemData(
-          rank: q.rank,
-          name: q.name,
-          priceUSD: q.priceUSD * cryptos[i].amount,
-          priceIRR: q.priceUSD * cryptos[i].amount * usdt,
-        ),
-      )
-      .toList();
+  return quotes.mapIndexed(
+    (q, i) {
+      print("q.imageUrl");
+      return PortfoItemData(
+        rank: q.rank,
+        name: q.name,
+        imageUrl: q.imageUrl,
+        priceUSD: q.priceUSD * cryptos[i].amount,
+        priceIRR: q.priceUSD * cryptos[i].amount * usdt,
+      );
+    },
+  ).toList();
 }

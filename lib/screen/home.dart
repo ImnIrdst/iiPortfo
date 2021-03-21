@@ -79,13 +79,25 @@ class PortfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
         children: [
-          Text(_item.rank.toString()),
-          Text(_item.name),
-          Text(_item.priceUSD.toString()),
-          Text(_item.priceIRR.toString()),
+          Image.network(
+            _item.imageUrl.toString(),
+            width: 32,
+            height: 32,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(_item.rank.toString()),
+                Text(_item.name),
+                Text(_item.priceUSD.toString()),
+                Text(_item.priceIRR.toString()),
+              ],
+            ),
+          ),
         ],
       ),
     );
