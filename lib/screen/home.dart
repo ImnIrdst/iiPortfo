@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:iiportfo/data/secret_loader.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -12,6 +13,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _items = mockData;
+
+  @override
+  void initState() {
+    final secret = SecretLoader()
+        .load()
+        .then((secret) => {print(secret.coinMarketCapApiKey)});
+
+    super.initState();
+  }
 
   void _showImportBottomSheet() {
     showModalBottomSheet<void>(
