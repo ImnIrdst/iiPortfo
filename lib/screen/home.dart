@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:iiportfo/utils/price_utils.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -93,8 +94,8 @@ class PortfoItem extends StatelessWidget {
               children: [
                 Text(_item.rank.toString()),
                 Text(_item.name),
-                Text(_item.priceUSD.toString()),
-                Text(_item.priceIRR.toString()),
+                Text(_item.priceUSD.toUSDFormatted()),
+                Text(_item.priceIRR.toIRRFormatted()),
               ],
             ),
           ),
