@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
-import 'package:iiportfo/utils/price_utils.dart';
+import 'package:iiportfo/utils/format_utils.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
