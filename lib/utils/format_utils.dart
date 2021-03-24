@@ -8,3 +8,7 @@ extension PriceUtils on double {
 
   String toUSDFormatted() => usdNumberFormat.format(this);
 }
+
+extension RankUtils on int {
+  String toRankFormatted() => "#$this";
+}

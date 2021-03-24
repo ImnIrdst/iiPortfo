@@ -27,7 +27,6 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
 
   return quotes.mapIndexed(
     (q, i) {
-      print("q.imageUrl");
       return PortfoItemData(
         rank: q.rank,
         name: q.name,

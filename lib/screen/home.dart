@@ -79,21 +79,45 @@ class PortfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Container(
+            width: 36,
+            padding: EdgeInsets.only(right: 8),
+            alignment: Alignment.centerRight,
+            child: Text(
+              _item.rank.toRankFormatted(),
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
           Image.network(
             _item.imageUrl.toString(),
             width: 32,
             height: 32,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          SizedBox(
+            width: 256,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(_item.name),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 128,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_item.rank.toString()),
-                Text(_item.name),
                 Text(_item.priceUSD.toUSDFormatted()),
                 Text(_item.priceIRR.toIRRFormatted()),
               ],
