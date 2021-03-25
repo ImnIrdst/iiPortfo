@@ -83,22 +83,13 @@ class PortfoItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            width: 36,
-            padding: EdgeInsets.only(right: 8),
-            alignment: Alignment.centerRight,
-            child: Text(
-              _item.rank.toRankFormatted(),
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ),
           Image.network(
             _item.imageUrl.toString(),
             width: 32,
             height: 32,
           ),
           SizedBox(
-            width: 256,
+            width: 128,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -106,7 +97,20 @@ class PortfoItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(_item.name),
+                      Text(
+                        _item.symbol,
+                        softWrap: false,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 2),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          _item.rank.toRankFormatted(),
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
                     ],
                   ),
                 ],

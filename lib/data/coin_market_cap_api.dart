@@ -4,9 +4,16 @@ class Quote {
   final int id;
   final int rank;
   final String name;
+  final String symbol;
   final double priceUSD;
 
-  Quote({this.id, this.rank, this.name, this.priceUSD});
+  Quote({
+    this.id,
+    this.rank,
+    this.name,
+    this.symbol,
+    this.priceUSD,
+  });
 
   get imageUrl {
     return Uri.https(
@@ -40,6 +47,7 @@ class CoinMarketCapAPI {
           id: coin["id"],
           rank: coin["cmc_rank"],
           name: coin["name"],
+          symbol: coin["symbol"],
           priceUSD: coin["quote"]["USD"]["price"]);
     }).toList();
   }

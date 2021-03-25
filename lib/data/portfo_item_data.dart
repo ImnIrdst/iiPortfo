@@ -6,6 +6,7 @@ import 'package:iiportfo/utils/iterable_utils.dart';
 class PortfoItemData {
   final int rank;
   final String name;
+  final String symbol;
   final Uri imageUrl;
   final double priceUSD;
   final double priceIRR;
@@ -14,6 +15,7 @@ class PortfoItemData {
     this.rank,
     this.imageUrl,
     this.name,
+    this.symbol,
     this.priceUSD,
     this.priceIRR,
   });
@@ -30,6 +32,7 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
       return PortfoItemData(
         rank: q.rank,
         name: q.name,
+        symbol: q.symbol,
         imageUrl: q.imageUrl,
         priceUSD: q.priceUSD * cryptos[i].amount,
         priceIRR: q.priceUSD * cryptos[i].amount * usdt,
