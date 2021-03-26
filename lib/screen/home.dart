@@ -113,6 +113,7 @@ class PortfoItem extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Text(_item.priceUSD.toUSDFormatted()),
                 ],
               ),
             ),
