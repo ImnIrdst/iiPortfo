@@ -122,8 +122,16 @@ class PortfoItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_item.priceUSD.toUSDFormatted()),
-                Text(_item.priceIRR.toIRRFormatted()),
+                Text(_item.totalUSD.toUSDFormatted()),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 128,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(_item.totalIRR.toIRRFormatted()),
               ],
             ),
           ),
