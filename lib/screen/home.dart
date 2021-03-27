@@ -89,7 +89,7 @@ class PortfoItem extends StatelessWidget {
             height: 32,
           ),
           SizedBox(
-            width: 128,
+            width: 156,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -113,13 +113,24 @@ class PortfoItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Text(_item.priceUSD.toUSDFormatted()),
+                  Row(
+                    children: [
+                      Text(_item.priceUSD.toUSDFormatted()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: _getPercentChangeWidget(
+                          context,
+                          _item.percentChange24hUSD,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
           SizedBox(
-            width: 128,
+            width: 92,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -138,6 +149,14 @@ class PortfoItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _getPercentChangeWidget(BuildContext context, double percent) {
+    final color = percent < 0 ? Colors.red : Colors.green;
+    return Text(
+      percent.toPercentFormatted(),
+      style: Theme.of(context).textTheme.caption.copyWith(color: color),
     );
   }
 }

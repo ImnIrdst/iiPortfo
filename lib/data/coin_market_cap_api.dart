@@ -6,6 +6,7 @@ class Quote {
   final String name;
   final String symbol;
   final double priceUSD;
+  final double percentChange24hUSD;
 
   Quote({
     this.id,
@@ -13,6 +14,7 @@ class Quote {
     this.name,
     this.symbol,
     this.priceUSD,
+    this.percentChange24hUSD,
   });
 
   get imageUrl {
@@ -48,7 +50,8 @@ class CoinMarketCapAPI {
           rank: coin["cmc_rank"],
           name: coin["name"],
           symbol: coin["symbol"],
-          priceUSD: coin["quote"]["USD"]["price"]);
+          priceUSD: coin["quote"]["USD"]["price"],
+          percentChange24hUSD: coin["quote"]["USD"]["percent_change_24h"]);
     }).toList();
   }
 }
