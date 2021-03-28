@@ -83,10 +83,13 @@ class PortfoItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.network(
-            _item.imageUrl.toString(),
-            width: 32,
-            height: 32,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.network(
+              _item.imageUrl.toString(),
+              width: 32,
+              height: 32,
+            ),
           ),
           SizedBox(
             width: 156,
@@ -118,10 +121,8 @@ class PortfoItem extends StatelessWidget {
                       Text(_item.priceUSD.toUSDFormatted()),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: _getPercentChangeWidget(
-                          context,
-                          _item.percentChange24hUSD,
-                        ),
+                        child: _item.percentChange24hUSD
+                            .toPercentChangeWidget(context),
                       ),
                     ],
                   ),
@@ -135,6 +136,8 @@ class PortfoItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_item.totalUSD.toUSDFormatted()),
+                _item.profitLossUSD().toPriceChangeWidget(context),
+                _item.profitLossPercent().toPercentChangeWidget(context),
               ],
             ),
           ),
@@ -149,14 +152,6 @@ class PortfoItem extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _getPercentChangeWidget(BuildContext context, double percent) {
-    final color = percent < 0 ? Colors.red : Colors.green;
-    return Text(
-      percent.toPercentFormatted(),
-      style: Theme.of(context).textTheme.caption.copyWith(color: color),
     );
   }
 }

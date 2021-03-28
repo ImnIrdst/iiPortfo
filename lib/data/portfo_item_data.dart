@@ -9,6 +9,7 @@ class PortfoItemData {
   final String symbol;
   final Uri imageUrl;
   final double priceUSD;
+  final double buyPriceUSD;
   final double percentChange24hUSD;
   final double totalUSD;
   final double totalIRR;
@@ -19,10 +20,15 @@ class PortfoItemData {
     this.name,
     this.symbol,
     this.priceUSD,
+    this.buyPriceUSD,
     this.percentChange24hUSD,
     this.totalUSD,
     this.totalIRR,
   });
+
+  double profitLossPercent() => (totalUSD - buyPriceUSD) / buyPriceUSD;
+
+  double profitLossUSD() => totalUSD - buyPriceUSD;
 }
 
 Future<List<PortfoItemData>> getPortfolioItems() async {
@@ -33,12 +39,15 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
 
   return quotes.mapIndexed(
     (q, i) {
+      print(q.priceUSD * cryptos[i].amount);
+      print(cryptos[i].buyPrice);
       return PortfoItemData(
         rank: q.rank,
         name: q.name,
         symbol: q.symbol,
         imageUrl: q.imageUrl,
         priceUSD: q.priceUSD,
+        buyPriceUSD: cryptos[i].buyPrice,
         percentChange24hUSD: q.percentChange24hUSD / 100,
         totalUSD: q.priceUSD * cryptos[i].amount,
         totalIRR: q.priceUSD * cryptos[i].amount * usdt,
