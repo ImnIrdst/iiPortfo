@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/utils/format_utils.dart';
@@ -55,10 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: _items.length,
-          itemBuilder: (context, i) => PortfoItem(_items[i]),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          width: max(MediaQuery.of(context).size.width, 480),
+          child: ListView.builder(
+            itemCount: _items.length,
+            itemBuilder: (context, i) => PortfoItem(_items[i]),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -78,10 +84,12 @@ class PortfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    print("screen width ${MediaQuery.of(context).size.width}");
+    return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Flex(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        direction: Axis.horizontal,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -91,12 +99,14 @@ class PortfoItem extends StatelessWidget {
               height: 32,
             ),
           ),
-          SizedBox(
-            width: 156,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              height: 36,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -130,27 +140,47 @@ class PortfoItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 92,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_item.totalUSD.toUSDFormatted()),
-                _item.profitLossUSD.toUSDPriceChangeWidget(context),
-                _item.profitLossPercent.toPercentChangeWidget(context),
-              ],
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              height: 36,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(_item.totalUSD.toUSDFormatted()),
+                  _item.profitLossUSD.toUSDPriceChangeWidget(context),
+                ],
+              ),
             ),
           ),
-          SizedBox(
-            width: 128,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_item.totalIRR.toIRRFormatted()),
-                _item.profitLossIRR.toIRRPriceChangeWidget(context),
-              ],
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              height: 36,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(_item.totalIRR.toIRRFormatted()),
+                  _item.profitLossIRR.toIRRPriceChangeWidget(context),
+                ],
+              ),
             ),
           ),
+          Expanded(
+            flex: 2,
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  children: [
+                    Icon(Icons.arrow_drop_up),
+                    _item.profitLossPercent.toPercentChangeWidget(context),
+                  ],
+                )),
+          )
         ],
       ),
     );
