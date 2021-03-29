@@ -10,7 +10,15 @@ extension PriceUtils on double {
 
   String toUSDFormatted() => usdNumberFormat.format(this);
 
-  Widget toPriceChangeWidget(BuildContext context) {
+  Widget toIRRPriceChangeWidget(BuildContext context) {
+    final color = this < 0 ? Colors.red : Colors.green;
+    return Text(
+      this.toIRRFormatted(),
+      style: Theme.of(context).textTheme.caption.copyWith(color: color),
+    );
+  }
+
+  Widget toUSDPriceChangeWidget(BuildContext context) {
     final color = this < 0 ? Colors.red : Colors.green;
     return Text(
       this.toUSDFormatted(),

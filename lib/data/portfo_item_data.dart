@@ -31,6 +31,8 @@ class PortfoItemData {
   double get totalIRR => totalUSD * usdtPrice;
 
   double get profitLossUSD => totalUSD - buyPriceUSD;
+
+  double get profitLossIRR => profitLossUSD * usdtPrice;
 }
 
 Future<List<PortfoItemData>> getPortfolioItems() async {

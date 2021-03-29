@@ -136,7 +136,7 @@ class PortfoItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_item.totalUSD.toUSDFormatted()),
-                _item.profitLossUSD.toPriceChangeWidget(context),
+                _item.profitLossUSD.toUSDPriceChangeWidget(context),
                 _item.profitLossPercent.toPercentChangeWidget(context),
               ],
             ),
@@ -147,6 +147,7 @@ class PortfoItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_item.totalIRR.toIRRFormatted()),
+                _item.profitLossIRR.toIRRPriceChangeWidget(context),
               ],
             ),
           ),
