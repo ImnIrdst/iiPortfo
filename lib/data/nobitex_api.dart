@@ -34,7 +34,7 @@ class NobitexAPI {
     final double c = json['c'][0];
     final double o = json['o'][0];
 
-    return ((c + o) / 2) * 10;
+    return ((c + o) / 2);
   }
 }
 

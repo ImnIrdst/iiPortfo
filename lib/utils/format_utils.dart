@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 final usdNumberFormat = NumberFormat("\$,##0.0#");
-final irrNumberFormat = NumberFormat(",##0");
+final irrNumberFormat = NumberFormat.compact();
 final percentNumberFormat = NumberFormat("#,##0.#%");
 
 extension PriceUtils on double {

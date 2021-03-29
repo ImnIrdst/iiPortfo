@@ -156,7 +156,7 @@ class PortfoItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               height: 36,
