@@ -26,9 +26,9 @@ class PortfoItemData {
     this.totalIRR,
   });
 
-  double profitLossPercent() => (totalUSD - buyPriceUSD) / buyPriceUSD;
+  double get profitLossPercent => (totalUSD - buyPriceUSD) / buyPriceUSD;
 
-  double profitLossUSD() => totalUSD - buyPriceUSD;
+  double get profitLossUSD => totalUSD - buyPriceUSD;
 }
 
 Future<List<PortfoItemData>> getPortfolioItems() async {
@@ -39,8 +39,6 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
 
   return quotes.mapIndexed(
     (q, i) {
-      print(q.priceUSD * cryptos[i].amount);
-      print(cryptos[i].buyPrice);
       return PortfoItemData(
         rank: q.rank,
         name: q.name,
