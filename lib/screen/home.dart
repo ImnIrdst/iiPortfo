@@ -176,7 +176,10 @@ class PortfoItem extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    Icon(Icons.arrow_drop_up),
+                    Icon(
+                      _item.profitLossPercent.toPercentChangeIcon(),
+                      size: 20,
+                    ),
                     _item.profitLossPercent.toPercentChangeWidget(context),
                   ],
                 )),

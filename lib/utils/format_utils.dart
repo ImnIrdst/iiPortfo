@@ -37,6 +37,14 @@ extension PercentUtils on double {
       style: Theme.of(context).textTheme.caption.copyWith(color: color),
     );
   }
+
+  IconData toPercentChangeIcon() {
+    if (this >= 0) {
+      return Icons.arrow_drop_up;
+    } else {
+      return Icons.arrow_drop_down;
+    }
+  }
 }
 
 extension RankUtils on int {

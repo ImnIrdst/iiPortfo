@@ -18,7 +18,7 @@ class CryptoPortfolio {
     "05,Cardano,ADA,212.9,194.13",
     "03,Binance Coin,BNB,2.7,518.85",
     "43,Hedera Hashgraph,HBAR,1,0.15",
-    "24,Avalanche,AVAX,2.5,80.53",
+    "24,Avalanche,AVAX,2.5,100.53",
     "18,VeChain,VET,21,0.65",
     "117,StormX,STMX,14,0.75",
     "52,Polygon,MATIC,100.86,14.14",
