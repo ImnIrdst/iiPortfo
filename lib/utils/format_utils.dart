@@ -31,10 +31,12 @@ extension PercentUtils on double {
   String toPercentFormatted() => percentNumberFormat.format(this);
 
   Widget toPercentChangeWidget(BuildContext context) {
-    final color = this < 0 ? Colors.red : Colors.green;
     return Text(
       this.toPercentFormatted(),
-      style: Theme.of(context).textTheme.caption.copyWith(color: color),
+      style: Theme.of(context)
+          .textTheme
+          .caption
+          .copyWith(color: this.toPercentChangeColor()),
     );
   }
 
@@ -43,6 +45,14 @@ extension PercentUtils on double {
       return Icons.arrow_drop_up;
     } else {
       return Icons.arrow_drop_down;
+    }
+  }
+
+  Color toPercentChangeColor() {
+    if (this >= 0) {
+      return Colors.green;
+    } else {
+      return Colors.red;
     }
   }
 }

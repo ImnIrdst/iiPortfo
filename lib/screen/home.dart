@@ -84,7 +84,6 @@ class PortfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("screen width ${MediaQuery.of(context).size.width}");
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Flex(
@@ -179,6 +178,7 @@ class PortfoItem extends StatelessWidget {
                     Icon(
                       _item.profitLossPercent.toPercentChangeIcon(),
                       size: 20,
+                      color: _item.profitLossPercent.toPercentChangeColor(),
                     ),
                     _item.profitLossPercent.toPercentChangeWidget(context),
                   ],
