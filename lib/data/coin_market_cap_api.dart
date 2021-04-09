@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:iiportfo/data/csv_data.dart';
+import 'package:iiportfo/data/nobitex_api.dart';
+
 class Quote {
   final int id;
   final int rank;
@@ -42,16 +45,30 @@ class CoinMarketCapAPI {
     //   "X-CMC_PRO_API_KEY": apiKey,
     // });
     final data = jsonDecode(mockResponseBody)["data"];
+    final usdt = await NobitexAPI.getUSDTPriceInIRR();
+    final usdtPercentChange = await NobitexAPI.getDayChange();
 
-    return symbols.map((it) {
-      final coin = data[it][0];
-      return Quote(
+    return symbols.map((symbol) {
+      if (symbol == IRR_SYMBOL) {
+        return Quote(
+          id: 0,
+          rank: 0,
+          name: "Iranian Rial",
+          symbol: IRR_SYMBOL,
+          priceUSD: 1 / usdt,
+          percentChange24hUSD: usdtPercentChange,
+        );
+      } else {
+        final coin = data[symbol][0];
+        return Quote(
           id: coin["id"],
           rank: coin["cmc_rank"],
           name: coin["name"],
           symbol: coin["symbol"],
           priceUSD: coin["quote"]["USD"]["price"],
-          percentChange24hUSD: coin["quote"]["USD"]["percent_change_24h"]);
+          percentChange24hUSD: coin["quote"]["USD"]["percent_change_24h"],
+        );
+      }
     }).toList();
   }
 }

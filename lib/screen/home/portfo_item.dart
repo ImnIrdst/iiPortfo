@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iiportfo/data/csv_data.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/utils/format_utils.dart';
 
@@ -15,14 +16,7 @@ class PortfoItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         direction: Axis.horizontal,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              _item.imageUrl.toString(),
-              width: 32,
-              height: 32,
-            ),
-          ),
+          Padding(padding: const EdgeInsets.all(8.0), child: _getCoinLogo()),
           Expanded(
             flex: 4,
             child: Container(
@@ -52,7 +46,7 @@ class PortfoItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text(_item.priceUSD.toUSDFormatted()),
+                      Text(_item.currentPriceUSD.toUSDFormatted()),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: _item.percentChange24hUSD
@@ -112,5 +106,22 @@ class PortfoItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _getCoinLogo() {
+    print(_item.symbol);
+    if (_item.symbol == IRR_SYMBOL) {
+      return Image.asset(
+        "lib/assets/img/irr-logo.png",
+        width: 32,
+        height: 32,
+      );
+    } else {
+      return Image.network(
+        _item.imageUrl.toString(),
+        width: 32,
+        height: 32,
+      );
+    }
   }
 }

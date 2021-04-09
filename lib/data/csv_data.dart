@@ -1,3 +1,5 @@
+const IRR_SYMBOL = "IRR";
+
 class CryptoPortfoItem {
   final String symbol;
   final double amount;
@@ -12,6 +14,7 @@ class CryptoPortfoItem {
 
 class CryptoPortfolio {
   static final csv = [
+    "00,IRR,$IRR_SYMBOL,100000,0.00004",
     "01,Bitcoin,BTC,1.02,6777.14",
     "12,Bitcoin Cash,BCH,2.2,912.53",
     "09,Litecoin,LTC,2.04,130.45",
@@ -27,10 +30,10 @@ class CryptoPortfolio {
   static List<CryptoPortfoItem> getCryptoPortfolioItems() => csv
       .map(
         (row) => CryptoPortfoItem(
-          symbol: row.split(",")[2],
-          amount: double.parse(row.split(",")[3]),
-          buyPrice: double.parse(row.split(",")[4]),
-        ),
-      )
+      symbol: row.split(",")[2],
+      amount: double.parse(row.split(",")[3]),
+      buyPrice: double.parse(row.split(",")[4]),
+    ),
+  )
       .toList();
 }

@@ -16,6 +16,7 @@ class NobitexAPI {
   // % (coin, start.timestamp(), end.timestamp())
   static final baseUrl = "api.nobitex.ir";
   static final quotesApiUrl = "/market/udf/history";
+  static final marketStatsApiUrl = "/market/stats";
 
   static Future<double> getUSDTPriceInIRR() async {
     final to = DateTime.now();
@@ -35,6 +36,22 @@ class NobitexAPI {
     final double o = json['o'][0];
 
     return ((c + o) / 2);
+  }
+
+  static Future<double> getDayChange() async {
+    final url = Uri.https(baseUrl, marketStatsApiUrl);
+
+    final response = await http.post(
+      url,
+      body: {"srcCurrency": "usdt", "dstCurrency": "rls"},
+    );
+
+    final json = jsonDecode(response.body);
+    final double percentChange =
+        double.parse(json["stats"]["usdt-rls"]["dayChange"]);
+    print("percentChangeUSDT $percentChange");
+
+    return percentChange / 100;
   }
 }
 

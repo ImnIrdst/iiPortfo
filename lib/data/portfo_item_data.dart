@@ -8,8 +8,8 @@ class PortfoItemData {
   final String name;
   final String symbol;
   final Uri imageUrl;
-  final double priceUSD;
-  final double totalUSD;
+  final double currentPriceUSD;
+  final double amount;
   final double buyPriceUSD;
   final double percentChange24hUSD;
   final double usdtPrice;
@@ -19,18 +19,20 @@ class PortfoItemData {
     this.imageUrl,
     this.name,
     this.symbol,
-    this.priceUSD,
-    this.totalUSD,
+    this.currentPriceUSD,
+    this.amount,
     this.buyPriceUSD,
     this.percentChange24hUSD,
     this.usdtPrice,
   });
 
-  double get profitLossPercent => (totalUSD - buyPriceUSD) / buyPriceUSD;
+  double get totalUSD => amount * currentPriceUSD;
 
   double get totalIRR => totalUSD * usdtPrice;
 
-  double get profitLossUSD => totalUSD - buyPriceUSD;
+  double get profitLossPercent => (currentPriceUSD - buyPriceUSD) / buyPriceUSD;
+
+  double get profitLossUSD => (currentPriceUSD - buyPriceUSD) * amount;
 
   double get profitLossIRR => profitLossUSD * usdtPrice;
 }
@@ -48,10 +50,10 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
         name: q.name,
         symbol: q.symbol,
         imageUrl: q.imageUrl,
-        priceUSD: q.priceUSD,
+        currentPriceUSD: q.priceUSD,
         buyPriceUSD: cryptos[i].buyPrice,
         percentChange24hUSD: q.percentChange24hUSD / 100,
-        totalUSD: q.priceUSD * cryptos[i].amount,
+        amount: cryptos[i].amount,
         usdtPrice: usdt,
       );
     },
