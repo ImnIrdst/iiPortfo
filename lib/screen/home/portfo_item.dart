@@ -109,7 +109,6 @@ class PortfoItem extends StatelessWidget {
   }
 
   Widget _getCoinLogo() {
-    print(_item.symbol);
     if (_item.symbol == IRR_SYMBOL) {
       return Image.asset(
         "lib/assets/img/irr-logo.png",

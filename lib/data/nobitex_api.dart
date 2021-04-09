@@ -49,7 +49,6 @@ class NobitexAPI {
     final json = jsonDecode(response.body);
     final double percentChange =
         double.parse(json["stats"]["usdt-rls"]["dayChange"]);
-    print("percentChangeUSDT $percentChange");
 
     return percentChange / 100;
   }
