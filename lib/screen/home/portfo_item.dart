@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iiportfo/data/csv_data.dart';
+import 'package:iiportfo/data/csv/custom_csv_data.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/utils/format_utils.dart';
 

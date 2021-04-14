@@ -1,6 +1,6 @@
-import 'package:iiportfo/data/coin_market_cap_api.dart';
-import 'package:iiportfo/data/csv_data.dart';
-import 'package:iiportfo/data/nobitex_api.dart';
+import 'package:iiportfo/data/api/coin_market_cap_api.dart';
+import 'package:iiportfo/data/api/nobitex_api.dart';
+import 'package:iiportfo/data/csv/custom_csv_data.dart';
 import 'package:iiportfo/utils/iterable_utils.dart';
 
 class PortfoItemData {

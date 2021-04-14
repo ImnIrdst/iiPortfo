@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:iiportfo/data/csv_data.dart';
-import 'package:iiportfo/data/nobitex_api.dart';
+import 'package:iiportfo/data/api/nobitex_api.dart';
+import 'package:iiportfo/data/csv/custom_csv_data.dart';
 
 class Quote {
   final int id;
