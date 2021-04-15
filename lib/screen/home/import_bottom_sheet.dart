@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:iiportfo/data/csv/nobitex_csv_data.dart';
 
 class ImportBottomSheet extends StatelessWidget {
   @override
@@ -44,8 +45,7 @@ class ImportBottomSheet extends StatelessWidget {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      File file = File(result.files.single.path);
-      print(await file.readAsString());
+      NobitexTransactions.addTransactionsFromFile(result.files.single.path);
     } else {
       // User canceled the picker
     }

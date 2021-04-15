@@ -30,10 +30,10 @@ class CryptoPortfolio {
   static List<CryptoPortfoItem> getCryptoPortfolioItems() => csv
       .map(
         (row) => CryptoPortfoItem(
-      symbol: row.split(",")[2],
-      amount: double.parse(row.split(",")[3]),
-      buyPrice: double.parse(row.split(",")[4]),
-    ),
-  )
+          symbol: row.split(",")[2],
+          amount: double.parse(row.split(",")[3]),
+          buyPrice: double.parse(row.split(",")[4]),
+        ),
+      )
       .toList();
 }
