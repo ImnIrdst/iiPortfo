@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:iiportfo/data/transaction_helper.dart';
 import 'package:iiportfo/screen/home/import_bottom_sheet.dart';
 import 'package:iiportfo/screen/home/portfo_item.dart';
 
@@ -32,7 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showImportBottomSheet() {
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => ImportBottomSheet(),
+      builder: (context) => ImportBottomSheet(
+          nobitexCsvItemClickListener: _nobitexItemClickListener),
     );
   }
 
@@ -67,5 +69,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     }
+  }
+
+  Future<void> _nobitexItemClickListener(String filePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+    await TransactionHelper.addTransactionsFromNobitexCSV(filePath);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

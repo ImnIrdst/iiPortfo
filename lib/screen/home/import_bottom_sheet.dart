@@ -2,9 +2,15 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:iiportfo/data/csv/nobitex_csv_data.dart';
 
 class ImportBottomSheet extends StatelessWidget {
+  final Future<void> Function(String) nobitexCsvItemClickListener;
+
+  const ImportBottomSheet({
+    Key key,
+    this.nobitexCsvItemClickListener,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,22 +36,24 @@ class ImportBottomSheet extends StatelessWidget {
     );
   }
 
-  void _onCustomCSVClicked() async {
+  void _onCustomCSVClicked(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
       File file = File(result.files.single.path);
       print(await file.readAsString());
+      Navigator.pop(context);
     } else {
       // User canceled the picker
     }
   }
 
-  void _onNobitexCSVClicked() async {
+  void _onNobitexCSVClicked(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      NobitexTransactions.addTransactionsFromFile(result.files.single.path);
+      nobitexCsvItemClickListener.call(result.files.single.path);
+      Navigator.pop(context);
     } else {
       // User canceled the picker
     }
@@ -54,7 +62,7 @@ class ImportBottomSheet extends StatelessWidget {
 
 class ImportItem extends StatelessWidget {
   final String title;
-  final void Function() clickListener;
+  final void Function(BuildContext) clickListener;
 
   const ImportItem({Key key, this.title, this.clickListener}) : super(key: key);
 
@@ -63,7 +71,9 @@ class ImportItem extends StatelessWidget {
     return Material(
       color: Colors.grey[900],
       child: InkWell(
-        onTap: clickListener,
+        onTap: () {
+          clickListener.call(context);
+        },
         child: Container(
           padding: EdgeInsets.all(8),
           child: Row(

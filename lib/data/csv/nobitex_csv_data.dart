@@ -2,72 +2,56 @@ import 'dart:io';
 
 import 'package:iiportfo/data/api/nobitex_api.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
-import 'package:iiportfo/data/preferences/shared_preferences_helper.dart';
 
-class NobitexTransactionItem {
-  final int id;
-  final DateTime date;
-  final String symbol;
-  final double amount;
-  final double buyPrice;
-  final String description;
-
-  NobitexTransactionItem({
-    this.id,
-    this.date,
-    this.symbol,
-    this.amount,
-    this.buyPrice,
-    this.description,
-  });
-
-  String toCsvRow() => "$id,$date,$symbol,$amount,$buyPrice,$description";
-
-  static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
-}
+import '../transaction_helper.dart';
 
 class NobitexTransactions {
-  static void addTransactionsFromFile(String filePath) async {
-    SharedPreferencesHelper.saveNobitexFilePath(filePath);
-  }
-
-  static Future<List<NobitexTransactionItem>> getItems() async {
-    String filePath = await SharedPreferencesHelper.getNobitexFilePath();
-    if (filePath == null || filePath == "") {
-      return [];
-    }
-
+  static Future<List<TransactionItem>> getItems(String filePath) async {
     File file = File(filePath);
     String fileContent = await file.readAsString();
 
     final csvRows = fileContent.split("\n").reversed.toList();
 
-    final List<NobitexTransactionItem> transactions = [];
+    final List<TransactionItem> transactions = [];
     for (var i = 1; i < csvRows.length - 1; i++) {
       final columns = csvRows[i].split(",");
-      final date = _getDate(columns);
-      final usdtPrice = await NobitexAPI.getUSDTPriceInIRR(date);
-      final transactionItem = NobitexTransactionItem(
-        id: date.millisecondsSinceEpoch,
-        date: _getDate(columns),
-        symbol: _getSymbol(columns),
-        amount: _getAmount(columns),
-        buyPrice: 1.0 / usdtPrice,
-        description: _getDescription(columns),
+      final dateTime = _getDate(columns[1]);
+      final transactionItem = TransactionItem(
+        id: dateTime.millisecondsSinceEpoch,
+        date: dateTime,
+        symbol: _getSymbol(columns[3]),
+        amount: _getAmount(columns[4]),
+        buyPrice: await _getBuyPrice(columns, dateTime),
+        description: _getDescription(columns[6]),
       );
       print(transactionItem.toCsvRow());
       transactions.add(transactionItem);
     }
 
-    return [];
+    return transactions;
   }
 
-  static DateTime _getDate(List<String> columns) => DateTime.parse(columns[1]);
+  static DateTime _getDate(String cell) => DateTime.parse(cell);
 
-  static String _getSymbol(List<String> columns) =>
-      columns[3] == "rls" ? IRR_SYMBOL : columns[3].toUpperCase();
+  static String _getSymbol(String cell) =>
+      cell == "rls" ? IRR_SYMBOL : cell.toUpperCase();
 
-  static double _getAmount(List<String> columns) => double.parse(columns[4]);
+  static double _getAmount(String cell) => double.parse(cell);
 
-  static String _getDescription(List<String> columns) => columns[6];
+  static String _getDescription(String cell) => cell;
+
+  static Future<double> _getBuyPrice(
+    List<String> columns,
+    DateTime dateTime,
+  ) async {
+    final symbol = _getSymbol(columns[3]);
+    if (symbol == IRR_SYMBOL) {
+      return 1 / await NobitexAPI.getUSDTPriceInIRR(dateTime);
+    }
+    if (symbol == "USDT") {
+      return 1;
+    } else {
+      return await NobitexAPI.getCoinPrice(dateTime, "${symbol}USDT");
+    }
+  }
 }

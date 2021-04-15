@@ -18,17 +18,22 @@ class NobitexAPI {
   static final quotesApiUrl = "/market/udf/history";
   static final marketStatsApiUrl = "/market/stats";
 
-  static Future<double> getUSDTPriceInIRR(DateTime to) async {
-    final from = to.subtract(Duration(hours: 1));
+  static Future<double> getUSDTPriceInIRR(DateTime dateTime) async {
+    return await getCoinPrice(dateTime, "USDTIRT");
+  }
+
+  static Future<double> getCoinPrice(DateTime dateTime, String coin) async {
+    final from = dateTime.subtract(Duration(hours: 1));
 
     final url = Uri.https(baseUrl, quotesApiUrl, {
-      "symbol": "USDTIRT",
+      "symbol": coin,
       "resolution": 60.toString(),
       "from": from.toPosix().toString(),
-      "to": to.toPosix().toString(),
+      "to": dateTime.toPosix().toString(),
     });
-
+    print(url);
     final response = await http.get(url);
+    print(response.body);
 
     final json = jsonDecode(response.body);
     final double c = json['c'][0];
