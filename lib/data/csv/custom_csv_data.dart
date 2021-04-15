@@ -1,4 +1,4 @@
-const IRR_SYMBOL = "IRR";
+import 'package:iiportfo/data/portfo_item_data.dart';
 
 class CryptoPortfoItem {
   final String symbol;

@@ -16,12 +16,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<PortfoItemData> _items = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     getPortfolioItems().then((value) {
       setState(() {
         _items = value;
+        _isLoading = false;
       });
     });
     super.initState();
@@ -40,7 +42,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
+      body: _renderBody(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showImportBottomSheet,
+        tooltip: 'Import',
+        icon: Icon(Icons.add),
+        label: Text("IMPORT"),
+      ),
+    );
+  }
+
+  Widget _renderBody() {
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
           width: max(MediaQuery.of(context).size.width, 480),
@@ -49,13 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             itemBuilder: (context, i) => PortfoItem(_items[i]),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showImportBottomSheet,
-        tooltip: 'Import',
-        icon: Icon(Icons.add),
-        label: Text("IMPORT"),
-      ),
-    );
+      );
+    }
   }
 }

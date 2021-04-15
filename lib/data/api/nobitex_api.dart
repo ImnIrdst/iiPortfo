@@ -18,8 +18,7 @@ class NobitexAPI {
   static final quotesApiUrl = "/market/udf/history";
   static final marketStatsApiUrl = "/market/stats";
 
-  static Future<double> getUSDTPriceInIRR() async {
-    final to = DateTime.now();
+  static Future<double> getUSDTPriceInIRR(DateTime to) async {
     final from = to.subtract(Duration(hours: 1));
 
     final url = Uri.https(baseUrl, quotesApiUrl, {

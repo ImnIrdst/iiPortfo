@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:iiportfo/data/api/nobitex_api.dart';
-import 'package:iiportfo/data/csv/custom_csv_data.dart';
+import 'package:iiportfo/data/portfo_item_data.dart';
 
 class Quote {
   final int id;
@@ -45,7 +45,7 @@ class CoinMarketCapAPI {
     //   "X-CMC_PRO_API_KEY": apiKey,
     // });
     final data = jsonDecode(mockResponseBody)["data"];
-    final usdt = await NobitexAPI.getUSDTPriceInIRR();
+    final usdt = await NobitexAPI.getUSDTPriceInIRR(DateTime.now());
     final usdtPercentChange = await NobitexAPI.getDayChange();
 
     return symbols.map((symbol) {
