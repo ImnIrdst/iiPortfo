@@ -35,15 +35,17 @@ class CoinMarketCapAPI {
   static Future<List<Quote>> getQuotes(List<String> symbols) async {
     // final secret = await SecretLoader().load();
     // final apiKey = secret.coinMarketCapApiKey;
-
+    //
     // final url = Uri.https(baseUrl, quotesApiUrl, {
-    //   "symbol": getSymbols().join(","),
+    //   "symbol": symbols.where((s) => s != IRR_SYMBOL).join(","),
     // });
+    // print(url);
     //
     // final response = await http.get(url, headers: {
     //   "Accepts": "application/json",
     //   "X-CMC_PRO_API_KEY": apiKey,
     // });
+    // print(response.body);
     final data = jsonDecode(mockResponseBody)["data"];
     final usdt = await NobitexAPI.getUSDTPriceInIRR(DateTime.now());
     final usdtPercentChange = await NobitexAPI.getDayChange();
@@ -76,150 +78,37 @@ class CoinMarketCapAPI {
 final mockResponseBody = """
 {
     "status": {
-        "timestamp": "2021-03-21T12:52:32.470Z",
+        "timestamp": "2021-04-16T04:56:56.052Z",
         "error_code": 0,
         "error_message": null,
-        "elapsed": 41,
+        "elapsed": 56,
         "credit_count": 1,
         "notice": null
     },
     "data": {
-        "ADA": [
-            {
-                "id": 2010,
-                "name": "Cardano",
-                "symbol": "ADA",
-                "slug": "cardano",
-                "num_market_pairs": 260,
-                "date_added": "2017-10-01T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "mineable",
-                        "name": "Mineable",
-                        "category": "OTHER"
-                    },
-                    {
-                        "slug": "dpos",
-                        "name": "DPoS",
-                        "category": "CONSENSUS_ALGORITHM"
-                    },
-                    {
-                        "slug": "pos",
-                        "name": "PoS",
-                        "category": "CONSENSUS_ALGORITHM"
-                    },
-                    {
-                        "slug": "platform",
-                        "name": "Platform",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "research",
-                        "name": "Research",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "smart-contracts",
-                        "name": "Smart Contracts",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "staking",
-                        "name": "Staking",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "binance-chain",
-                        "name": "Binance Chain",
-                        "category": "PLATFORM"
-                    }
-                ],
-                "max_supply": 45000000000,
-                "circulating_supply": 31948309440.747814,
-                "total_supply": 45000000000,
-                "is_active": 1,
-                "platform": null,
-                "cmc_rank": 5,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:51:09.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 1.17924797479276,
-                        "volume_24h": 4578737893.830224,
-                        "percent_change_1h": -1.60431699,
-                        "percent_change_24h": -7.24736805,
-                        "percent_change_7d": 9.51512941,
-                        "percent_change_30d": 25.56473347,
-                        "percent_change_60d": 247.85532493,
-                        "percent_change_90d": 675.81580374,
-                        "market_cap": 37674979206.054276,
-                        "last_updated": "2021-03-21T12:51:09.000Z"
-                    }
-                }
-            }
-        ],
-        "AVAX": [
-            {
-                "id": 5805,
-                "name": "Avalanche",
-                "symbol": "AVAX",
-                "slug": "avalanche",
-                "num_market_pairs": 55,
-                "date_added": "2020-07-13T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "defi",
-                        "name": "DeFi",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "polychain-capital-portfolio",
-                        "name": "Polychain Capital Portfolio",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "avalanche-ecosystem",
-                        "name": "Avalanche Ecosystem",
-                        "category": "PROPERTY"
-                    }
-                ],
-                "max_supply": 720000000,
-                "circulating_supply": 127747425.63305873,
-                "total_supply": 381913460.6330587,
-                "is_active": 1,
-                "platform": null,
-                "cmc_rank": 24,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:51:07.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 32.60366319520278,
-                        "volume_24h": 338946154.33710414,
-                        "percent_change_1h": -1.12255178,
-                        "percent_change_24h": -10.94683117,
-                        "percent_change_7d": 5.73686888,
-                        "percent_change_30d": -17.90959296,
-                        "percent_change_60d": 187.15245865,
-                        "percent_change_90d": 952.00336259,
-                        "market_cap": 4165034039.3944607,
-                        "last_updated": "2021-03-21T12:51:07.000Z"
-                    }
-                }
-            }
-        ],
         "BCH": [
             {
                 "id": 1831,
                 "name": "Bitcoin Cash",
                 "symbol": "BCH",
                 "slug": "bitcoin-cash",
-                "num_market_pairs": 595,
+                "num_market_pairs": 580,
                 "date_added": "2017-07-23T00:00:00.000Z",
                 "tags": [
                     {
                         "slug": "mineable",
                         "name": "Mineable",
                         "category": "OTHER"
+                    },
+                    {
+                        "slug": "pow",
+                        "name": "PoW",
+                        "category": "CONSENSUS_ALGORITHM"
+                    },
+                    {
+                        "slug": "sha-256",
+                        "name": "SHA-256",
+                        "category": "CONSENSUS_ALGORITHM"
                     },
                     {
                         "slug": "marketplace",
@@ -238,31 +127,25 @@ final mockResponseBody = """
                     }
                 ],
                 "max_supply": 21000000,
-                "circulating_supply": 18685668.75,
-                "total_supply": 18685668.75,
-                "platform": {
-                    "id": 2502,
-                    "name": "Heco",
-                    "symbol": "HT",
-                    "slug": "huobi-token",
-                    "token_address": "0xef3cebd77e0c52cb6f60875d9306397b5caca375"
-                },
+                "circulating_supply": 18709862.5,
+                "total_supply": 18709862.5,
                 "is_active": 1,
-                "cmc_rank": 12,
+                "platform": null,
+                "cmc_rank": 11,
                 "is_fiat": 0,
-                "last_updated": "2021-03-21T12:51:09.000Z",
+                "last_updated": "2021-04-16T04:56:08.000Z",
                 "quote": {
                     "USD": {
-                        "price": 521.3079363631248,
-                        "volume_24h": 2289016400.557901,
-                        "percent_change_1h": -0.32516877,
-                        "percent_change_24h": -5.42547058,
-                        "percent_change_7d": -9.17253878,
-                        "percent_change_30d": -27.69539593,
-                        "percent_change_60d": 8.77085722,
-                        "percent_change_90d": 62.0912232,
-                        "market_cap": 9740987415.62743,
-                        "last_updated": "2021-03-21T12:51:09.000Z"
+                        "price": 923.8772811116836,
+                        "volume_24h": 6781230857.557459,
+                        "percent_change_1h": 2.02893003,
+                        "percent_change_24h": 13.19778469,
+                        "percent_change_7d": 44.56966924,
+                        "percent_change_30d": 76.75814582,
+                        "percent_change_60d": 39.26568171,
+                        "percent_change_90d": 90.1196905,
+                        "market_cap": 17285616896.473446,
+                        "last_updated": "2021-04-16T04:56:08.000Z"
                     }
                 }
             }
@@ -273,7 +156,7 @@ final mockResponseBody = """
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "slug": "binance-coin",
-                "num_market_pairs": 604,
+                "num_market_pairs": 576,
                 "date_added": "2017-07-25T00:00:00.000Z",
                 "tags": [
                     {
@@ -295,6 +178,16 @@ final mockResponseBody = """
                         "slug": "binance-smart-chain",
                         "name": "Binance Smart Chain",
                         "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "alameda-research-portfolio",
+                        "name": "Alameda Research Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "multicoin-capital-portfolio",
+                        "name": "Multicoin Capital Portfolio",
+                        "category": "PROPERTY"
                     }
                 ],
                 "max_supply": 170532785,
@@ -304,19 +197,19 @@ final mockResponseBody = """
                 "platform": null,
                 "cmc_rank": 3,
                 "is_fiat": 0,
-                "last_updated": "2021-03-21T12:51:09.000Z",
+                "last_updated": "2021-04-16T04:55:10.000Z",
                 "quote": {
                     "USD": {
-                        "price": 260.2144186398784,
-                        "volume_24h": 1890596308.9152966,
-                        "percent_change_1h": -0.60875857,
-                        "percent_change_24h": -3.80181708,
-                        "percent_change_7d": -3.48125242,
-                        "percent_change_30d": -1.22822602,
-                        "percent_change_60d": 537.82908275,
-                        "percent_change_90d": 699.45757212,
-                        "market_cap": 40211658809.57632,
-                        "last_updated": "2021-03-21T12:51:09.000Z"
+                        "price": 519.9538241782898,
+                        "volume_24h": 4778355601.509725,
+                        "percent_change_1h": -0.50437323,
+                        "percent_change_24h": -4.74748786,
+                        "percent_change_7d": 27.22031257,
+                        "percent_change_30d": 104.97413298,
+                        "percent_change_60d": 310.9655612,
+                        "percent_change_90d": 1152.39167602,
+                        "market_cap": 80349912521.67146,
+                        "last_updated": "2021-04-16T04:55:10.000Z"
                     }
                 }
             }
@@ -327,7 +220,7 @@ final mockResponseBody = """
                 "name": "Bitcoin",
                 "symbol": "BTC",
                 "slug": "bitcoin",
-                "num_market_pairs": 9894,
+                "num_market_pairs": 9604,
                 "date_added": "2013-04-28T00:00:00.000Z",
                 "tags": [
                     {
@@ -369,94 +262,145 @@ final mockResponseBody = """
                         "slug": "polychain-capital-portfolio",
                         "name": "Polychain Capital Portfolio",
                         "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "binance-labs-portfolio",
+                        "name": "Binance Labs Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "arrington-xrp-capital",
+                        "name": "Arrington XRP capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "blockchain-capital-portfolio",
+                        "name": "Blockchain Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "boostvc-portfolio",
+                        "name": "BoostVC Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "cms-holdings-portfolio",
+                        "name": "CMS Holdings Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "dcg-portfolio",
+                        "name": "DCG Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "dragonfly-capital-portfolio",
+                        "name": "DragonFly Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "electric-capital-portfolio",
+                        "name": "Electric Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "fabric-ventures-portfolio",
+                        "name": "Fabric Ventures Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "framework-ventures",
+                        "name": "Framework Ventures",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "galaxy-digital-portfolio",
+                        "name": "Galaxy Digital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "huobi-capital",
+                        "name": "Huobi Capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "alameda-research-portfolio",
+                        "name": "Alameda Research Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "a16z-portfolio",
+                        "name": "A16Z Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "1confirmation-portfolio",
+                        "name": "1Confirmation Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "winklevoss-capital",
+                        "name": "Winklevoss Capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "usv-portfolio",
+                        "name": "USV Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "placeholder-ventures-portfolio",
+                        "name": "Placeholder Ventures Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "pantera-capital-portfolio",
+                        "name": "Pantera Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "multicoin-capital-portfolio",
+                        "name": "Multicoin Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "paradigm-xzy-screener",
+                        "name": "Paradigm XZY Screener",
+                        "category": "PROPERTY"
                     }
                 ],
                 "max_supply": 21000000,
-                "circulating_supply": 18660062,
-                "total_supply": 18660062,
+                "circulating_supply": 18683987,
+                "total_supply": 18683987,
                 "is_active": 1,
                 "platform": null,
                 "cmc_rank": 1,
                 "is_fiat": 0,
-                "last_updated": "2021-03-21T12:52:02.000Z",
+                "last_updated": "2021-04-16T04:56:02.000Z",
                 "quote": {
                     "USD": {
-                        "price": 56315.90502765266,
-                        "volume_24h": 56441004127.135666,
-                        "percent_change_1h": -0.12838752,
-                        "percent_change_24h": -5.23269963,
-                        "percent_change_7d": -6.25636405,
-                        "percent_change_30d": 6.84202008,
-                        "percent_change_60d": 63.62914826,
-                        "percent_change_90d": 147.71939669,
-                        "market_cap": 1050858279402.1104,
-                        "last_updated": "2021-03-21T12:52:02.000Z"
+                        "price": 62223.2611825869,
+                        "volume_24h": 63456373442.84335,
+                        "percent_change_1h": -1.20944166,
+                        "percent_change_24h": -1.4579638,
+                        "percent_change_7d": 6.85639168,
+                        "percent_change_30d": 11.58146281,
+                        "percent_change_60d": 32.22547224,
+                        "percent_change_90d": 70.4497031,
+                        "market_cap": 1162578603033.0583,
+                        "last_updated": "2021-04-16T04:56:02.000Z"
                     }
                 }
             }
         ],
-        "HBAR": [
+        "ETH": [
             {
-                "id": 4642,
-                "name": "Hedera Hashgraph",
-                "symbol": "HBAR",
-                "slug": "hedera-hashgraph",
-                "num_market_pairs": 47,
-                "date_added": "2019-09-17T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "dag",
-                        "name": "DAG",
-                        "category": "CONSENSUS_ALGORITHM"
-                    },
-                    {
-                        "slug": "marketplace",
-                        "name": "Marketplace",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "enterprise-solutions",
-                        "name": "Enterprise solutions",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "payments",
-                        "name": "Payments",
-                        "category": "PROPERTY"
-                    }
-                ],
-                "max_supply": null,
-                "circulating_supply": 7547263258,
-                "total_supply": 50000000000,
-                "is_active": 1,
-                "platform": null,
-                "cmc_rank": 41,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:52:06.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 0.31632964978906,
-                        "volume_24h": 231609592.49299467,
-                        "percent_change_1h": -1.63817319,
-                        "percent_change_24h": -8.78483763,
-                        "percent_change_7d": -10.20638964,
-                        "percent_change_30d": 112.96836513,
-                        "percent_change_60d": 251.00646966,
-                        "percent_change_90d": 807.59016341,
-                        "market_cap": 2387423143.26898,
-                        "last_updated": "2021-03-21T12:52:06.000Z"
-                    }
-                }
-            }
-        ],
-        "LTC": [
-            {
-                "id": 2,
-                "name": "Litecoin",
-                "symbol": "LTC",
-                "slug": "litecoin",
-                "num_market_pairs": 769,
-                "date_added": "2013-04-28T00:00:00.000Z",
+                "id": 1027,
+                "name": "Ethereum",
+                "symbol": "ETH",
+                "slug": "ethereum",
+                "num_market_pairs": 6253,
+                "date_added": "2015-08-07T00:00:00.000Z",
                 "tags": [
                     {
                         "slug": "mineable",
@@ -469,74 +413,14 @@ final mockResponseBody = """
                         "category": "CONSENSUS_ALGORITHM"
                     },
                     {
-                        "slug": "scrypt",
-                        "name": "Scrypt",
-                        "category": "CONSENSUS_ALGORITHM"
-                    },
-                    {
-                        "slug": "medium-of-exchange",
-                        "name": "Medium of Exchange",
+                        "slug": "smart-contracts",
+                        "name": "Smart Contracts",
                         "category": "PROPERTY"
                     },
                     {
-                        "slug": "binance-chain",
-                        "name": "Binance Chain",
+                        "slug": "ethereum",
+                        "name": "Ethereum",
                         "category": "PLATFORM"
-                    }
-                ],
-                "max_supply": 84000000,
-                "circulating_supply": 66700964.51538747,
-                "total_supply": 66700964.51538747,
-                "platform": {
-                    "id": 2502,
-                    "name": "Heco",
-                    "symbol": "HT",
-                    "slug": "huobi-token",
-                    "token_address": "0xecb56cf772b5c9a6907fb7d32387da2fcbfb63b4"
-                },
-                "is_active": 1,
-                "cmc_rank": 9,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:52:02.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 194.7484440539725,
-                        "volume_24h": 2779590856.664118,
-                        "percent_change_1h": -0.17961432,
-                        "percent_change_24h": -5.37687966,
-                        "percent_change_7d": -11.0792149,
-                        "percent_change_30d": -16.14541032,
-                        "percent_change_60d": 36.8791298,
-                        "percent_change_90d": 84.24786499,
-                        "market_cap": 12989909056.27094,
-                        "last_updated": "2021-03-21T12:52:02.000Z"
-                    }
-                }
-            }
-        ],
-        "MATIC": [
-            {
-                "id": 3890,
-                "name": "Polygon",
-                "symbol": "MATIC",
-                "slug": "polygon",
-                "num_market_pairs": 103,
-                "date_added": "2019-04-28T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "platform",
-                        "name": "Platform",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "enterprise-solutions",
-                        "name": "Enterprise solutions",
-                        "category": "PROPERTY"
-                    },
-                    {
-                        "slug": "state-channels",
-                        "name": "State channels",
-                        "category": "PROPERTY"
                     },
                     {
                         "slug": "coinbase-ventures-portfolio",
@@ -544,136 +428,211 @@ final mockResponseBody = """
                         "category": "PROPERTY"
                     },
                     {
-                        "slug": "binance-launchpad",
-                        "name": "Binance Launchpad",
-                        "category": "PROPERTY"
-                    }
-                ],
-                "max_supply": 10000000000,
-                "circulating_supply": 5011255458,
-                "total_supply": 10000000000,
-                "platform": {
-                    "id": 1027,
-                    "name": "Ethereum",
-                    "symbol": "ETH",
-                    "slug": "ethereum",
-                    "token_address": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0"
-                },
-                "is_active": 1,
-                "cmc_rank": 53,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:51:08.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 0.37324469225386,
-                        "volume_24h": 228972065.42559874,
-                        "percent_change_1h": -1.51340471,
-                        "percent_change_24h": -9.97434599,
-                        "percent_change_7d": -3.69099684,
-                        "percent_change_30d": 199.33818773,
-                        "percent_change_60d": 1109.89033871,
-                        "percent_change_90d": 1908.86443934,
-                        "market_cap": 1870424501.2266862,
-                        "last_updated": "2021-03-21T12:51:08.000Z"
-                    }
-                }
-            }
-        ],
-        "STMX": [
-            {
-                "id": 2297,
-                "name": "StormX",
-                "symbol": "STMX",
-                "slug": "stormx",
-                "num_market_pairs": 15,
-                "date_added": "2017-12-20T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "media",
-                        "name": "Media",
+                        "slug": "three-arrows-capital-portfolio",
+                        "name": "Three Arrows Capital Portfolio",
                         "category": "PROPERTY"
                     },
                     {
-                        "slug": "loyalty",
-                        "name": "Loyalty",
-                        "category": "PROPERTY"
-                    }
-                ],
-                "max_supply": 10000000000,
-                "circulating_supply": 8315901031.789724,
-                "total_supply": 10000000000,
-                "platform": {
-                    "id": 1027,
-                    "name": "Ethereum",
-                    "symbol": "ETH",
-                    "slug": "ethereum",
-                    "token_address": "0xbE9375C6a420D2eEB258962efB95551A5b722803"
-                },
-                "is_active": 1,
-                "cmc_rank": 113,
-                "is_fiat": 0,
-                "last_updated": "2021-03-21T12:52:04.000Z",
-                "quote": {
-                    "USD": {
-                        "price": 0.06020372265613,
-                        "volume_24h": 767035161.2039828,
-                        "percent_change_1h": -4.64969607,
-                        "percent_change_24h": -20.35256426,
-                        "percent_change_7d": 164.22314034,
-                        "percent_change_30d": 461.91775165,
-                        "percent_change_60d": 2007.19454792,
-                        "percent_change_90d": 2268.60124869,
-                        "market_cap": 500648199.35369384,
-                        "last_updated": "2021-03-21T12:52:04.000Z"
-                    }
-                }
-            }
-        ],
-        "VET": [
-            {
-                "id": 3077,
-                "name": "VeChain",
-                "symbol": "VET",
-                "slug": "vechain",
-                "num_market_pairs": 124,
-                "date_added": "2017-08-22T00:00:00.000Z",
-                "tags": [
-                    {
-                        "slug": "logistics",
-                        "name": "Logistics",
+                        "slug": "polychain-capital-portfolio",
+                        "name": "Polychain Capital Portfolio",
                         "category": "PROPERTY"
                     },
                     {
-                        "slug": "data-provenance",
-                        "name": "Data Provenance",
+                        "slug": "binance-labs-portfolio",
+                        "name": "Binance Labs Portfolio",
                         "category": "PROPERTY"
                     },
                     {
-                        "slug": "smart-contracts",
-                        "name": "Smart Contracts",
+                        "slug": "arrington-xrp-capital",
+                        "name": "Arrington XRP capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "blockchain-capital-portfolio",
+                        "name": "Blockchain Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "boostvc-portfolio",
+                        "name": "BoostVC Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "cms-holdings-portfolio",
+                        "name": "CMS Holdings Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "dcg-portfolio",
+                        "name": "DCG Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "dragonfly-capital-portfolio",
+                        "name": "DragonFly Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "electric-capital-portfolio",
+                        "name": "Electric Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "fabric-ventures-portfolio",
+                        "name": "Fabric Ventures Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "framework-ventures",
+                        "name": "Framework Ventures",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "hashkey-capital-portfolio",
+                        "name": "Hashkey Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "kinetic-capital",
+                        "name": "Kinetic Capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "huobi-capital",
+                        "name": "Huobi Capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "alameda-research-portfolio",
+                        "name": "Alameda Research Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "a16z-portfolio",
+                        "name": "A16Z Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "1confirmation-portfolio",
+                        "name": "1Confirmation Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "winklevoss-capital",
+                        "name": "Winklevoss Capital",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "usv-portfolio",
+                        "name": "USV Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "placeholder-ventures-portfolio",
+                        "name": "Placeholder Ventures Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "pantera-capital-portfolio",
+                        "name": "Pantera Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "multicoin-capital-portfolio",
+                        "name": "Multicoin Capital Portfolio",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "paradigm-xzy-screener",
+                        "name": "Paradigm XZY Screener",
                         "category": "PROPERTY"
                     }
                 ],
-                "max_supply": 86712634466,
-                "circulating_supply": 64315576989,
-                "total_supply": 86712634466,
+                "max_supply": null,
+                "circulating_supply": 115487679.499,
+                "total_supply": 115487679.499,
                 "is_active": 1,
                 "platform": null,
-                "cmc_rank": 18,
+                "cmc_rank": 2,
                 "is_fiat": 0,
-                "last_updated": "2021-03-21T12:52:02.000Z",
+                "last_updated": "2021-04-16T04:56:02.000Z",
                 "quote": {
                     "USD": {
-                        "price": 0.09228880956702,
-                        "volume_24h": 1544663548.30168,
-                        "percent_change_1h": 0.5158004,
-                        "percent_change_24h": 8.4263092,
-                        "percent_change_7d": 40.36025649,
-                        "percent_change_30d": 68.3059239,
-                        "percent_change_60d": 196.7796864,
-                        "percent_change_90d": 494.69942961,
-                        "market_cap": 5935608036.930835,
-                        "last_updated": "2021-03-21T12:52:02.000Z"
+                        "price": 2457.4121757772987,
+                        "volume_24h": 31873292297.848007,
+                        "percent_change_1h": -1.5839766,
+                        "percent_change_24h": -0.69931614,
+                        "percent_change_7d": 18.13254648,
+                        "percent_change_30d": 39.27537257,
+                        "percent_change_60d": 42.75401699,
+                        "percent_change_90d": 108.77959212,
+                        "market_cap": 283800829753.1089,
+                        "last_updated": "2021-04-16T04:56:02.000Z"
+                    }
+                }
+            }
+        ],
+        "USDT": [
+            {
+                "id": 825,
+                "name": "Tether",
+                "symbol": "USDT",
+                "slug": "tether",
+                "num_market_pairs": 12098,
+                "date_added": "2015-02-25T00:00:00.000Z",
+                "tags": [
+                    {
+                        "slug": "store-of-value",
+                        "name": "Store of Value",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "payments",
+                        "name": "Payments",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "stablecoin",
+                        "name": "Stablecoin",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "stablecoin-asset-backed",
+                        "name": "Stablecoin - Asset-Backed",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "solana-ecosystem",
+                        "name": "Solana Ecosystem",
+                        "category": "PROPERTY"
+                    }
+                ],
+                "max_supply": null,
+                "circulating_supply": 46871412193.97685,
+                "total_supply": 48866290993.53494,
+                "platform": {
+                    "id": 1027,
+                    "name": "Ethereum",
+                    "symbol": "ETH",
+                    "slug": "ethereum",
+                    "token_address": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                },
+                "is_active": 1,
+                "cmc_rank": 5,
+                "is_fiat": 0,
+                "last_updated": "2021-04-16T04:55:10.000Z",
+                "quote": {
+                    "USD": {
+                        "price": 1.00175110393363,
+                        "volume_24h": 154187197851.70465,
+                        "percent_change_1h": 0.07099356,
+                        "percent_change_24h": 0.04802446,
+                        "percent_change_7d": 0.05011374,
+                        "percent_change_30d": 0.16036142,
+                        "percent_change_60d": 0.11296073,
+                        "percent_change_90d": 0.20359959,
+                        "market_cap": 46953488908.244514,
+                        "last_updated": "2021-04-16T04:55:10.000Z"
                     }
                 }
             }

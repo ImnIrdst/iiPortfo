@@ -16,11 +16,12 @@ class NobitexTransactions {
     for (var i = 1; i < csvRows.length - 1; i++) {
       final columns = csvRows[i].split(",");
       final dateTime = _getDate(columns[1]);
+      final symbol = _getSymbol(columns[3]);
       final transactionItem = TransactionItem(
         id: dateTime.millisecondsSinceEpoch,
         date: dateTime,
-        symbol: _getSymbol(columns[3]),
-        amount: _getAmount(columns[4]),
+        symbol: symbol,
+        amount: _getAmount(columns[4], symbol),
         buyPrice: await _getBuyPrice(columns, dateTime),
         description: _getDescription(columns[6]),
       );
@@ -36,7 +37,8 @@ class NobitexTransactions {
   static String _getSymbol(String cell) =>
       cell == "rls" ? IRR_SYMBOL : cell.toUpperCase();
 
-  static double _getAmount(String cell) => double.parse(cell);
+  static double _getAmount(String cell, String symbol) =>
+      symbol == IRR_SYMBOL ? double.parse(cell) / 10 : double.parse(cell);
 
   static String _getDescription(String cell) => cell;
 

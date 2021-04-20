@@ -1,6 +1,6 @@
 import 'package:iiportfo/data/api/coin_market_cap_api.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
-import 'package:iiportfo/data/csv/custom_csv_data.dart';
+import 'package:iiportfo/data/transaction_helper.dart';
 import 'package:iiportfo/utils/iterable_utils.dart';
 
 const IRR_SYMBOL = "IRR";
@@ -40,8 +40,8 @@ class PortfoItemData {
 }
 
 Future<List<PortfoItemData>> getPortfolioItems() async {
-  final cryptos = CryptoPortfolio.getCryptoPortfolioItems();
-  final symbols = cryptos.map((e) => e.symbol).toList();
+  final aggregatedData = await TransactionHelper.getAggregatedData();
+  final symbols = aggregatedData.map((e) => e.symbol).toList();
   final quotes = await CoinMarketCapAPI.getQuotes(symbols);
   final usdt = await NobitexAPI.getUSDTPriceInIRR(DateTime.now());
 
@@ -53,9 +53,9 @@ Future<List<PortfoItemData>> getPortfolioItems() async {
         symbol: q.symbol,
         imageUrl: q.imageUrl,
         currentPriceUSD: q.priceUSD,
-        buyPriceUSD: cryptos[i].buyPrice,
+        buyPriceUSD: aggregatedData[i].averageBuyPrice,
         percentChange24hUSD: q.percentChange24hUSD / 100,
-        amount: cryptos[i].amount,
+        amount: aggregatedData[i].amount,
         usdtPrice: usdt,
       );
     },

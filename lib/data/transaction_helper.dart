@@ -26,37 +26,20 @@ class TransactionItem {
   static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
 }
 
+class AggregatedData {
+  final String symbol;
+
+  double amount = 0;
+  double totalPrice = 0;
+
+  AggregatedData(this.symbol);
+
+  double get averageBuyPrice => amount != 0 ? totalPrice / amount : 0;
+}
+
 class TransactionHelper {
-  static const String _TRANSACTION_FILE_NAME = "iiPortfo_transactions.csv";
-
-  static Future<List<TransactionItem>> getTransactions() async {
-    final transactionFile = File(_TRANSACTION_FILE_NAME);
-    if (await transactionFile.exists()) {
-      String fileContent = await transactionFile.readAsString();
-
-      final csvRows = fileContent.split("\n");
-      final transactions = <TransactionItem>[];
-      for (var i = 1; i < csvRows.length - 1; i++) {
-        final columns = csvRows[i].split(",");
-
-        final transactionItem = TransactionItem(
-          id: _getId(columns),
-          date: _getDate(columns),
-          symbol: _getSymbol(columns),
-          amount: _getAmount(columns),
-          buyPrice: _getBuyPrice(columns),
-          description: _getDescription(columns),
-        );
-        transactions.add(transactionItem);
-      }
-      return transactions;
-    }
-    return [];
-  }
-
   static Future<void> addTransactionsFromNobitexCSV(String filePath) async {
-    final localPath = await getApplicationDocumentsDirectory();
-    final transactionFile = File("${localPath.path}/$_TRANSACTION_FILE_NAME");
+    final transactionFile = await _getIIPortfoTransactionFile();
     if (!await transactionFile.exists()) {
       await transactionFile.create();
     }
@@ -72,15 +55,60 @@ class TransactionHelper {
     await transactionFile.writeAsString(fileContent);
   }
 
-  static int _getId(List<String> columns) => int.parse(columns[0]);
+  static Future<List<AggregatedData>> getAggregatedData() async {
+    final aggregatedData = <String, AggregatedData>{};
+    final transactions = await _getTransactions();
 
-  static DateTime _getDate(List<String> columns) => DateTime.parse(columns[1]);
+    transactions.forEach((t) {
+      if (!aggregatedData.containsKey(t.symbol)) {
+        aggregatedData[t.symbol] = AggregatedData(t.symbol);
+      }
+      aggregatedData[t.symbol].totalPrice += t.amount * t.buyPrice;
+      aggregatedData[t.symbol].amount += t.amount;
+    });
 
-  static String _getSymbol(List<String> columns) => columns[2];
+    return aggregatedData.values.toList();
+  }
 
-  static double _getAmount(List<String> columns) => double.parse(columns[3]);
+  static Future<List<TransactionItem>> _getTransactions() async {
+    final transactionFile = await _getIIPortfoTransactionFile();
+    if (await transactionFile.exists()) {
+      String fileContent = await transactionFile.readAsString();
 
-  static double _getBuyPrice(List<String> columns) => double.parse(columns[4]);
+      final csvRows = fileContent.split("\n");
+      final transactions = <TransactionItem>[];
+      for (var i = 1; i < csvRows.length - 1; i++) {
+        final columns = csvRows[i].split(",");
 
-  static String _getDescription(List<String> columns) => columns[5];
+        final transactionItem = TransactionItem(
+          id: _getId(columns[0]),
+          date: _getDate(columns[1]),
+          symbol: _getSymbol(columns[2]),
+          amount: _getAmount(columns[3]),
+          buyPrice: _getBuyPrice(columns[4]),
+          description: _getDescription(columns[5]),
+        );
+        transactions.add(transactionItem);
+      }
+      return transactions;
+    }
+    return [];
+  }
+
+  static Future<File> _getIIPortfoTransactionFile() async {
+    final localPath = await getApplicationDocumentsDirectory();
+    return File("${localPath.path}/iiPortfo_transactions.csv");
+  }
+
+  static int _getId(String cell) => int.parse(cell);
+
+  static DateTime _getDate(String cell) => DateTime.parse(cell);
+
+  static String _getSymbol(String cell) => cell;
+
+  static double _getAmount(String cell) => double.parse(cell);
+
+  static double _getBuyPrice(String cell) => double.parse(cell);
+
+  static String _getDescription(String cell) => cell;
 }
