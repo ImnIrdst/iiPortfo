@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 
 class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) nobitexCsvItemClickListener;
+  final Future<void> Function(String) bitPayCsvItemClickListener;
 
   const ImportBottomSheet({
     Key key,
     this.nobitexCsvItemClickListener,
+    this.bitPayCsvItemClickListener,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class ImportBottomSheet extends StatelessWidget {
           ),
           ImportItem(title: "Custom CSV", clickListener: _onCustomCSVClicked),
           ImportItem(title: "Nobitex CSV", clickListener: _onNobitexCSVClicked),
+          ImportItem(title: "Bitpay CSV", clickListener: _onBitPayCSVClicked),
         ],
       ),
     );
@@ -49,6 +52,17 @@ class ImportBottomSheet extends StatelessWidget {
   }
 
   void _onNobitexCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      nobitexCsvItemClickListener.call(result.files.single.path);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBitPayCSVClicked(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {

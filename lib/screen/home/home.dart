@@ -34,7 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet<void>(
       context: context,
       builder: (context) => ImportBottomSheet(
-          nobitexCsvItemClickListener: _nobitexItemClickListener),
+        nobitexCsvItemClickListener: _nobitexItemClickListener,
+        bitPayCsvItemClickListener: _bitPayItemClickListener,
+      ),
     );
   }
 
@@ -72,6 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _nobitexItemClickListener(String filePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+    await TransactionHelper.addTransactionsFromNobitexCSV(filePath);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _bitPayItemClickListener(String filePath) async {
     setState(() {
       _isLoading = true;
     });

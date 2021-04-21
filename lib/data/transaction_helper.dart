@@ -39,20 +39,19 @@ class AggregatedData {
 
 class TransactionHelper {
   static Future<void> addTransactionsFromNobitexCSV(String filePath) async {
+    final nobitexTransactions = await NobitexTransactions.getItems(filePath);
+
+    final transactionFile = await _getTransactionFile();
+
+    _writeTransactionsToFile(transactionFile, nobitexTransactions);
+  }
+
+  static Future<File> _getTransactionFile() async {
     final transactionFile = await _getIIPortfoTransactionFile();
     if (!await transactionFile.exists()) {
       await transactionFile.create();
     }
-    final transactions = await NobitexTransactions.getItems(filePath);
-
-    var fileContent = "${TransactionItem.getCsvHeader()}\n";
-    transactions.forEach((transaction) {
-      fileContent += "${transaction.toCsvRow()}\n";
-    });
-
-    print(fileContent);
-
-    await transactionFile.writeAsString(fileContent);
+    return transactionFile;
   }
 
   static Future<List<AggregatedData>> getAggregatedData() async {
@@ -111,4 +110,17 @@ class TransactionHelper {
   static double _getBuyPrice(String cell) => double.parse(cell);
 
   static String _getDescription(String cell) => cell;
+
+  static void _writeTransactionsToFile(
+    File transactionFile,
+    List<TransactionItem> transactions,
+  ) async {
+    var fileContent = "${TransactionItem.getCsvHeader()}\n";
+
+    transactions.forEach((transaction) {
+      fileContent += "${transaction.toCsvRow()}\n";
+    });
+
+    await transactionFile.writeAsString(fileContent);
+  }
 }
