@@ -32,7 +32,7 @@ class NobitexTransactions {
         date: dateTime,
         symbol: symbol,
         amount: _getAmount(columns[4], symbol),
-        buyPrice: await _getBuyPrice(columns, dateTime),
+        buyPrice: await _getUSDBuyPrice(columns, dateTime),
         description: _getDescription(columns[6]),
       );
       print(transactionItem.toCsvRow());
@@ -55,7 +55,7 @@ class NobitexTransactions {
 
   static String _getDescription(String cell) => cell;
 
-  static Future<double> _getBuyPrice(
+  static Future<double> _getUSDBuyPrice(
     List<String> columns,
     DateTime dateTime,
   ) async {
@@ -66,7 +66,7 @@ class NobitexTransactions {
     if (symbol == "USDT") {
       return 1;
     } else {
-      return await NobitexAPI.getCoinPrice(dateTime, "${symbol}USDT");
+      return await NobitexAPI.getPairPrice(dateTime, "${symbol}USDT");
     }
   }
 }
