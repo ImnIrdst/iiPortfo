@@ -6,7 +6,10 @@ import 'package:iiportfo/data/portfo_item_data.dart';
 import '../transaction_helper.dart';
 
 class NobitexTransactions {
-  static Future<List<TransactionItem>> getItems(String filePath) async {
+  static Future<List<TransactionItem>> getItems(
+    String filePath,
+    Set<String> prevIds,
+  ) async {
     File file = File(filePath);
     String fileContent = await file.readAsString();
 
@@ -18,8 +21,14 @@ class NobitexTransactions {
       final dateTime = _getDate(columns[1]);
       final symbol = _getSymbol(columns[3]);
       final amount = _getAmount(columns[4], symbol);
+      final id = _getId(dateTime, symbol, amount);
+
+      if (prevIds.contains(id)) {
+        continue;
+      }
+
       final transactionItem = TransactionItem(
-        id: _getId(dateTime, symbol, amount),
+        id: id,
         date: dateTime,
         symbol: symbol,
         amount: _getAmount(columns[4], symbol),

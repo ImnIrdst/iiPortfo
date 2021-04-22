@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'csv/nobitex_csv_data.dart';
 
-class TransactionItem {
+class TransactionItem extends Comparable<TransactionItem> {
   final String id;
   final DateTime date;
   final String symbol;
@@ -24,6 +24,13 @@ class TransactionItem {
   String toCsvRow() => "$id,$date,$symbol,$amount,$buyPrice,$description";
 
   static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
+
+  @override
+  int compareTo(TransactionItem other) {
+    final dateCompare = this.date.compareTo(other.date);
+    if (dateCompare != 0) return dateCompare;
+    return this.amount.compareTo(other.amount);
+  }
 }
 
 class AggregatedData {
@@ -39,7 +46,8 @@ class AggregatedData {
 
 class TransactionHelper {
   static Future<void> addTransactionsFromNobitexCSV(String filePath) async {
-    final nobitexTransactions = await NobitexTransactions.getItems(filePath);
+    final nobitexTransactions =
+        await NobitexTransactions.getItems(filePath, await _getCurrentIds());
 
     final transactionFile = await _getTransactionFile();
 
@@ -94,6 +102,9 @@ class TransactionHelper {
     return [];
   }
 
+  static Future<Set<String>> _getCurrentIds() async =>
+      (await _getTransactions()).map((e) => e.id).toSet();
+
   static Future<File> _getIIPortfoTransactionFile() async {
     final localPath = await getApplicationDocumentsDirectory();
     return File("${localPath.path}/iiPortfo_transactions.csv");
@@ -113,11 +124,24 @@ class TransactionHelper {
 
   static void _writeTransactionsToFile(
     File transactionFile,
-    List<TransactionItem> transactions,
+    List<TransactionItem> newTransactions,
   ) async {
+    final prevTransactions = await _getTransactions();
+    final uniqueTransactionsMap = <String, TransactionItem>{};
+
+    prevTransactions.forEach((e) {
+      uniqueTransactionsMap[e.id] = e;
+    });
+
+    newTransactions.forEach((e) {
+      uniqueTransactionsMap[e.id] = e;
+    });
+
     var fileContent = "${TransactionItem.getCsvHeader()}\n";
 
-    transactions.forEach((transaction) {
+    final uniqueTransactions = uniqueTransactionsMap.values.toList();
+    uniqueTransactions.sort();
+    uniqueTransactions.forEach((transaction) {
       fileContent += "${transaction.toCsvRow()}\n";
     });
 

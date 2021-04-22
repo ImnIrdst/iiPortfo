@@ -77,8 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _isLoading = true;
     });
+
     await TransactionHelper.addTransactionsFromNobitexCSV(filePath);
+    final newItems = await getPortfolioItems();
+
     setState(() {
+      _items = newItems;
       _isLoading = false;
     });
   }
