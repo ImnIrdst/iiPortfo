@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'csv/nobitex_csv_data.dart';
 
 class TransactionItem {
-  final int id;
+  final String id;
   final DateTime date;
   final String symbol;
   final double amount;
@@ -99,7 +99,7 @@ class TransactionHelper {
     return File("${localPath.path}/iiPortfo_transactions.csv");
   }
 
-  static int _getId(String cell) => int.parse(cell);
+  static String _getId(String cell) => cell;
 
   static DateTime _getDate(String cell) => DateTime.parse(cell);
 

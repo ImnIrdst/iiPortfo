@@ -17,8 +17,9 @@ class NobitexTransactions {
       final columns = csvRows[i].split(",");
       final dateTime = _getDate(columns[1]);
       final symbol = _getSymbol(columns[3]);
+      final amount = _getAmount(columns[4], symbol);
       final transactionItem = TransactionItem(
-        id: dateTime.millisecondsSinceEpoch,
+        id: _getId(dateTime, symbol, amount),
         date: dateTime,
         symbol: symbol,
         amount: _getAmount(columns[4], symbol),
@@ -31,6 +32,9 @@ class NobitexTransactions {
 
     return transactions;
   }
+
+  static _getId(DateTime dataTime, String symbol, double amount) =>
+      "Nobitex-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
 
   static DateTime _getDate(String cell) => DateTime.parse(cell);
 
