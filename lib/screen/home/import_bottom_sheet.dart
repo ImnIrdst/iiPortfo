@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) nobitexCsvItemClickListener;
   final Future<void> Function(String) bitPayCsvItemClickListener;
+  final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
 
   const ImportBottomSheet({
     Key key,
     this.nobitexCsvItemClickListener,
     this.bitPayCsvItemClickListener,
+    this.bitcoinComBchCsvItemClickListener,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,9 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(title: "Custom CSV", clickListener: _onCustomCSVClicked),
           ImportItem(title: "Nobitex CSV", clickListener: _onNobitexCSVClicked),
           ImportItem(title: "Bitpay CSV", clickListener: _onBitPayCSVClicked),
+          ImportItem(
+              title: "Bitcoin.com CSV (Bitcoin Cash)",
+              clickListener: _onBitPayCSVClicked),
         ],
       ),
     );

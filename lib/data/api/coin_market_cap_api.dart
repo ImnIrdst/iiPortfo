@@ -79,10 +79,10 @@ class CoinMarketCapAPI {
 final mockResponseBody = """
 {
     "status": {
-        "timestamp": "2021-04-22T07:51:50.815Z",
+        "timestamp": "2021-04-23T05:41:20.656Z",
         "error_code": 0,
         "error_message": null,
-        "elapsed": 30,
+        "elapsed": 19,
         "credit_count": 1,
         "notice": null
     },
@@ -143,25 +143,25 @@ final mockResponseBody = """
                     }
                 ],
                 "max_supply": 21000000,
-                "circulating_supply": 18715325,
-                "total_supply": 18715325,
+                "circulating_supply": 18716318.75,
+                "total_supply": 18716318.75,
                 "is_active": 1,
                 "platform": null,
                 "cmc_rank": 11,
                 "is_fiat": 0,
-                "last_updated": "2021-04-22T07:50:08.000Z",
+                "last_updated": "2021-04-23T05:40:09.000Z",
                 "quote": {
                     "USD": {
-                        "price": 921.4094719806263,
-                        "volume_24h": 6005659571.292891,
-                        "percent_change_1h": -0.49633477,
-                        "percent_change_24h": -4.30021603,
-                        "percent_change_7d": 11.59666507,
-                        "percent_change_30d": 78.00138744,
-                        "percent_change_60d": 35.66671044,
-                        "percent_change_90d": 119.08418752,
-                        "market_cap": 17244477726.195816,
-                        "last_updated": "2021-04-22T07:50:08.000Z"
+                        "price": 773.408890648648,
+                        "volume_24h": 7994473431.371252,
+                        "percent_change_1h": -0.69472963,
+                        "percent_change_24h": -15.39007277,
+                        "percent_change_7d": -16.33667642,
+                        "percent_change_30d": 49.07459428,
+                        "percent_change_60d": 14.47191306,
+                        "percent_change_90d": 77.71802978,
+                        "market_cap": 14475367321.463991,
+                        "last_updated": "2021-04-23T05:40:09.000Z"
                     }
                 }
             }
@@ -172,7 +172,7 @@ final mockResponseBody = """
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "slug": "binance-coin",
-                "num_market_pairs": 578,
+                "num_market_pairs": 579,
                 "date_added": "2017-07-25T00:00:00.000Z",
                 "tags": [
                     {
@@ -213,19 +213,19 @@ final mockResponseBody = """
                 "platform": null,
                 "cmc_rank": 3,
                 "is_fiat": 0,
-                "last_updated": "2021-04-22T07:50:08.000Z",
+                "last_updated": "2021-04-23T05:40:08.000Z",
                 "quote": {
                     "USD": {
-                        "price": 555.2606990746675,
-                        "volume_24h": 7863696814.326052,
-                        "percent_change_1h": -0.2612719,
-                        "percent_change_24h": -8.99440363,
-                        "percent_change_7d": 1.60481196,
-                        "percent_change_30d": 118.79255999,
-                        "percent_change_60d": 113.47928236,
-                        "percent_change_90d": 1299.11940173,
-                        "market_cap": 85195257649.27145,
-                        "last_updated": "2021-04-22T07:50:08.000Z"
+                        "price": 495.6649300766883,
+                        "volume_24h": 9363467095.08972,
+                        "percent_change_1h": 0.57451644,
+                        "percent_change_24h": -9.72223832,
+                        "percent_change_7d": -4.20418164,
+                        "percent_change_30d": 93.2848909,
+                        "percent_change_60d": 80.54508359,
+                        "percent_change_90d": 1108.45887002,
+                        "market_cap": 76051306162.96872,
+                        "last_updated": "2021-04-23T05:40:08.000Z"
                     }
                 }
             }
@@ -236,7 +236,7 @@ final mockResponseBody = """
                 "name": "Bitcoin",
                 "symbol": "BTC",
                 "slug": "bitcoin",
-                "num_market_pairs": 9627,
+                "num_market_pairs": 9643,
                 "date_added": "2013-04-28T00:00:00.000Z",
                 "tags": [
                     {
@@ -386,25 +386,25 @@ final mockResponseBody = """
                     }
                 ],
                 "max_supply": 21000000,
-                "circulating_supply": 18688093,
-                "total_supply": 18688093,
+                "circulating_supply": 18688918,
+                "total_supply": 18688918,
                 "is_active": 1,
                 "platform": null,
                 "cmc_rank": 1,
                 "is_fiat": 0,
-                "last_updated": "2021-04-22T07:51:02.000Z",
+                "last_updated": "2021-04-23T05:41:02.000Z",
                 "quote": {
                     "USD": {
-                        "price": 54257.31098326682,
-                        "volume_24h": 59803608820.589905,
-                        "percent_change_1h": 0.00355424,
-                        "percent_change_24h": -2.65085233,
-                        "percent_change_7d": -13.79812173,
-                        "percent_change_30d": 1.29693975,
-                        "percent_change_60d": -3.90003624,
-                        "percent_change_90d": 71.60507139,
-                        "market_cap": 1013965673585.2118,
-                        "last_updated": "2021-04-22T07:51:02.000Z"
+                        "price": 49603.41048060316,
+                        "volume_24h": 85207974667.76889,
+                        "percent_change_1h": -0.96647806,
+                        "percent_change_24h": -8.2675737,
+                        "percent_change_7d": -20.22443615,
+                        "percent_change_30d": -9.08928199,
+                        "percent_change_60d": -11.00298867,
+                        "percent_change_90d": 51.61382875,
+                        "market_cap": 927034070992.333,
+                        "last_updated": "2021-04-23T05:41:02.000Z"
                     }
                 }
             }
@@ -415,7 +415,7 @@ final mockResponseBody = """
                 "name": "Ethereum",
                 "symbol": "ETH",
                 "slug": "ethereum",
-                "num_market_pairs": 6316,
+                "num_market_pairs": 6337,
                 "date_added": "2015-08-07T00:00:00.000Z",
                 "tags": [
                     {
@@ -565,25 +565,80 @@ final mockResponseBody = """
                     }
                 ],
                 "max_supply": null,
-                "circulating_supply": 115569684.249,
-                "total_supply": 115569684.249,
+                "circulating_supply": 115582002.4365,
+                "total_supply": 115582002.4365,
                 "is_active": 1,
                 "platform": null,
                 "cmc_rank": 2,
                 "is_fiat": 0,
-                "last_updated": "2021-04-22T07:51:02.000Z",
+                "last_updated": "2021-04-23T05:41:02.000Z",
                 "quote": {
                     "USD": {
-                        "price": 2469.398731984408,
-                        "volume_24h": 43597399845.4034,
-                        "percent_change_1h": 0.97233485,
-                        "percent_change_24h": 6.20898231,
-                        "percent_change_7d": 0.16207501,
-                        "percent_change_30d": 48.09802328,
-                        "percent_change_60d": 27.55145387,
-                        "percent_change_90d": 111.94438578,
-                        "market_cap": 285387631740.31903,
-                        "last_updated": "2021-04-22T07:51:02.000Z"
+                        "price": 2234.95163920871,
+                        "volume_24h": 58076134324.06481,
+                        "percent_change_1h": -1.79470094,
+                        "percent_change_24h": -7.74289828,
+                        "percent_change_7d": -8.90295802,
+                        "percent_change_30d": 32.38902092,
+                        "percent_change_60d": 20.66006224,
+                        "percent_change_90d": 79.10568255,
+                        "market_cap": 258320185808.48077,
+                        "last_updated": "2021-04-23T05:41:02.000Z"
+                    }
+                }
+            }
+        ],
+        "USDC": [
+            {
+                "id": 3408,
+                "name": "USD Coin",
+                "symbol": "USDC",
+                "slug": "usd-coin",
+                "num_market_pairs": 904,
+                "date_added": "2018-10-08T00:00:00.000Z",
+                "tags": [
+                    {
+                        "slug": "medium-of-exchange",
+                        "name": "Medium of Exchange",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "stablecoin",
+                        "name": "Stablecoin",
+                        "category": "PROPERTY"
+                    },
+                    {
+                        "slug": "stablecoin-asset-backed",
+                        "name": "Stablecoin - Asset-Backed",
+                        "category": "PROPERTY"
+                    }
+                ],
+                "max_supply": null,
+                "circulating_supply": 11243286480.251637,
+                "total_supply": 11506590888.92955,
+                "platform": {
+                    "id": 1027,
+                    "name": "Ethereum",
+                    "symbol": "ETH",
+                    "slug": "ethereum",
+                    "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+                },
+                "is_active": 1,
+                "cmc_rank": 14,
+                "is_fiat": 0,
+                "last_updated": "2021-04-23T05:41:05.000Z",
+                "quote": {
+                    "USD": {
+                        "price": 1.00017974555144,
+                        "volume_24h": 3631405249.2099385,
+                        "percent_change_1h": 0.03345226,
+                        "percent_change_24h": 0.00164256,
+                        "percent_change_7d": -0.11802731,
+                        "percent_change_30d": -0.12869875,
+                        "percent_change_60d": 0.02382308,
+                        "percent_change_90d": 0.00674495,
+                        "market_cap": 11245307410.980028,
+                        "last_updated": "2021-04-23T05:41:05.000Z"
                     }
                 }
             }
@@ -594,7 +649,7 @@ final mockResponseBody = """
                 "name": "Tether",
                 "symbol": "USDT",
                 "slug": "tether",
-                "num_market_pairs": 12275,
+                "num_market_pairs": 12370,
                 "date_added": "2015-02-25T00:00:00.000Z",
                 "tags": [
                     {
@@ -624,7 +679,7 @@ final mockResponseBody = """
                     }
                 ],
                 "max_supply": null,
-                "circulating_supply": 49320928120.83168,
+                "circulating_supply": 49280887016.94168,
                 "total_supply": 51866290994.32977,
                 "platform": {
                     "id": 1027,
@@ -634,21 +689,21 @@ final mockResponseBody = """
                     "token_address": "0xdac17f958d2ee523a2206206994597c13d831ec7"
                 },
                 "is_active": 1,
-                "cmc_rank": 5,
+                "cmc_rank": 4,
                 "is_fiat": 0,
-                "last_updated": "2021-04-22T07:50:09.000Z",
+                "last_updated": "2021-04-23T05:40:08.000Z",
                 "quote": {
                     "USD": {
-                        "price": 1.00008595494517,
-                        "volume_24h": 137076694073.23434,
-                        "percent_change_1h": -0.0000452,
-                        "percent_change_24h": -0.0052331,
-                        "percent_change_7d": -0.21179623,
-                        "percent_change_30d": -0.09311726,
-                        "percent_change_60d": -0.00068546,
-                        "percent_change_90d": 0.03388247,
-                        "market_cap": 49325167498.504036,
-                        "last_updated": "2021-04-22T07:50:09.000Z"
+                        "price": 0.99989459445127,
+                        "volume_24h": 199956789997.7241,
+                        "percent_change_1h": -0.01266039,
+                        "percent_change_24h": -0.01279199,
+                        "percent_change_7d": -0.20730068,
+                        "percent_change_30d": -0.13455221,
+                        "percent_change_60d": 0.00206162,
+                        "percent_change_90d": -0.1670218,
+                        "market_cap": 49275692538.00376,
+                        "last_updated": "2021-04-23T05:40:08.000Z"
                     }
                 }
             }

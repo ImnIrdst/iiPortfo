@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context) => ImportBottomSheet(
         nobitexCsvItemClickListener: _nobitexItemClickListener,
         bitPayCsvItemClickListener: _bitPayItemClickListener,
+        bitcoinComBchCsvItemClickListener: _bitcoinComBchItemClickListener,
       ),
     );
   }
@@ -88,6 +89,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _bitPayItemClickListener(String filePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+    await TransactionHelper.addTransactionsFromBitPayCSV(filePath);
+    final newItems = await getPortfolioItems();
+    setState(() {
+      _items = newItems;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _bitcoinComBchItemClickListener(String filePath) async {
     setState(() {
       _isLoading = true;
     });

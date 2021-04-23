@@ -64,6 +64,15 @@ class TransactionHelper {
     _writeTransactionsToFile(transactionFile, bitPayTransactions);
   }
 
+  static addTransactionsFromBitcoinComBchCSV(String filePath) async {
+    final bchTransactions =
+        await BitPayTransactions.getItems(filePath, await _getCurrentIds());
+
+    final transactionFile = await _getTransactionFile();
+
+    _writeTransactionsToFile(transactionFile, bchTransactions);
+  }
+
   static Future<File> _getTransactionFile() async {
     final transactionFile = await _getIIPortfoTransactionFile();
     if (!await transactionFile.exists()) {
