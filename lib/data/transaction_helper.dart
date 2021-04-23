@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'csv/nobitex_csv_data.dart';
@@ -52,6 +53,15 @@ class TransactionHelper {
     final transactionFile = await _getTransactionFile();
 
     _writeTransactionsToFile(transactionFile, nobitexTransactions);
+  }
+
+  static addTransactionsFromBitPayCSV(String filePath) async {
+    final bitPayTransactions =
+        await BitPayTransactions.getItems(filePath, await _getCurrentIds());
+
+    final transactionFile = await _getTransactionFile();
+
+    _writeTransactionsToFile(transactionFile, bitPayTransactions);
   }
 
   static Future<File> _getTransactionFile() async {

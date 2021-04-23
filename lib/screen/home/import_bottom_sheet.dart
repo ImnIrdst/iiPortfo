@@ -66,7 +66,7 @@ class ImportBottomSheet extends StatelessWidget {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      nobitexCsvItemClickListener.call(result.files.single.path);
+      bitPayCsvItemClickListener.call(result.files.single.path);
       Navigator.pop(context);
     } else {
       // User canceled the picker

@@ -14,9 +14,9 @@ class Quote {
 class NobitexAPI {
   // url = "https://api.nobitex.ir/market/udf/history?symbol=%s&resolution=60&from=%.0f&to=%.0f" \
   // % (coin, start.timestamp(), end.timestamp())
-  static final baseUrl = "api.nobitex.ir";
-  static final marketHistory = "/market/udf/history";
-  static final marketStatsApiUrl = "/market/stats";
+  static final _baseUrl = "api.nobitex.ir";
+  static final _marketHistory = "/market/udf/history";
+  static final _marketStatsApiUrl = "/market/stats";
 
   static Future<double> getUSDTPriceInIRR(DateTime dateTime) async {
     return await getPairPrice(dateTime, "USDTIRT");
@@ -25,7 +25,7 @@ class NobitexAPI {
   static Future<double> getPairPrice(DateTime dateTime, String pair) async {
     final from = dateTime.subtract(Duration(hours: 1));
 
-    final url = Uri.https(baseUrl, marketHistory, {
+    final url = Uri.https(_baseUrl, _marketHistory, {
       "symbol": pair,
       "resolution": 60.toString(),
       "from": from.toPosix().toString(),
@@ -43,7 +43,7 @@ class NobitexAPI {
   }
 
   static Future<double> getDayChange() async {
-    final url = Uri.https(baseUrl, marketStatsApiUrl);
+    final url = Uri.https(_baseUrl, _marketStatsApiUrl);
 
     final response = await http.post(
       url,
