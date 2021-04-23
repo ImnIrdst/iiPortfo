@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iiportfo/data/csv/custom_csv_data.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/utils/format_utils.dart';
 
@@ -41,6 +40,10 @@ class PortfoItem extends StatelessWidget {
                           _item.rank.toRankFormatted(),
                           style: Theme.of(context).textTheme.caption,
                         ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(_item.amount.toAmountFormatted()),
                       ),
                     ],
                   ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 final usdNumberFormat = NumberFormat("\$,##0.0#");
 final irrNumberFormat = NumberFormat.compact();
 final percentNumberFormat = NumberFormat("#,##0.#%");
+final amountFormat = NumberFormat("##0.00000#");
 
 extension PriceUtils on double {
   String toIRRFormatted() => irrNumberFormat.format(this);
@@ -59,4 +60,8 @@ extension PercentUtils on double {
 
 extension RankUtils on int {
   String toRankFormatted() => "#$this";
+}
+
+extension AmountUtils on double {
+  String toAmountFormatted() => amountFormat.format(this);
 }
