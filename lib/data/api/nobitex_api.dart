@@ -31,9 +31,7 @@ class NobitexAPI {
       "from": from.toPosix().toString(),
       "to": dateTime.toPosix().toString(),
     });
-    print(url);
     final response = await http.get(url);
-    print(response.body);
 
     final json = jsonDecode(response.body);
     final double c = json['c'][0];

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:iiportfo/data/api/bitquery_api.dart';
 import 'package:iiportfo/screen/home/home.dart';
 
 void main() {
@@ -10,18 +12,21 @@ final primaryColor = Colors.amber;
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'iiPortfo',
-      theme: ThemeData(
-          primarySwatch: primaryColor,
-          accentColor: primaryColor,
-          splashColor: Colors.deepOrange,
-          canvasColor: Colors.black,
-          buttonTheme: _getButtonTheme(context),
-          appBarTheme: _getAppBarTheme(context),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          brightness: Brightness.dark),
-      home: MyHomePage(title: 'iiPortfo'),
+    return GraphQLProvider(
+      client: BitQueryAPI.getGraphQLClient(),
+      child: MaterialApp(
+        title: 'iiPortfo',
+        theme: ThemeData(
+            primarySwatch: primaryColor,
+            accentColor: primaryColor,
+            splashColor: Colors.deepOrange,
+            canvasColor: Colors.black,
+            buttonTheme: _getButtonTheme(context),
+            appBarTheme: _getAppBarTheme(context),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            brightness: Brightness.dark),
+        home: MyHomePage(title: 'iiPortfo'),
+      ),
     );
   }
 

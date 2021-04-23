@@ -15,6 +15,7 @@ dependencies:
   file_picker: ^3.0.1
   shared_preferences: ^2.0.5
   path_provider: ^2.0.1
+  graphql_flutter: any
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:iiportfo/data/bloc/bitquery_bloc.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/data/transaction_helper.dart';
 import 'package:iiportfo/screen/home/import_bottom_sheet.dart';
@@ -18,15 +19,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<PortfoItemData> _items = [];
   bool _isLoading = true;
+  Bloc bloc = Bloc();
 
   @override
   void initState() {
-    getPortfolioItems().then((value) {
-      setState(() {
-        _items = value;
-        _isLoading = false;
-      });
-    });
+    // getPortfolioItems().then((value) {
+    //   setState(() {
+    //     _items = value;
+    //     _isLoading = false;
+    //   });
+    // });
+    bloc.queryRepo();
     super.initState();
   }
 
@@ -60,7 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _renderBody() {
     if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return StreamBuilder(
+        initialData: <Repo>[],
+        builder: (context, snapshot) {
+          print(context);
+          print(snapshot);
+          return Center(child: CircularProgressIndicator());
+        },
+      );
     } else {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
