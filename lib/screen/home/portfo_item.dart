@@ -20,7 +20,7 @@ class PortfoItem extends StatelessWidget {
             flex: 4,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              height: 36,
+              height: 48,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,10 +41,6 @@ class PortfoItem extends StatelessWidget {
                           style: Theme.of(context).textTheme.caption,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(_item.amount.toAmountFormatted()),
-                      ),
                     ],
                   ),
                   Row(
@@ -57,6 +53,7 @@ class PortfoItem extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Text(_item.amount.toAmountFormatted()),
                 ],
               ),
             ),
