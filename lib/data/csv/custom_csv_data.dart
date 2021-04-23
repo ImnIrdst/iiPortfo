@@ -16,8 +16,8 @@ class CryptoPortfolio {
   static final csv = [
     "00,IRR,$IRR_SYMBOL,100000,0.00004",
     "01,Bitcoin,BTC,1.02,6777.14",
-    "12,Bitcoin Cash,BCH,2.2,912.53",
-    "09,Litecoin,LTC,2.04,130.45",
+    "12,Bitcoin Cash,Bch,2.2,912.53",
+    "09,Litecoin,Ltc,2.04,130.45",
     "05,Cardano,ADA,212.9,194.13",
     "03,Binance Coin,BNB,2.7,518.85",
     "43,Hedera Hashgraph,HBAR,1,0.15",

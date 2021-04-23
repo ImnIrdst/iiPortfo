@@ -194,11 +194,11 @@ final mockResponseBody = """
                 }
             }
         ],
-        "BCH": [
+        "Bch": [
             {
                 "id": 1831,
                 "name": "Bitcoin Cash",
-                "symbol": "BCH",
+                "symbol": "Bch",
                 "slug": "bitcoin-cash",
                 "num_market_pairs": 595,
                 "date_added": "2017-07-23T00:00:00.000Z",
@@ -436,11 +436,11 @@ final mockResponseBody = """
                 }
             }
         ],
-        "LTC": [
+        "Ltc": [
             {
                 "id": 2,
                 "name": "Litecoin",
-                "symbol": "LTC",
+                "symbol": "Ltc",
                 "slug": "litecoin",
                 "num_market_pairs": 769,
                 "date_added": "2013-04-28T00:00:00.000Z",

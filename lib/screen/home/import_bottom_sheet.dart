@@ -6,13 +6,15 @@ import 'package:flutter/material.dart';
 class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) nobitexCsvItemClickListener;
   final Future<void> Function(String) bitPayCsvItemClickListener;
-  final Future<void> Function(String) bitcoinComBCHCsvItemClickListener;
+  final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
+  final Future<void> Function(String) cryptoIdLtcCsvItemClickListener;
 
   const ImportBottomSheet({
     Key key,
     this.nobitexCsvItemClickListener,
     this.bitPayCsvItemClickListener,
-    this.bitcoinComBCHCsvItemClickListener,
+    this.bitcoinComBchCsvItemClickListener,
+    this.cryptoIdLtcCsvItemClickListener,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,11 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(title: "Bitpay CSV", clickListener: _onBitPayCSVClicked),
           ImportItem(
             title: "Bitcoin.com CSV (Bitcoin Cash)",
-            clickListener: _onBitcoinComBCHCSVCLicked,
+            clickListener: _onBitcoinComBchCSVCLicked,
+          ),
+          ImportItem(
+            title: "CryptoId CSV (Lite Coin)",
+            clickListener: _onCryptoIdLtcCSVCLicked,
           ),
         ],
       ),
@@ -79,10 +85,20 @@ class ImportBottomSheet extends StatelessWidget {
     }
   }
 
-  void _onBitcoinComBCHCSVCLicked(BuildContext context) async {
+  void _onBitcoinComBchCSVCLicked(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      bitcoinComBCHCsvItemClickListener.call(result.files.single.path);
+      bitcoinComBchCsvItemClickListener.call(result.files.single.path);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onCryptoIdLtcCSVCLicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      cryptoIdLtcCsvItemClickListener.call(result.files.single.path);
       Navigator.pop(context);
     } else {
       // User canceled the picker

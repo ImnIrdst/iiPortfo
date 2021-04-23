@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
 import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
+import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'csv/nobitex_csv_data.dart';
@@ -65,8 +66,19 @@ class TransactionHelper {
     _writeTransactionsToFile(transactionFile, bitPayTransactions);
   }
 
-  static addTransactionsFromBitcoinComBCHCSV(String filePath) async {
-    final bchTransactions = await BitcoinComTransactions.getBCHItems(
+  static addTransactionsFromBitcoinComBchCSV(String filePath) async {
+    final bchTransactions = await BitcoinComTransactions.getBchItems(
+      filePath,
+      await _getCurrentIds(),
+    );
+
+    final transactionFile = await _getTransactionFile();
+
+    _writeTransactionsToFile(transactionFile, bchTransactions);
+  }
+
+  static addTransactionsFromCryptoIdLtcCSV(String filePath) async {
+    final bchTransactions = await CryptoIdTransactions.getLtcItems(
       filePath,
       await _getCurrentIds(),
     );
