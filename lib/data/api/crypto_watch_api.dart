@@ -17,8 +17,8 @@ class CryptoWatchAPI {
   static final _binanceMarketHistory = "/markets/binance";
 
   static Future<double> getPairPrice(DateTime dateTime, String pair) async {
-    final from = dateTime.subtract(Duration(minutes: 1));
-    final period = "60";
+    final from = dateTime.subtract(Duration(hours: 1));
+    final period = "3600";
     final url = Uri.https(_baseUrl, "$_binanceMarketHistory/$pair/ohlc", {
       "periods": period,
       "after": from.toPosix().toString(),

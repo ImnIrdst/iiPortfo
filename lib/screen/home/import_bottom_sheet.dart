@@ -8,6 +8,7 @@ class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) bitPayCsvItemClickListener;
   final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
   final Future<void> Function(String) cryptoIdLtcCsvItemClickListener;
+  final Future<void> Function(String, bool) bitQueryCsvItemClickListener;
 
   const ImportBottomSheet({
     Key key,
@@ -15,6 +16,7 @@ class ImportBottomSheet extends StatelessWidget {
     this.bitPayCsvItemClickListener,
     this.bitcoinComBchCsvItemClickListener,
     this.cryptoIdLtcCsvItemClickListener,
+    this.bitQueryCsvItemClickListener,
   }) : super(key: key);
 
   @override
@@ -45,6 +47,14 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(
             title: "CryptoId CSV (Lite Coin)",
             clickListener: _onCryptoIdLtcCSVCLicked,
+          ),
+          ImportItem(
+            title: "BitQuery Inflow CSV",
+            clickListener: _onBitQueryInflowCSVClicked,
+          ),
+          ImportItem(
+            title: "BitQuery outFlow CSV",
+            clickListener: _onBitQueryOutflowCSVClicked,
           ),
         ],
       ),
@@ -99,6 +109,26 @@ class ImportBottomSheet extends StatelessWidget {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       cryptoIdLtcCsvItemClickListener.call(result.files.single.path);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBitQueryInflowCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      bitQueryCsvItemClickListener.call(result.files.single.path, true);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBitQueryOutflowCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      bitQueryCsvItemClickListener.call(result.files.single.path, false);
       Navigator.pop(context);
     } else {
       // User canceled the picker

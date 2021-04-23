@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
 import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
+import 'package:iiportfo/data/csv/bitquery_inflow_csv_data.dart';
 import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -79,6 +80,20 @@ class TransactionHelper {
 
   static addTransactionsFromCryptoIdLtcCSV(String filePath) async {
     final bchTransactions = await CryptoIdTransactions.getLtcItems(
+      filePath,
+      await _getCurrentIds(),
+    );
+
+    final transactionFile = await _getTransactionFile();
+
+    _writeTransactionsToFile(transactionFile, bchTransactions);
+  }
+
+  static addTransactionsFromBitQueryCSV(
+    String filePath,
+    bool isInflow,
+  ) async {
+    final bchTransactions = await BitQueryTransactions.getInflowItems(
       filePath,
       await _getCurrentIds(),
     );

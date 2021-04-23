@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bitPayCsvItemClickListener: _bitPayItemClickListener,
         bitcoinComBchCsvItemClickListener: _bitcoinComBchItemClickListener,
         cryptoIdLtcCsvItemClickListener: _cryptoIdLtcItemClickListener,
+        bitQueryCsvItemClickListener: _bitQueryItemClickListener,
       ),
     );
   }
@@ -119,6 +120,23 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     await TransactionHelper.addTransactionsFromCryptoIdLtcCSV(filePath);
     final newItems = await getPortfolioItems();
+    setState(() {
+      _items = newItems;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _bitQueryItemClickListener(
+    String filePath,
+    bool isInflow,
+  ) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await TransactionHelper.addTransactionsFromBitQueryCSV(filePath, isInflow);
+    final newItems = await getPortfolioItems();
+
     setState(() {
       _items = newItems;
       _isLoading = false;

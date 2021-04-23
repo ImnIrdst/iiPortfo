@@ -22,10 +22,7 @@ class CryptoIdTransactions {
           ),
         )
         .toList();
-
-    fields.forEach((element) {
-      print("fields " + element.toString());
-    });
+    print("bitQuery fields $fields");
     final List<TransactionItem> transactions = [];
     for (var i = 2; i < fields.length; i++) {
       final columns = fields[i];
