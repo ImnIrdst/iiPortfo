@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
 import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
-import 'package:iiportfo/data/csv/bitquery_inflow_csv_data.dart';
+import 'package:iiportfo/data/csv/bitquery_csv_data.dart';
 import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -55,7 +55,7 @@ class TransactionHelper {
 
     final transactionFile = await _getTransactionFile();
 
-    _writeTransactionsToFile(transactionFile, nobitexTransactions);
+    await _writeTransactionsToFile(transactionFile, nobitexTransactions);
   }
 
   static addTransactionsFromBitPayCSV(String filePath) async {
@@ -64,7 +64,7 @@ class TransactionHelper {
 
     final transactionFile = await _getTransactionFile();
 
-    _writeTransactionsToFile(transactionFile, bitPayTransactions);
+    await _writeTransactionsToFile(transactionFile, bitPayTransactions);
   }
 
   static addTransactionsFromBitcoinComBchCSV(String filePath) async {
@@ -75,7 +75,7 @@ class TransactionHelper {
 
     final transactionFile = await _getTransactionFile();
 
-    _writeTransactionsToFile(transactionFile, bchTransactions);
+    await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
 
   static addTransactionsFromCryptoIdLtcCSV(String filePath) async {
@@ -86,21 +86,22 @@ class TransactionHelper {
 
     final transactionFile = await _getTransactionFile();
 
-    _writeTransactionsToFile(transactionFile, bchTransactions);
+    await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
 
   static addTransactionsFromBitQueryCSV(
     String filePath,
     bool isInflow,
   ) async {
-    final bchTransactions = await BitQueryTransactions.getInflowItems(
+    final bchTransactions = await BitQueryTransactions.getItems(
       filePath,
       await _getCurrentIds(),
+      isInflow,
     );
 
     final transactionFile = await _getTransactionFile();
 
-    _writeTransactionsToFile(transactionFile, bchTransactions);
+    await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
 
   static Future<File> _getTransactionFile() async {
@@ -171,7 +172,7 @@ class TransactionHelper {
 
   static String _getDescription(String cell) => cell;
 
-  static void _writeTransactionsToFile(
+  static Future<void> _writeTransactionsToFile(
     File transactionFile,
     List<TransactionItem> newTransactions,
   ) async {
