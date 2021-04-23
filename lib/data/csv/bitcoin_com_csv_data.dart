@@ -1,28 +1,31 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:csv/csv.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:intl/intl.dart';
 
 import '../transaction_helper.dart';
 
-class BitPayTransactions {
+class BitcoinComTransactions {
   static Future<List<TransactionItem>> getBCHItems(
     String filePath,
     Set<String> prevIds,
   ) async {
-    File file = File(filePath);
-    String fileContent = await file.readAsString();
-
-    final csvRows = fileContent.split("\n").reversed.toList();
+    final input = File(filePath).openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(new CsvToListConverter())
+        .toList();
 
     final List<TransactionItem> transactions = [];
-    for (var i = 0; i < csvRows.length - 1; i++) {
-      final columns = csvRows[i].split(",");
-      print(columns);
+    for (var i = 1; i < fields.length - 1; i++) {
+      final columns = fields[i];
       final dateTime = _getDate(columns[0]);
-      final symbol = _getSymbol(columns[4]);
-      final amount = _getAmount(columns[3], symbol);
+      final symbol = "BCH";
+      final amount = _getAmount(columns[6], symbol);
       final id = _getId(dateTime, symbol, amount);
       if (prevIds.contains(id)) {
         continue;
@@ -44,17 +47,17 @@ class BitPayTransactions {
   }
 
   static _getId(DateTime dataTime, String symbol, double amount) =>
-      "BitPay-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
+      "Bitcoin.com (BCH)-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
 
-  static DateTime _getDate(String cell) => DateTime.parse(cell);
-
-  static String _getSymbol(String cell) => cell.toUpperCase();
+  static DateTime _getDate(String cell) =>
+      DateFormat(r'''MMM d, y HH:mm:ss Z''')
+          .parse(cell); // DateTime.parse(cell); Mar 31, 2021 13:04:02 UTC+04:30
 
   static double _getAmount(String cell, String symbol) =>
       symbol == IRR_SYMBOL ? double.parse(cell) / 10 : double.parse(cell);
 
   static String _getDescription(String destination, String description) =>
-      "Bitpay; $destination; $description";
+      "Bitcoin.com (BCH); $destination; $description";
 
   static Future<double> _getUSDBuyPrice(
     String symbol,

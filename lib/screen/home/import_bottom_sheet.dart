@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) nobitexCsvItemClickListener;
   final Future<void> Function(String) bitPayCsvItemClickListener;
-  final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
+  final Future<void> Function(String) bitcoinComBCHCsvItemClickListener;
 
   const ImportBottomSheet({
     Key key,
     this.nobitexCsvItemClickListener,
     this.bitPayCsvItemClickListener,
-    this.bitcoinComBchCsvItemClickListener,
+    this.bitcoinComBCHCsvItemClickListener,
   }) : super(key: key);
 
   @override
@@ -37,8 +37,9 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(title: "Nobitex CSV", clickListener: _onNobitexCSVClicked),
           ImportItem(title: "Bitpay CSV", clickListener: _onBitPayCSVClicked),
           ImportItem(
-              title: "Bitcoin.com CSV (Bitcoin Cash)",
-              clickListener: _onBitPayCSVClicked),
+            title: "Bitcoin.com CSV (Bitcoin Cash)",
+            clickListener: _onBitcoinComBCHCSVCLicked,
+          ),
         ],
       ),
     );
@@ -72,6 +73,16 @@ class ImportBottomSheet extends StatelessWidget {
 
     if (result != null) {
       bitPayCsvItemClickListener.call(result.files.single.path);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBitcoinComBCHCSVCLicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      bitcoinComBCHCsvItemClickListener.call(result.files.single.path);
       Navigator.pop(context);
     } else {
       // User canceled the picker
