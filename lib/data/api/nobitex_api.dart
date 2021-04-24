@@ -11,7 +11,7 @@ class NobitexAPI {
   static final _marketHistory = "/market/udf/history";
   static final _marketStatsApiUrl = "/market/stats";
 
-  static final _cache = NobitexCache();
+  static final _cache = _NobitexCache();
 
   static Future<double> getCurrentUSDTPriceInIRR(bool loadFromCache) async {
     if (!loadFromCache || (await _cache.getCurrentUsdtPrice()) == null) {
@@ -62,7 +62,7 @@ class NobitexAPI {
   }
 }
 
-class NobitexCache {
+class _NobitexCache {
   double _currentUsdtPrice;
 
   Future<void> setCurrentUsdtPrice(double value) async {
