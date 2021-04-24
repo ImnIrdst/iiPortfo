@@ -20,6 +20,43 @@ class BitQueryTransactions {
     }
   }
 
+  static Future<List<TransactionItem>> _getOutflowItems(
+    String filePath,
+    Set<String> prevIds,
+  ) async {
+    final input = File(filePath).openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(new CsvToListConverter(eol: "\n"))
+        .toList();
+
+    final List<TransactionItem> transactions = [];
+    for (var i = 1; i < fields.length; i++) {
+      final columns = fields[i];
+
+      final dateTime = _getDate(columns[0]);
+      final symbol = _getSymbol(columns[3]);
+      final amount = -1 * _getAmount(columns[2]);
+      final id = _getId(dateTime, symbol, amount);
+      if (prevIds.contains(id)) {
+        continue;
+      }
+
+      final transactionItem = TransactionItem(
+        id: id,
+        date: dateTime,
+        symbol: symbol,
+        amount: amount,
+        buyPrice: await _getUSDBuyPrice(symbol, dateTime),
+        description: _getDescription(columns.last),
+      );
+      print(transactionItem.toCsvRow());
+      transactions.add(transactionItem);
+    }
+
+    return transactions;
+  }
+
   static Future<List<TransactionItem>> _getInflowItems(
     String filePath,
     Set<String> prevIds,
@@ -35,45 +72,8 @@ class BitQueryTransactions {
       final columns = fields[i];
       print("columns ${columns[2]} $columns");
       final dateTime = _getDate(columns[0]);
-      final symbol = _getSymbol(columns[3]);
-      final amount = _getAmount(columns[2]);
-      final id = _getId(dateTime, symbol, amount);
-      if (prevIds.contains(id)) {
-        continue;
-      }
-
-      final transactionItem = TransactionItem(
-        id: id,
-        date: dateTime,
-        symbol: symbol,
-        amount: amount,
-        buyPrice: await _getUSDBuyPrice(symbol, dateTime),
-        description: _getDescription(columns[8]),
-      );
-      print(transactionItem.toCsvRow());
-      transactions.add(transactionItem);
-    }
-
-    return transactions;
-  }
-
-  static Future<List<TransactionItem>> _getOutflowItems(
-    String filePath,
-    Set<String> prevIds,
-  ) async {
-    final input = File(filePath).openRead();
-    final fields = await input
-        .transform(utf8.decoder)
-        .transform(new CsvToListConverter(eol: "\n"))
-        .toList();
-
-    final List<TransactionItem> transactions = [];
-    for (var i = 1; i < fields.length; i++) {
-      final columns = fields[i];
-      print("columns ${columns[2]} $columns");
-      final dateTime = _getDate(columns[0]);
       final symbol = _getSymbol(columns[5]);
-      final amount = _getAmount(columns[4]) * -1;
+      final amount = _getAmount(columns[4]);
       final id = _getId(dateTime, symbol, amount);
       if (prevIds.contains(id)) {
         continue;
@@ -85,7 +85,7 @@ class BitQueryTransactions {
         symbol: symbol,
         amount: amount,
         buyPrice: await _getUSDBuyPrice(symbol, dateTime),
-        description: _getDescription(columns[8]),
+        description: _getDescription(columns.last),
       );
       print(transactionItem.toCsvRow());
       transactions.add(transactionItem);
