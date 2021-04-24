@@ -3,14 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:iiportfo/utils/datetime_utils.dart';
 
-class Quote {
-  final int rank;
-  final String name;
-  final double priceUSD;
-
-  Quote({this.rank, this.name, this.priceUSD});
-}
-
 class CryptoWatchAPI {
   // https://api.cryptowat.ch/markets/binance/bnbusdt/ohlc?periods=3600
   static final _baseUrl = "api.cryptowat.ch";

@@ -4,14 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:iiportfo/utils/datetime_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Quote {
-  final int rank;
-  final String name;
-  final double priceUSD;
-
-  Quote({this.rank, this.name, this.priceUSD});
-}
-
 class NobitexAPI {
   // url = "https://api.nobitex.ir/market/udf/history?symbol=%s&resolution=60&from=%.0f&to=%.0f" \
   // % (coin, start.timestamp(), end.timestamp())
