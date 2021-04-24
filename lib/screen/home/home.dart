@@ -21,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    getPortfolioItems().then((value) {
+    getPortfolioItems(true).then((value) {
       setState(() {
         _items = value;
         _isLoading = false;
@@ -67,9 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
         scrollDirection: Axis.horizontal,
         child: Container(
           width: max(MediaQuery.of(context).size.width, 480),
-          child: ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (context, i) => PortfoItem(_items[i]),
+          child: RefreshIndicator(
+            child: ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (context, i) => PortfoItem(_items[i]),
+            ),
+            onRefresh: _onRefresh,
           ),
         ),
       );
@@ -82,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     await TransactionHelper.addTransactionsFromNobitexCSV(filePath);
-    final newItems = await getPortfolioItems();
+    final newItems = await getPortfolioItems(true);
 
     setState(() {
       _items = newItems;
@@ -95,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isLoading = true;
     });
     await TransactionHelper.addTransactionsFromBitPayCSV(filePath);
-    final newItems = await getPortfolioItems();
+    final newItems = await getPortfolioItems(true);
     setState(() {
       _items = newItems;
       _isLoading = false;
@@ -107,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isLoading = true;
     });
     await TransactionHelper.addTransactionsFromBitcoinComBchCSV(filePath);
-    final newItems = await getPortfolioItems();
+    final newItems = await getPortfolioItems(true);
     setState(() {
       _items = newItems;
       _isLoading = false;
@@ -119,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isLoading = true;
     });
     await TransactionHelper.addTransactionsFromCryptoIdLtcCSV(filePath);
-    final newItems = await getPortfolioItems();
+    final newItems = await getPortfolioItems(true);
     setState(() {
       _items = newItems;
       _isLoading = false;
@@ -135,11 +138,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     await TransactionHelper.addTransactionsFromBitQueryCSV(filePath, isInflow);
-    final newItems = await getPortfolioItems();
+    final newItems = await getPortfolioItems(true);
 
     setState(() {
       _items = newItems;
       _isLoading = false;
+    });
+  }
+
+  Future<void> _onRefresh() async {
+    final newItems = await getPortfolioItems(false);
+
+    setState(() {
+      this._items = newItems;
     });
   }
 }

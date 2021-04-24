@@ -39,11 +39,11 @@ class PortfoItemData {
   double get profitLossIRR => profitLossUSD * usdtPrice;
 }
 
-Future<List<PortfoItemData>> getPortfolioItems() async {
+Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
   final aggregatedData = await TransactionHelper.getAggregatedData();
   final symbols = aggregatedData.map((e) => e.symbol).toList();
-  final quotes = await CoinMarketCapAPI.getQuotes(symbols);
-  final usdt = await NobitexAPI.getUSDTPriceInIRR(DateTime.now());
+  final quotes = await CoinMarketCapAPI.getQuotes(symbols, loadFromCache);
+  final usdt = await NobitexAPI.getCurrentUSDTPriceInIRR(loadFromCache);
 
   return quotes.mapIndexed(
     (q, i) {
