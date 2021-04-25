@@ -66,7 +66,6 @@ class _NobitexCache {
   double _currentUsdtPrice;
 
   Future<void> setCurrentUsdtPrice(double value) async {
-    print("setCurrentUsdtPrice $value");
     final sp = await SharedPreferences.getInstance();
     sp.setDouble(KEY_CURRENT_USDT_PRICE, value);
 
@@ -78,7 +77,6 @@ class _NobitexCache {
       final sp = await SharedPreferences.getInstance();
       _currentUsdtPrice = sp.getDouble(KEY_CURRENT_USDT_PRICE);
     }
-    print("getCurrentUsdtPrice $_currentUsdtPrice");
     return _currentUsdtPrice;
   }
 
