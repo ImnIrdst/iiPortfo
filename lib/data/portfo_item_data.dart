@@ -5,7 +5,7 @@ import 'package:iiportfo/utils/iterable_utils.dart';
 
 const IRR_SYMBOL = "IRR";
 
-class PortfoItemData {
+class PortfoItemData extends Comparable<PortfoItemData> {
   final int rank;
   final String name;
   final String symbol;
@@ -37,6 +37,11 @@ class PortfoItemData {
   double get profitLossUSD => (currentPriceUSD - buyPriceUSD) * amount;
 
   double get profitLossIRR => profitLossUSD * usdtPrice;
+
+  @override
+  int compareTo(PortfoItemData other) {
+    return other.totalUSD.compareTo(totalUSD);
+  }
 }
 
 Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
@@ -45,7 +50,7 @@ Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
   final quotes = await CoinMarketCapAPI.getQuotes(symbols, loadFromCache);
   final usdt = await NobitexAPI.getCurrentUSDTPriceInIRR(loadFromCache);
 
-  return quotes.mapIndexed(
+  final portfoItems = quotes.mapIndexed(
     (q, i) {
       return PortfoItemData(
         rank: q.rank,
@@ -60,4 +65,7 @@ Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
       );
     },
   ).toList();
+
+  portfoItems.sort();
+  return portfoItems;
 }

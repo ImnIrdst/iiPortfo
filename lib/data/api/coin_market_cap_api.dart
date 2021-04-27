@@ -41,7 +41,9 @@ class CoinMarketCapAPI {
   static final _cache = _CoinMarketCapAPICache();
 
   static Future<List<Quote>> getQuotes(
-      List<String> symbols, loadFromCache) async {
+    List<String> symbols,
+    loadFromCache,
+  ) async {
     final url = Uri.https(_baseUrl, _quotesApiUrl, {
       "symbol": symbols.where((s) => s != IRR_SYMBOL).join(","),
     });

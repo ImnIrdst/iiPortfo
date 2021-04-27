@@ -100,7 +100,7 @@ class BinanceTrades {
       final toCoin = _getToCoin(amount, total, type, pair);
       for (_CoinAmount coinAmount in [fromCoin, toCoin, feeCoin]) {
         final transactionItem = TransactionItem(
-          id: _getId(date, coinAmount.symbol, coinAmount.amount),
+          id: _getId(i, date, coinAmount.symbol, coinAmount.amount),
           date: date,
           symbol: coinAmount.symbol,
           amount: coinAmount.amount,
@@ -119,8 +119,8 @@ class BinanceTrades {
 
   final _prefix = "Binance-Trade";
 
-  _getId(DateTime dataTime, String symbol, double amount) =>
-      "$_prefix-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
+  _getId(int i, DateTime dataTime, String symbol, double amount) =>
+      "$i-$_prefix-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
 
   String _getDescription(String destination, String description) =>
       "$_prefix; $destination; $description";

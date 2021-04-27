@@ -21,11 +21,11 @@ class TransactionItem extends Comparable<TransactionItem> {
   TransactionItem({
     this.id,
     this.date,
-    this.symbol,
+    String symbol,
     this.amount,
     this.buyPrice,
     this.description,
-  });
+  }) : this.symbol = symbol.toUpperCase();
 
   String toCsvRow() => "$id,$date,$symbol,$amount,$buyPrice,$description";
 
