@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:iiportfo/data/csv/binance_csv_data.dart';
 import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
 import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
 import 'package:iiportfo/data/csv/bitquery_csv_data.dart';
@@ -102,6 +103,22 @@ class TransactionHelper {
     final transactionFile = await _getTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, bchTransactions);
+  }
+
+  static addTransactionsFromBinanceDepositWithdrawal(
+    String filePath,
+    bool isDeposit,
+  ) async {
+    final newTransactions =
+        await BinanceDeposits().getItemsFromWithdrawalAndDeposit(
+      filePath,
+      await _getCurrentIds(),
+      isDeposit,
+    );
+
+    final transactionFile = await _getTransactionFile();
+
+    await _writeTransactionsToFile(transactionFile, newTransactions);
   }
 
   static Future<File> _getTransactionFile() async {

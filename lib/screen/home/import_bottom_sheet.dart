@@ -9,6 +9,8 @@ class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
   final Future<void> Function(String) cryptoIdLtcCsvItemClickListener;
   final Future<void> Function(String, bool) bitQueryCsvItemClickListener;
+  final Future<void> Function(String, bool)
+      binanceWithdrawalDepositItemClickListener;
 
   const ImportBottomSheet({
     Key key,
@@ -17,6 +19,7 @@ class ImportBottomSheet extends StatelessWidget {
     this.bitcoinComBchCsvItemClickListener,
     this.cryptoIdLtcCsvItemClickListener,
     this.bitQueryCsvItemClickListener,
+    this.binanceWithdrawalDepositItemClickListener,
   }) : super(key: key);
 
   @override
@@ -55,6 +58,10 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(
             title: "BitQuery outFlow CSV",
             clickListener: _onBitQueryOutflowCSVClicked,
+          ),
+          ImportItem(
+            title: "Binance Withdrawal or deposit CSV",
+            clickListener: _onBinanceWithdrawalDepositCSVClicked,
           ),
         ],
       ),
@@ -129,6 +136,19 @@ class ImportBottomSheet extends StatelessWidget {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       bitQueryCsvItemClickListener.call(result.files.single.path, false);
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBinanceWithdrawalDepositCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      binanceWithdrawalDepositItemClickListener.call(
+        result.files.single.path,
+        false,
+      );
       Navigator.pop(context);
     } else {
       // User canceled the picker
