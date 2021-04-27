@@ -5,6 +5,7 @@ import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
 import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
 import 'package:iiportfo/data/csv/bitquery_csv_data.dart';
 import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
+import 'package:iiportfo/data/csv/custom_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'csv/nobitex_csv_data.dart';
@@ -50,6 +51,15 @@ class AggregatedData {
 }
 
 class TransactionHelper {
+  static addTransactionsFromCustomCSV(String filePath) async {
+    final newTransactions =
+        await CustomCsv().getItems(filePath, await _getCurrentIds());
+
+    final transactionFile = await _getIIPortfoTransactionFile();
+
+    await _writeTransactionsToFile(transactionFile, newTransactions);
+  }
+
   static Future<void> addTransactionsFromNobitexCSV(String filePath) async {
     final nobitexTransactions =
         await NobitexTransactions.getItems(filePath, await _getCurrentIds());

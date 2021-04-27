@@ -107,6 +107,9 @@ class BinanceTrades {
           buyPrice: await _getUSDBuyPrice(date, coinAmount, pair, price),
           description: _getDescription(columns[1], columns[2]),
         );
+        if (prevIds.contains(transactionItem.id)) {
+          continue;
+        }
         print(transactionItem.toCsvRow());
         transactions.add(transactionItem);
       }

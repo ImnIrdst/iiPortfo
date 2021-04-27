@@ -10,7 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:iiportfo/main.dart';
 
 void main() {
-  testWidgets("afafs", (WidgetTester tester) async {});
+  testWidgets("afafs", (WidgetTester tester) async {
+    print(double.parse("-0.055000"));
+  });
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.

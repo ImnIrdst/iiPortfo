@@ -1,39 +1,77 @@
-import 'package:iiportfo/data/portfo_item_data.dart';
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
 
-class CryptoPortfoItem {
-  final String symbol;
-  final double amount;
-  final double buyPrice;
+import 'package:csv/csv.dart';
+import 'package:iiportfo/data/api/crypto_watch_api.dart';
 
-  CryptoPortfoItem({
-    this.symbol,
-    this.amount,
-    this.buyPrice,
-  });
+import '../transaction_helper.dart';
+
+class CustomCsv {
+  Future<List<TransactionItem>> getItems(
+    String filePath,
+    Set<String> prevIds,
+  ) async {
+    final input = File(filePath).openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(new CsvToListConverter(eol: "\n"))
+        .toList();
+
+    final List<TransactionItem> transactions = [];
+    for (var i = 1; i < fields.length; i++) {
+      final columns = fields[i];
+      print(columns);
+      final date = DateTime.fromMillisecondsSinceEpoch(columns[0]);
+      final symbol = columns[1];
+      final amount = _getAmount(columns[2]);
+      final transactionItem = TransactionItem(
+        id: _getId(date, symbol, amount),
+        date: date,
+        symbol: symbol,
+        amount: amount,
+        buyPrice: await _getUSDBuyPrice(date, symbol),
+        description: "",
+      );
+      print(transactionItem.toCsvRow());
+      transactions.add(transactionItem);
+    }
+    return transactions;
+  }
+
+  final _prefix = "Custom-Csv";
+
+  _getId(DateTime dataTime, String symbol, double amount) =>
+      "$_prefix-${dataTime.millisecondsSinceEpoch}-$symbol-$amount";
+
+  Future<double> _getUSDBuyPrice(
+    DateTime date,
+    String symbol,
+  ) async {
+    if (_usdCoinsSet.contains(symbol)) {
+      return 1;
+    } else {
+      return await CryptoWatchAPI.getPairPrice(date, "${symbol}USDT");
+    }
+  }
+
+  CustomCsv._internal();
+
+  factory CustomCsv() => _singleton;
+
+  static final CustomCsv _singleton = CustomCsv._internal();
 }
 
-class CryptoPortfolio {
-  static final csv = [
-    "00,IRR,$IRR_SYMBOL,100000,0.00004",
-    "01,Bitcoin,BTC,1.02,6777.14",
-    "12,Bitcoin Cash,Bch,2.2,912.53",
-    "09,Litecoin,Ltc,2.04,130.45",
-    "05,Cardano,ADA,212.9,194.13",
-    "03,Binance Coin,BNB,2.7,518.85",
-    "43,Hedera Hashgraph,HBAR,1,0.15",
-    "24,Avalanche,AVAX,2.5,100.53",
-    "18,VeChain,VET,21,0.65",
-    "117,StormX,STMX,14,0.75",
-    "52,Polygon,MATIC,100.86,14.14",
-  ];
-
-  static List<CryptoPortfoItem> getCryptoPortfolioItems() => csv
-      .map(
-        (row) => CryptoPortfoItem(
-          symbol: row.split(",")[2],
-          amount: double.parse(row.split(",")[3]),
-          buyPrice: double.parse(row.split(",")[4]),
-        ),
-      )
-      .toList();
+double _getAmount(dynamic cell) {
+  if (cell is String) {
+    return double.parse(cell.trim());
+  } else if (cell is int) {
+    return cell.toDouble();
+  } else if (cell is double) {
+    return cell;
+  } else {
+    throw Exception("Illegal cell value $cell");
+  }
 }
+
+final _usdCoinsSet = HashSet.from(["USDT", "USDC", "BUSD"]);

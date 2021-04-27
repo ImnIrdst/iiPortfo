@@ -1,9 +1,9 @@
-import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class ImportBottomSheet extends StatelessWidget {
+  final Future<void> Function(String) customCsvItemClickListener;
   final Future<void> Function(String) nobitexCsvItemClickListener;
   final Future<void> Function(String) bitPayCsvItemClickListener;
   final Future<void> Function(String) bitcoinComBchCsvItemClickListener;
@@ -13,15 +13,17 @@ class ImportBottomSheet extends StatelessWidget {
       binanceWithdrawalDepositItemClickListener;
   final Future<void> Function(String) binanceTradesItemClickListener;
 
-  const ImportBottomSheet(
-      {Key key,
-      this.nobitexCsvItemClickListener,
-      this.bitPayCsvItemClickListener,
-      this.bitcoinComBchCsvItemClickListener,
-      this.cryptoIdLtcCsvItemClickListener,
-      this.bitQueryCsvItemClickListener,
-      this.binanceWithdrawalDepositItemClickListener,
-      this.binanceTradesItemClickListener}) : super(key: key);
+  const ImportBottomSheet({
+    Key key,
+    this.customCsvItemClickListener,
+    this.nobitexCsvItemClickListener,
+    this.bitPayCsvItemClickListener,
+    this.bitcoinComBchCsvItemClickListener,
+    this.cryptoIdLtcCsvItemClickListener,
+    this.bitQueryCsvItemClickListener,
+    this.binanceWithdrawalDepositItemClickListener,
+    this.binanceTradesItemClickListener,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +83,7 @@ class ImportBottomSheet extends StatelessWidget {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      File file = File(result.files.single.path);
-      print(await file.readAsString());
+      customCsvItemClickListener.call(result.files.single.path);
       Navigator.pop(context);
     } else {
       // User canceled the picker
