@@ -19,12 +19,14 @@ class BinanceDeposits {
         .toList();
 
     final List<TransactionItem> transactions = [];
-    for (var i = 1; i < fields.length - 1; i++) {
+    for (var i = 1; i < fields.length; i++) {
       final columns = fields[i];
+      print(columns);
       final dateTime = _getDate(columns[0]);
       final symbol = columns[1];
+      final fee = columns[3];
       final sign = isDeposit ? 1 : -1;
-      final amount = sign * _getAmount(columns[2], symbol);
+      final amount = sign * (_getAmount(columns[2]) + fee);
       final id = _getId(dateTime, symbol, amount);
       if (prevIds.contains(id)) {
         continue;
@@ -58,7 +60,17 @@ _getId(DateTime dataTime, String symbol, double amount) =>
 
 DateTime _getDate(String cell) => DateTime.parse(cell);
 
-double _getAmount(String cell, String symbol) => double.parse(cell);
+double _getAmount(dynamic cell) {
+  if (cell is String) {
+    return double.parse(cell);
+  } else if (cell is int) {
+    return cell.toDouble();
+  } else if (cell is double) {
+    return cell;
+  } else {
+    throw Exception("Illegal cell value $cell");
+  }
+}
 
 String _getDescription(String destination, String description) =>
     "$_prefix; $destination; $description";

@@ -54,7 +54,7 @@ class TransactionHelper {
     final nobitexTransactions =
         await NobitexTransactions.getItems(filePath, await _getCurrentIds());
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, nobitexTransactions);
   }
@@ -63,7 +63,7 @@ class TransactionHelper {
     final bitPayTransactions =
         await BitPayTransactions.getItems(filePath, await _getCurrentIds());
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, bitPayTransactions);
   }
@@ -74,7 +74,7 @@ class TransactionHelper {
       await _getCurrentIds(),
     );
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
@@ -85,7 +85,7 @@ class TransactionHelper {
       await _getCurrentIds(),
     );
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
@@ -100,7 +100,7 @@ class TransactionHelper {
       isInflow,
     );
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, bchTransactions);
   }
@@ -116,17 +116,9 @@ class TransactionHelper {
       isDeposit,
     );
 
-    final transactionFile = await _getTransactionFile();
+    final transactionFile = await _getIIPortfoTransactionFile();
 
     await _writeTransactionsToFile(transactionFile, newTransactions);
-  }
-
-  static Future<File> _getTransactionFile() async {
-    final transactionFile = await _getIIPortfoTransactionFile();
-    if (!await transactionFile.exists()) {
-      await transactionFile.create();
-    }
-    return transactionFile;
   }
 
   static Future<List<AggregatedData>> getAggregatedData() async {
@@ -146,27 +138,25 @@ class TransactionHelper {
 
   static Future<List<TransactionItem>> _getTransactions() async {
     final transactionFile = await _getIIPortfoTransactionFile();
-    if (await transactionFile.exists()) {
-      String fileContent = await transactionFile.readAsString();
+    if (!await transactionFile.exists()) {}
+    String fileContent = await transactionFile.readAsString();
 
-      final csvRows = fileContent.split("\n");
-      final transactions = <TransactionItem>[];
-      for (var i = 1; i < csvRows.length - 1; i++) {
-        final columns = csvRows[i].split(",");
+    final csvRows = fileContent.split("\n");
+    final transactions = <TransactionItem>[];
+    for (var i = 1; i < csvRows.length - 1; i++) {
+      final columns = csvRows[i].split(",");
 
-        final transactionItem = TransactionItem(
-          id: _getId(columns[0]),
-          date: _getDate(columns[1]),
-          symbol: _getSymbol(columns[2]),
-          amount: _getAmount(columns[3]),
-          buyPrice: _getBuyPrice(columns[4]),
-          description: _getDescription(columns[5]),
-        );
-        transactions.add(transactionItem);
-      }
-      return transactions;
+      final transactionItem = TransactionItem(
+        id: _getId(columns[0]),
+        date: _getDate(columns[1]),
+        symbol: _getSymbol(columns[2]),
+        amount: _getAmount(columns[3]),
+        buyPrice: _getBuyPrice(columns[4]),
+        description: _getDescription(columns[5]),
+      );
+      transactions.add(transactionItem);
     }
-    return [];
+    return transactions;
   }
 
   static Future<Set<String>> _getCurrentIds() async =>
@@ -174,7 +164,12 @@ class TransactionHelper {
 
   static Future<File> _getIIPortfoTransactionFile() async {
     final localPath = await getApplicationDocumentsDirectory();
-    return File("${localPath.path}/iiPortfo_transactions.csv");
+
+    final transactionFile = File("${localPath.path}/iiPortfo_transactions.csv");
+    if (!await transactionFile.exists()) {
+      await transactionFile.create();
+    }
+    return transactionFile;
   }
 
   static String _getId(String cell) => cell;

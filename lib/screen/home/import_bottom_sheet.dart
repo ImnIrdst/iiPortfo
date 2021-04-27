@@ -60,8 +60,12 @@ class ImportBottomSheet extends StatelessWidget {
             clickListener: _onBitQueryOutflowCSVClicked,
           ),
           ImportItem(
-            title: "Binance Withdrawal or deposit CSV",
-            clickListener: _onBinanceWithdrawalDepositCSVClicked,
+            title: "Binance Deposit CSV",
+            clickListener: _onBinanceDepositCSVClicked,
+          ),
+          ImportItem(
+            title: "Binance Withdrawal CSV",
+            clickListener: _onBinanceWithdrawalCSVClicked,
           ),
         ],
       ),
@@ -142,7 +146,20 @@ class ImportBottomSheet extends StatelessWidget {
     }
   }
 
-  void _onBinanceWithdrawalDepositCSVClicked(BuildContext context) async {
+  void _onBinanceDepositCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      binanceWithdrawalDepositItemClickListener.call(
+        result.files.single.path,
+        true,
+      );
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBinanceWithdrawalCSVClicked(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       binanceWithdrawalDepositItemClickListener.call(
