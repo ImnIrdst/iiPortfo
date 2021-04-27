@@ -66,9 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          width: max(MediaQuery.of(context).size.width, 480),
+          width: max(MediaQuery.of(context).size.width, 360),
           child: RefreshIndicator(
             child: ListView.builder(
+              padding: EdgeInsets.only(bottom: 64),
               itemCount: _items.length,
               itemBuilder: (context, i) => PortfoItem(_items[i]),
             ),

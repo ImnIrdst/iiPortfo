@@ -10,14 +10,14 @@ class PortfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Flex(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         direction: Axis.horizontal,
         children: [
           Padding(padding: const EdgeInsets.all(8.0), child: _getCoinLogo()),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               height: 48,
@@ -59,13 +59,13 @@ class PortfoItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               height: 36,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(_item.totalUSD.toUSDFormatted()),
                   _item.profitLossUSD.toUSDPriceChangeWidget(context),
@@ -79,7 +79,7 @@ class PortfoItem extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               height: 36,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(_item.totalIRR.toIRRFormatted()),
@@ -91,35 +91,38 @@ class PortfoItem extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  children: [
-                    Icon(
-                      _item.profitLossPercent.toPercentChangeIcon(),
-                      size: 20,
-                      color: _item.profitLossPercent.toPercentChangeColor(),
-                    ),
-                    _item.profitLossPercent.toPercentChangeWidget(context),
-                  ],
-                )),
-          )
+              padding: EdgeInsets.only(left: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    _item.profitLossPercent.toPercentChangeIcon(),
+                    size: 20,
+                    color: _item.profitLossPercent.toPercentChangeColor(),
+                  ),
+                  _item.profitLossPercent.toPercentChangeWidget(context),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _getCoinLogo() {
+    final dimens = 32.0;
     if (_item.symbol == IRR_SYMBOL) {
       return Image.asset(
         "lib/assets/img/irr-logo.png",
-        width: 32,
-        height: 32,
+        width: dimens,
+        height: dimens,
       );
     } else {
       return Image.network(
         _item.imageUrl.toString(),
-        width: 32,
-        height: 32,
+        width: dimens,
+        height: dimens,
       );
     }
   }

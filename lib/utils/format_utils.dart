@@ -13,16 +13,18 @@ extension PriceUtils on double {
 
   Widget toIRRPriceChangeWidget(BuildContext context) {
     final color = this < 0 ? Colors.red : Colors.green;
+    final sign = this < 0 ? "" : "+";
     return Text(
-      this.toIRRFormatted(),
+      sign + this.toIRRFormatted(),
       style: Theme.of(context).textTheme.caption.copyWith(color: color),
     );
   }
 
   Widget toUSDPriceChangeWidget(BuildContext context) {
     final color = this < 0 ? Colors.red : Colors.green;
+    final sign = this < 0 ? "" : "+";
     return Text(
-      this.toUSDFormatted(),
+      sign + this.toUSDFormatted(),
       style: Theme.of(context).textTheme.caption.copyWith(color: color),
     );
   }
@@ -32,8 +34,9 @@ extension PercentUtils on double {
   String toPercentFormatted() => percentNumberFormat.format(this);
 
   Widget toPercentChangeWidget(BuildContext context) {
+    final sign = this < 0 ? "" : "+";
     return Text(
-      this.toPercentFormatted(),
+      sign + this.toPercentFormatted(),
       style: Theme.of(context)
           .textTheme
           .caption
