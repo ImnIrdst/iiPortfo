@@ -11,16 +11,17 @@ class ImportBottomSheet extends StatelessWidget {
   final Future<void> Function(String, bool) bitQueryCsvItemClickListener;
   final Future<void> Function(String, bool)
       binanceWithdrawalDepositItemClickListener;
+  final Future<void> Function(String) binanceTradesItemClickListener;
 
-  const ImportBottomSheet({
-    Key key,
-    this.nobitexCsvItemClickListener,
-    this.bitPayCsvItemClickListener,
-    this.bitcoinComBchCsvItemClickListener,
-    this.cryptoIdLtcCsvItemClickListener,
-    this.bitQueryCsvItemClickListener,
-    this.binanceWithdrawalDepositItemClickListener,
-  }) : super(key: key);
+  const ImportBottomSheet(
+      {Key key,
+      this.nobitexCsvItemClickListener,
+      this.bitPayCsvItemClickListener,
+      this.bitcoinComBchCsvItemClickListener,
+      this.cryptoIdLtcCsvItemClickListener,
+      this.bitQueryCsvItemClickListener,
+      this.binanceWithdrawalDepositItemClickListener,
+      this.binanceTradesItemClickListener}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +67,10 @@ class ImportBottomSheet extends StatelessWidget {
           ImportItem(
             title: "Binance Withdrawal CSV",
             clickListener: _onBinanceWithdrawalCSVClicked,
+          ),
+          ImportItem(
+            title: "Binance Trades CSV",
+            clickListener: _onBinanceTradeCSVClicked,
           ),
         ],
       ),
@@ -165,6 +170,18 @@ class ImportBottomSheet extends StatelessWidget {
       binanceWithdrawalDepositItemClickListener.call(
         result.files.single.path,
         false,
+      );
+      Navigator.pop(context);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _onBinanceTradeCSVClicked(BuildContext context) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      binanceTradesItemClickListener.call(
+        result.files.single.path,
       );
       Navigator.pop(context);
     } else {

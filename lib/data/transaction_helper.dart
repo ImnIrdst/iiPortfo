@@ -121,6 +121,17 @@ class TransactionHelper {
     await _writeTransactionsToFile(transactionFile, newTransactions);
   }
 
+  static addTransactionsFromBinanceTrades(String filePath) async {
+    final newTransactions = await BinanceTrades().getItems(
+      filePath,
+      await _getCurrentIds(),
+    );
+
+    final transactionFile = await _getIIPortfoTransactionFile();
+
+    await _writeTransactionsToFile(transactionFile, newTransactions);
+  }
+
   static Future<List<AggregatedData>> getAggregatedData() async {
     final aggregatedData = <String, AggregatedData>{};
     final transactions = await _getTransactions();
@@ -169,6 +180,10 @@ class TransactionHelper {
     if (!await transactionFile.exists()) {
       await transactionFile.create();
     }
+    // else {
+    //   await transactionFile.delete();
+    //   await transactionFile.create();
+    // }
     return transactionFile;
   }
 

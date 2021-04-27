@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bitQueryCsvItemClickListener: _bitQueryItemClickListener,
         binanceWithdrawalDepositItemClickListener:
             _binanceWithdrawalDepositItemClickListener,
+        binanceTradesItemClickListener: _binanceTradeItemClickListener,
       ),
     );
   }
@@ -160,6 +161,22 @@ class _MyHomePageState extends State<MyHomePage> {
     await TransactionHelper.addTransactionsFromBinanceDepositWithdrawal(
       filePath,
       isDeposit,
+    );
+    final newItems = await getPortfolioItems(true);
+
+    setState(() {
+      _items = newItems;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _binanceTradeItemClickListener(String filePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await TransactionHelper.addTransactionsFromBinanceTrades(
+      filePath,
     );
     final newItems = await getPortfolioItems(true);
 
