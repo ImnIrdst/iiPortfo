@@ -5,6 +5,7 @@ import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/data/transaction_helper.dart';
 import 'package:iiportfo/screen/home/import_bottom_sheet.dart';
 import 'package:iiportfo/screen/home/portfo_item.dart';
+import 'package:iiportfo/screen/home/summary_header.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -74,8 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: RefreshIndicator(
             child: ListView.builder(
               padding: EdgeInsets.only(bottom: 64),
-              itemCount: _items.length,
-              itemBuilder: (context, i) => PortfoItem(_items[i]),
+              itemCount: _items.length + 1,
+              itemBuilder: (context, i) {
+                if (i == 0) {
+                  return SummaryHeader(_items);
+                } else {
+                  return PortfoItem(_items[i - 1]);
+                }
+              },
             ),
             onRefresh: _onRefresh,
           ),
