@@ -27,15 +27,15 @@ class CryptoWatchAPI {
         print("error $error");
         return 0;
       }
-    } catch (e) {
-      // Do nothing
-    }
-    final List<dynamic> json = decoded["result"][period][0];
-    // final List<dynamic> json = jsonDecode(mockResponse)["result"]["3600"][0];
-    final double o = double.parse(json[1].toString());
-    final double c = double.parse(json[4].toString());
+      final List<dynamic> json = decoded["result"][period][0];
+      // final List<dynamic> json = jsonDecode(mockResponse)["result"]["3600"][0];
+      final double o = double.parse(json[1].toString());
+      final double c = double.parse(json[4].toString());
 
-    return ((c + o) / 2);
+      return ((c + o) / 2);
+    } catch (e) {
+      return 0;
+    }
   }
 }
 

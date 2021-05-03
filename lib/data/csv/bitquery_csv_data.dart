@@ -37,7 +37,7 @@ class BitQueryTransactions {
       final dateTime = _getDate(columns[0]);
       final symbol = _getSymbol(columns[3]);
       final amount = -1 * _getAmount(columns[2]);
-      final id = _getId(dateTime, symbol, amount);
+      final id = _getId(dateTime, symbol, amount); // TODO use tradeID
       if (prevIds.contains(id)) {
         continue;
       }
