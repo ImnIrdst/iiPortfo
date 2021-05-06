@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:iiportfo/screen/import/csv_source_item_data.dart';
 
-class AddCSVSourceItemBottomSheet extends StatelessWidget {
+class AddCSVSourceItemBottomSheet extends StatefulWidget {
   const AddCSVSourceItemBottomSheet({
     Key key,
   }) : super(key: key);
+
+  @override
+  _AddCsvSourceItemBottomSheetState createState() =>
+      _AddCsvSourceItemBottomSheetState();
+}
+
+class _AddCsvSourceItemBottomSheetState
+    extends State<AddCSVSourceItemBottomSheet> {
+  CsvSourceItemData selectedSourceItem = CsvSourceItemData.supportedItems.first;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +34,7 @@ class AddCSVSourceItemBottomSheet extends StatelessWidget {
           _renderHeader(context),
           _renderAccountNameRow(context),
           _renderPathNameRow(context),
+          _renderSupportedCsvSourcesSelector(context),
           _renderButtonRow(context),
         ],
       ),
@@ -35,7 +46,7 @@ class AddCSVSourceItemBottomSheet extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Text(
         "Add CSV source item",
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.headline4,
       ),
     );
   }
@@ -50,6 +61,56 @@ class AddCSVSourceItemBottomSheet extends StatelessWidget {
               border: OutlineInputBorder(),
               hintText: "Enter the account name",
               labelText: "Account",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _renderSupportedCsvSourcesSelector(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: Colors.grey[600]),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<CsvSourceItemData>(
+                  value: selectedSourceItem,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.grey[500], fontSize: 16),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.grey[400],
+                  ),
+                  onChanged: (CsvSourceItemData newValue) {
+                    setState(() {
+                      selectedSourceItem = newValue;
+                    });
+                  },
+                  items: CsvSourceItemData.supportedItems
+                      .map(
+                        (e) => DropdownMenuItem<CsvSourceItemData>(
+                          child: Container(
+                              padding: EdgeInsets.only(right: 16),
+                              child: Text(e.name)),
+                          value: e,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
           ),
         ),
