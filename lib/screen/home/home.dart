@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:iiportfo/data/transaction_helper.dart';
-import 'package:iiportfo/screen/home/import_bottom_sheet.dart';
 import 'package:iiportfo/screen/home/portfo_item.dart';
 import 'package:iiportfo/screen/home/summary_header.dart';
+import 'package:iiportfo/screen/import/import_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -32,20 +32,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showImportBottomSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (context) => ImportBottomSheet(
-        customCsvItemClickListener: _customCsvItemClickListener,
-        nobitexCsvItemClickListener: _nobitexItemClickListener,
-        bitPayCsvItemClickListener: _bitPayItemClickListener,
-        bitcoinComBchCsvItemClickListener: _bitcoinComBchItemClickListener,
-        cryptoIdLtcCsvItemClickListener: _cryptoIdLtcItemClickListener,
-        bitQueryCsvItemClickListener: _bitQueryItemClickListener,
-        binanceWithdrawalDepositItemClickListener:
-            _binanceWithdrawalDepositItemClickListener,
-        binanceTradesItemClickListener: _binanceTradeItemClickListener,
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ImportPage()),
     );
+    // showModalBottomSheet<void>(
+    //   context: context,
+    //   builder: (context) => ImportBottomSheet(
+    //     customCsvItemClickListener: _customCsvItemClickListener,
+    //     nobitexCsvItemClickListener: _nobitexItemClickListener,
+    //     bitPayCsvItemClickListener: _bitPayItemClickListener,
+    //     bitcoinComBchCsvItemClickListener: _bitcoinComBchItemClickListener,
+    //     cryptoIdLtcCsvItemClickListener: _cryptoIdLtcItemClickListener,
+    //     bitQueryCsvItemClickListener: _bitQueryItemClickListener,
+    //     binanceWithdrawalDepositItemClickListener:
+    //         _binanceWithdrawalDepositItemClickListener,
+    //     binanceTradesItemClickListener: _binanceTradeItemClickListener,
+    //   ),
+    // );
   }
 
   @override
