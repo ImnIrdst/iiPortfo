@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iiportfo/screen/import/csv_source_item_data.dart';
+import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_file_type_item_data.dart';
 
 class AddCSVSourceItemBottomSheet extends StatefulWidget {
   const AddCSVSourceItemBottomSheet({
@@ -13,7 +13,8 @@ class AddCSVSourceItemBottomSheet extends StatefulWidget {
 
 class _AddCsvSourceItemBottomSheetState
     extends State<AddCSVSourceItemBottomSheet> {
-  CsvSourceItemData selectedSourceItem = CsvSourceItemData.supportedItems.first;
+  CsvSourceFileTypeItemData selectedSourceItem =
+      CsvSourceFileTypeItemData.supportedItems.first;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class _AddCsvSourceItemBottomSheetState
                 border: Border.all(color: Colors.grey[600]),
               ),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton<CsvSourceItemData>(
+                child: DropdownButton<CsvSourceFileTypeItemData>(
                   value: selectedSourceItem,
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 24,
@@ -94,14 +95,14 @@ class _AddCsvSourceItemBottomSheetState
                     height: 2,
                     color: Colors.grey[400],
                   ),
-                  onChanged: (CsvSourceItemData newValue) {
+                  onChanged: (CsvSourceFileTypeItemData newValue) {
                     setState(() {
                       selectedSourceItem = newValue;
                     });
                   },
-                  items: CsvSourceItemData.supportedItems
+                  items: CsvSourceFileTypeItemData.supportedItems
                       .map(
-                        (e) => DropdownMenuItem<CsvSourceItemData>(
+                        (e) => DropdownMenuItem<CsvSourceFileTypeItemData>(
                           child: Container(
                               padding: EdgeInsets.only(right: 16),
                               child: Text(e.name)),
