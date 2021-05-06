@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iiportfo/screen/import/source_item_bottom_sheet.dart';
 
 class ImportPage extends StatefulWidget {
   ImportPage({Key key, this.title = "Import Sources"}) : super(key: key);
@@ -45,7 +46,13 @@ class _ImportPageState extends State<ImportPage> {
     return Text("Item $index");
   }
 
-  void _showAddSourcesBottomSheet() {}
+  void _showAddSourcesBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => AddCSVSourceItemBottomSheet(),
+    );
+  }
 }
 
 class ImportItemData {
