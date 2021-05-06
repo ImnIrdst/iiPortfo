@@ -4,7 +4,7 @@ import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_file_t
 import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 
 class AddCSVSourceItemBottomSheet extends StatefulWidget {
-  final Future<void> Function(CsvSourceItemData) onCsvSourceItemAdded;
+  final Future<void> Function(CsvImportSourceItemData) onCsvSourceItemAdded;
 
   const AddCSVSourceItemBottomSheet({Key key, this.onCsvSourceItemAdded})
       : super(key: key);
@@ -16,13 +16,13 @@ class AddCSVSourceItemBottomSheet extends StatefulWidget {
 
 class _AddCsvSourceItemBottomSheetState
     extends State<AddCSVSourceItemBottomSheet> {
-  var _curSourceItem = CsvSourceItemData(
+  var _curSourceItem = CsvImportSourceItemData(
     sourceFileType: CsvSourceFileTypeItemData.supportedItems.first,
   );
 
   var _errorMessage = "";
 
-  final Function(CsvSourceItemData) onCsvSourceItemAdded;
+  final Function(CsvImportSourceItemData) onCsvSourceItemAdded;
   final _accountTextController = TextEditingController();
 
   final _filePathTextController = TextEditingController();
@@ -33,7 +33,6 @@ class _AddCsvSourceItemBottomSheetState
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16),
-      // color: Colors.grey[900],
       decoration: BoxDecoration(
         color: Colors.grey[900],
         border: Border.all(),
@@ -78,11 +77,11 @@ class _AddCsvSourceItemBottomSheetState
               hintText: "Enter the account name",
               labelText: "Account",
             ),
-            onChanged: (text) {
-              setState(() {
-                _accountTextController.text = text;
-              });
-            },
+            // onChanged: (text) {
+            //   setState(() {
+            //     _accountTextController.text = text;
+            //   });
+            // },
           ),
         ),
       ],
@@ -145,17 +144,17 @@ class _AddCsvSourceItemBottomSheetState
       padding: EdgeInsets.all(16),
       child: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width - 114,
+          Expanded(
+            // width: MediaQuery.of(context).size.width - 114,
             child: TextField(
               controller: _filePathTextController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'The CSV File Path',
               ),
-              onChanged: (text) {
-                _filePathTextController.text = text;
-              },
+              // onChanged: (text) {
+              //   _filePathTextController.text = text;
+              // },
             ),
           ),
           Container(
