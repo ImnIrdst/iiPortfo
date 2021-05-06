@@ -1,11 +1,17 @@
-class CsvSourceFileTypeItemData {
-  final String id;
-  final String name;
+import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_file_type_item_data.dart';
 
-  CsvSourceFileTypeItemData(this.id, this.name);
+class CsvSourceItemData {
+  String accountName;
+  String filePath;
+  CsvSourceFileTypeItemData sourceFileType;
 
-  static final supportedItems = [
-    CsvSourceFileTypeItemData("nobitex", "Nobitex Transactions"),
-    CsvSourceFileTypeItemData("bitpay", "Bitpay Transactions"),
-  ];
+  CsvSourceItemData({this.accountName, this.filePath, this.sourceFileType});
+
+  bool get isCompleted =>
+      accountName != null && filePath != null && sourceFileType != null;
+
+  @override
+  String toString() {
+    return 'CsvSourceItemData{accountName: $accountName, filePath: $filePath, sourceFileType: $sourceFileType}';
+  }
 }

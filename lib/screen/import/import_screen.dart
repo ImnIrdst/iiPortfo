@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/screen/import/csv_import_source/csv_source_item_bottom_sheet.dart';
+import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 
 class ImportPage extends StatefulWidget {
   ImportPage({Key key, this.title = "Import Sources"}) : super(key: key);
@@ -11,7 +12,7 @@ class ImportPage extends StatefulWidget {
 }
 
 class _ImportPageState extends State<ImportPage> {
-  List<ImportItemData> _importItems = [];
+  List<CsvSourceItemData> _importItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +51,15 @@ class _ImportPageState extends State<ImportPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => AddCSVSourceItemBottomSheet(),
+      builder: (context) => AddCSVSourceItemBottomSheet(
+        onCsvSourceItemAdded: _onCsvSourceItemAdded,
+      ),
     );
   }
-}
 
-class ImportItemData {
-  final String accountName;
-
-  ImportItemData(this.accountName);
-}
-
-class CSVImportItemData extends ImportItemData {
-  final String path;
-
-  CSVImportItemData(String accountName, this.path) : super(accountName);
+  Future<void> _onCsvSourceItemAdded(CsvSourceItemData itemData) async {
+    setState(() {
+      _importItems.add(itemData);
+    });
+  }
 }
