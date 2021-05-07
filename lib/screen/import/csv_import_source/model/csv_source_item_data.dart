@@ -31,17 +31,7 @@ class CsvImportSourceItemData extends ImportSourceItemData {
   String toString() {
     return 'CsvSourceItemData{accountName: $accountName, filePath: $filePath, sourceFileType: $sourceFileType}';
   }
-}
 
-extension CsvImportSourceItemDataListJsonConverter
-    on List<CsvImportSourceItemData> {
-  List<Map<String, dynamic>> toJson() {
-    return this.map((e) => e.toJson()).toList();
-  }
-}
-
-extension on List<Map<String, dynamic>> {
-  List<CsvImportSourceItemData> toCsvImportSourceItemDataList() {
-    return this.map((e) => CsvImportSourceItemData.fromJson(e)).toList();
-  }
+  @override
+  String getId() => filePath;
 }
