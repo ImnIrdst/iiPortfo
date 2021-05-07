@@ -13,8 +13,22 @@ class CsvSourceFileTypeItemData {
         'name': name,
       };
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CsvSourceFileTypeItemData && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+
   static final supportedItems = [
-    CsvSourceFileTypeItemData("nobitex", "Nobitex Transactions"),
-    CsvSourceFileTypeItemData("bitpay", "Bitpay Transactions"),
+    nobitexSourceFileType,
+    bitPaySourceFileType,
   ];
 }
+
+final nobitexSourceFileType =
+    CsvSourceFileTypeItemData("nobitex", "Nobitex Transactions");
+
+final bitPaySourceFileType =
+    CsvSourceFileTypeItemData("bitpay", "Bitpay Transactions");

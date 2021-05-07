@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
-import 'package:iiportfo/data/transaction_helper.dart';
 import 'package:iiportfo/screen/home/portfo_item.dart';
 import 'package:iiportfo/screen/home/summary_header.dart';
 import 'package:iiportfo/screen/import/import_screen.dart';
@@ -36,20 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(builder: (context) => ImportPage()),
     );
-    // showModalBottomSheet<void>(
-    //   context: context,
-    //   builder: (context) => ImportBottomSheet(
-    //     customCsvItemClickListener: _customCsvItemClickListener,
-    //     nobitexCsvItemClickListener: _nobitexItemClickListener,
-    //     bitPayCsvItemClickListener: _bitPayItemClickListener,
-    //     bitcoinComBchCsvItemClickListener: _bitcoinComBchItemClickListener,
-    //     cryptoIdLtcCsvItemClickListener: _cryptoIdLtcItemClickListener,
-    //     bitQueryCsvItemClickListener: _bitQueryItemClickListener,
-    //     binanceWithdrawalDepositItemClickListener:
-    //         _binanceWithdrawalDepositItemClickListener,
-    //     binanceTradesItemClickListener: _binanceTradeItemClickListener,
-    //   ),
-    // );
   }
 
   @override
@@ -93,123 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     }
-  }
-
-  Future<void> _customCsvItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await TransactionHelper.addTransactionsFromCustomCSV(filePath);
-    final newItems = await getPortfolioItems(true);
-
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _nobitexItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await TransactionHelper.addTransactionsFromNobitexCSV(filePath);
-    final newItems = await getPortfolioItems(true);
-
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _bitPayItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-    await TransactionHelper.addTransactionsFromBitPayCSV(filePath);
-    final newItems = await getPortfolioItems(true);
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _bitcoinComBchItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-    await TransactionHelper.addTransactionsFromBitcoinComBchCSV(filePath);
-    final newItems = await getPortfolioItems(true);
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _cryptoIdLtcItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-    await TransactionHelper.addTransactionsFromCryptoIdLtcCSV(filePath);
-    final newItems = await getPortfolioItems(true);
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _bitQueryItemClickListener(
-    String filePath,
-    bool isInflow,
-  ) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await TransactionHelper.addTransactionsFromBitQueryCSV(filePath, isInflow);
-    final newItems = await getPortfolioItems(true);
-
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _binanceWithdrawalDepositItemClickListener(
-    String filePath,
-    bool isDeposit,
-  ) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await TransactionHelper.addTransactionsFromBinanceDepositWithdrawal(
-      filePath,
-      isDeposit,
-    );
-    final newItems = await getPortfolioItems(true);
-
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _binanceTradeItemClickListener(String filePath) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await TransactionHelper.addTransactionsFromBinanceTrades(
-      filePath,
-    );
-    final newItems = await getPortfolioItems(true);
-
-    setState(() {
-      _items = newItems;
-      _isLoading = false;
-    });
   }
 
   Future<void> _onRefresh() async {

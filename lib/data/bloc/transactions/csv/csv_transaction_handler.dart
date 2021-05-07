@@ -45,8 +45,7 @@ abstract class CsvTransactionHelper {
     return fields;
   }
 
-  Future<List<TransactionItem>> getItems(
-      String filePath, Set<String> prevIds) async {
+  Future<List<TransactionItem>> getItems(Set<String> prevIds) async {
     final csvRows = await getFields();
     final List<TransactionItem> transactions = [];
     for (var i = hasHeader ? 1 : 0; i < csvRows.length; i++) {
@@ -70,9 +69,9 @@ abstract class CsvTransactionHelper {
         symbol: symbol,
         amount: amount,
         buyPrice: await _getUSDBuyPrice(symbol, dateTime),
-        description: getDescription(columns[6]),
+        description: getDescription(columns),
       );
-      print(transactionItem.toCsvRow());
+      print("transactionItem ${transactionItem.toCsvRow()}");
       transactions.add(transactionItem);
     }
 
@@ -86,8 +85,24 @@ abstract class CsvTransactionHelper {
   String getSymbol(String cell) =>
       cell == "rls" ? IRR_SYMBOL : cell.toUpperCase();
 
-  double getAmount(String cell, String symbol) =>
-      symbol == IRR_SYMBOL ? double.parse(cell) / 10 : double.parse(cell);
+  double getAmount(dynamic cell, String symbol) {
+    double result = 0;
+    if (cell is String) {
+      result = double.parse(cell.trim());
+    } else if (cell is int) {
+      result = cell.toDouble();
+    } else if (cell is double) {
+      result = cell;
+    } else {
+      throw Exception("Illegal cell value $cell ${cell.runtimeType}");
+    }
+
+    if (symbol == IRR_SYMBOL) {
+      result /= 10;
+    }
+
+    return result;
+  }
 
   String getDescription(List<dynamic> columns);
 

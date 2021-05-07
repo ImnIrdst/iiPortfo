@@ -1,6 +1,6 @@
 import 'package:iiportfo/data/api/coin_market_cap_api.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
-import 'package:iiportfo/data/transaction_helper.dart';
+import 'package:iiportfo/data/bloc/transactions/transcation_bloc.dart';
 import 'package:iiportfo/utils/iterable_utils.dart';
 
 const IRR_SYMBOL = "IRR";
@@ -45,7 +45,7 @@ class PortfoItemData extends Comparable<PortfoItemData> {
 }
 
 Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
-  final aggregatedData = await TransactionHelper.getAggregatedData();
+  final aggregatedData = await TransactionBloc().getAggregatedData();
   final symbols = aggregatedData.map((e) => e.symbol).toList();
   final quotes = await CoinMarketCapAPI.getQuotes(symbols, loadFromCache);
   final usdt = await NobitexAPI.getCurrentUSDTPriceInIRR(loadFromCache);

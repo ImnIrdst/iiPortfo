@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
+import 'package:iiportfo/data/bloc/transactions/transcation_bloc.dart';
 import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
 import 'package:iiportfo/screen/import/import_source_item_csv.dart';
 
@@ -15,7 +16,8 @@ class ImportPage extends StatefulWidget {
 }
 
 class _ImportPageState extends State<ImportPage> {
-  final bloc = ImportSourcesBloc();
+  final importSourcesBloc = ImportSourcesBloc();
+  final transactionBloc = TransactionBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,8 @@ class _ImportPageState extends State<ImportPage> {
   Widget _renderBody() {
     return StreamBuilder<List<ImportSourceItemData>>(
       initialData: [],
-      stream: bloc.importSourceItems,
+      stream: importSourcesBloc.importSourceItems,
       builder: (context, snapshot) {
-        print(snapshot);
         if (snapshot.hasData) {
           if (snapshot.data.length == 0) {
             return Center(child: Text("No Imported sources created"));
@@ -47,7 +48,11 @@ class _ImportPageState extends State<ImportPage> {
             itemBuilder: (BuildContext context, int index) {
               final item = snapshot.data[index];
               if (item is CsvImportSourceItemData) {
-                return CsvImportSourceItem(item: item, bloc: bloc);
+                return CsvImportSourceItem(
+                  item: item,
+                  importSourcesBloc: importSourcesBloc,
+                  transactionBloc: transactionBloc,
+                );
               }
               throw Exception("Invalid Import source Item!");
             },
@@ -64,7 +69,8 @@ class _ImportPageState extends State<ImportPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => AddCSVSourceItemBottomSheet(bloc: bloc),
+      builder: (context) =>
+          AddCSVSourceItemBottomSheet(bloc: importSourcesBloc),
     );
   }
 }
