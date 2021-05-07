@@ -4,10 +4,9 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
+import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
 import 'package:intl/intl.dart';
-
-import '../transaction_helper.dart';
 
 class BitcoinComTransactions {
   static Future<List<TransactionItem>> getBchItems(

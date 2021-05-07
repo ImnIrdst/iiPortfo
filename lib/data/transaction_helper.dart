@@ -8,47 +8,9 @@ import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
 import 'package:iiportfo/data/csv/custom_csv_data.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'bloc/transactions/model/aggregated_data.dart';
+import 'bloc/transactions/model/transaction_item.dart';
 import 'csv/nobitex_csv_data.dart';
-
-class TransactionItem extends Comparable<TransactionItem> {
-  final String id;
-  final DateTime date;
-  final String symbol;
-  final double amount;
-  final double buyPrice;
-  final String description;
-
-  TransactionItem({
-    this.id,
-    this.date,
-    String symbol,
-    this.amount,
-    this.buyPrice,
-    this.description,
-  }) : this.symbol = symbol.toUpperCase();
-
-  String toCsvRow() => "$id,$date,$symbol,$amount,$buyPrice,$description";
-
-  static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
-
-  @override
-  int compareTo(TransactionItem other) {
-    final dateCompare = this.date.compareTo(other.date);
-    if (dateCompare != 0) return dateCompare;
-    return this.amount.compareTo(other.amount);
-  }
-}
-
-class AggregatedData {
-  final String symbol;
-
-  double amount = 0;
-  double totalPrice = 0;
-
-  AggregatedData(this.symbol);
-
-  double get averageBuyPrice => amount != 0 ? totalPrice / amount : 0;
-}
 
 class TransactionHelper {
   static addTransactionsFromCustomCSV(String filePath) async {
