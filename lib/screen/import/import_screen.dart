@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iiportfo/data/bloc/import_sources_bloc.dart';
-import 'package:iiportfo/screen/import/csv_import_source/csv_source_item_bottom_sheet.dart';
-import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
+import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
 import 'package:iiportfo/screen/import/import_source_item_csv.dart';
-import 'package:iiportfo/screen/import/model/import_source_item_data.dart';
 
 class ImportPage extends StatefulWidget {
   ImportPage({Key key, this.title = "Import Sources"}) : super(key: key);

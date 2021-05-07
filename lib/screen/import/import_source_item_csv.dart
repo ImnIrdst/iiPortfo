@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iiportfo/data/bloc/import_sources_bloc.dart';
+import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/main.dart';
-import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 
 class CsvImportSourceItem extends StatelessWidget {
   final CsvImportSourceItemData item;
