@@ -1,17 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:iiportfo/data/local/import_sources_bloc.dart';
 import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_file_type_item_data.dart';
 import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 
 class AddCSVSourceItemBottomSheet extends StatefulWidget {
-  final Future<void> Function(CsvImportSourceItemData) onCsvSourceItemAdded;
+  final ImportSourcesBloc bloc;
 
-  const AddCSVSourceItemBottomSheet({Key key, this.onCsvSourceItemAdded})
-      : super(key: key);
+  const AddCSVSourceItemBottomSheet({Key key, this.bloc}) : super(key: key);
 
   @override
   _AddCsvSourceItemBottomSheetState createState() =>
-      _AddCsvSourceItemBottomSheetState(this.onCsvSourceItemAdded);
+      _AddCsvSourceItemBottomSheetState(this.bloc);
 }
 
 class _AddCsvSourceItemBottomSheetState
@@ -22,12 +22,12 @@ class _AddCsvSourceItemBottomSheetState
 
   var _errorMessage = "";
 
-  final Function(CsvImportSourceItemData) onCsvSourceItemAdded;
+  final ImportSourcesBloc bloc;
   final _accountTextController = TextEditingController();
 
   final _filePathTextController = TextEditingController();
 
-  _AddCsvSourceItemBottomSheetState(this.onCsvSourceItemAdded);
+  _AddCsvSourceItemBottomSheetState(this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +205,7 @@ class _AddCsvSourceItemBottomSheetState
     _curSourceItem.accountName = _accountTextController.text;
     _curSourceItem.filePath = _filePathTextController.text;
     if (_curSourceItem.isCompleted) {
-      onCsvSourceItemAdded.call(_curSourceItem);
+      bloc.addImportSourceItem(_curSourceItem);
       Navigator.pop(context);
     } else {
       setState(() {
@@ -221,7 +221,6 @@ class _AddCsvSourceItemBottomSheetState
           _errorMessage = "";
         });
       });
-      print("_errorMessage $_curSourceItem");
       return Container(
         alignment: AlignmentDirectional.center,
         padding: EdgeInsets.symmetric(horizontal: 16),

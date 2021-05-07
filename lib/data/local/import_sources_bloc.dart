@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 import 'package:iiportfo/screen/import/model/import_source_item_data.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,15 @@ class ImportSourcesBloc {
     importSourceItems.add(item);
 
     await saveImportSourceItems(importSourceItems);
+  }
+
+  Future<void> deleteItem(CsvImportSourceItemData item) async {
+    final items = await getImportSourceItems();
+    items.remove(item);
+
+    await saveImportSourceItems(items);
+
+    republishImportSourceItems();
   }
 
   Future<Set<ImportSourceItemData>> getImportSourceItems() async {

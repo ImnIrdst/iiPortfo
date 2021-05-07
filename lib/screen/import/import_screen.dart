@@ -40,11 +40,14 @@ class _ImportPageState extends State<ImportPage> {
       builder: (context, snapshot) {
         print(snapshot);
         if (snapshot.hasData) {
+          if (snapshot.data.length == 0) {
+            return Center(child: Text("No Imported sources created"));
+          }
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               final item = snapshot.data[index];
               if (item is CsvImportSourceItemData) {
-                return CsvImportSourceItem(item: item);
+                return CsvImportSourceItem(item: item, bloc: bloc);
               }
               throw Exception("Invalid Import source Item!");
             },
@@ -61,13 +64,7 @@ class _ImportPageState extends State<ImportPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => AddCSVSourceItemBottomSheet(
-        onCsvSourceItemAdded: _onCsvSourceItemAdded,
-      ),
+      builder: (context) => AddCSVSourceItemBottomSheet(bloc: bloc),
     );
-  }
-
-  Future<void> _onCsvSourceItemAdded(CsvImportSourceItemData itemData) async {
-    bloc.addImportSourceItem(itemData);
   }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:iiportfo/data/local/import_sources_bloc.dart';
 import 'package:iiportfo/main.dart';
 import 'package:iiportfo/screen/import/csv_import_source/model/csv_source_item_data.dart';
 
 class CsvImportSourceItem extends StatelessWidget {
   final CsvImportSourceItemData item;
+  final ImportSourcesBloc bloc;
 
-  const CsvImportSourceItem({Key key, this.item}) : super(key: key);
+  const CsvImportSourceItem({Key key, this.item, this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,9 @@ class CsvImportSourceItem extends StatelessWidget {
       child: Card(
         child: Dismissible(
           background: stackBehindDismiss(),
-          onDismissed: (direction) {},
+          onDismissed: (direction) {
+            bloc.deleteItem(item);
+          },
           key: ObjectKey(item.filePath),
           child: Container(
             padding: const EdgeInsets.all(16),
