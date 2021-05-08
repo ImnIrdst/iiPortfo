@@ -1,10 +1,10 @@
-
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 
 class NobitexTransactions extends CsvTransactionHelper {
-  NobitexTransactions(CsvImportSourceItemData importSource)
-      : super(
+  NobitexTransactions(
+    CsvImportSourceItemData importSource,
+  ) : super(
           idPrefix: "nobitex",
           filePath: importSource.filePath,
           account: importSource.accountName,

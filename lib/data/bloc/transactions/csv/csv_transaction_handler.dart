@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
+import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class CsvTransactionHelper {
   final String idPrefix;
@@ -18,6 +20,10 @@ abstract class CsvTransactionHelper {
   final int dateColumnIndex;
   final int symbolColumnIndex;
   final int amountColumnIndex;
+
+  PublishSubject<ProgressState> _progressSubject = PublishSubject();
+
+  Stream<ProgressState> get progressStream => _progressSubject.stream;
 
   CsvTransactionHelper({
     @required this.idPrefix,
@@ -71,7 +77,16 @@ abstract class CsvTransactionHelper {
         buyPrice: await _getUSDBuyPrice(symbol, dateTime),
         description: getDescription(columns),
       );
-      print("transactionItem ${transactionItem.toCsvRow()}");
+
+      if (_progressSubject.isClosed) {
+        return [];
+      }
+      _progressSubject.add(
+        ProgressState(
+          i.toDouble() / csvRows.length,
+          "Processing item $i from ${csvRows.length}",
+        ),
+      );
       transactions.add(transactionItem);
     }
 
@@ -119,5 +134,9 @@ abstract class CsvTransactionHelper {
     } else {
       return await NobitexAPI.getPairPrice(dateTime, "${symbol}USDT");
     }
+  }
+
+  void close() {
+    _progressSubject.close();
   }
 }

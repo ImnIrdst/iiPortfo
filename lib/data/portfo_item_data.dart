@@ -1,6 +1,6 @@
 import 'package:iiportfo/data/api/coin_market_cap_api.dart';
 import 'package:iiportfo/data/api/nobitex_api.dart';
-import 'package:iiportfo/data/bloc/transactions/transcation_bloc.dart';
+import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
 import 'package:iiportfo/utils/iterable_utils.dart';
 
 const IRR_SYMBOL = "IRR";

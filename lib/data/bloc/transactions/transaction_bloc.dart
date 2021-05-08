@@ -9,12 +9,19 @@ import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TransactionBloc {
-  Future<void> syncTransactions(CsvImportSourceItemData importSource) async {
-    final transactionHelper = _getTransactionHelper(importSource);
-    final newTransactions =
-        await transactionHelper.getItems(await _getCurrentTransactionIds());
+  CsvTransactionHelper currentTransactionHelper;
 
+  CsvTransactionHelper createTransactionHelper(
+    CsvImportSourceItemData importSource,
+  ) {
+    return currentTransactionHelper = _getTransactionHelper(importSource);
+  }
+
+  Future<void> syncTransactions() async {
+    final newTransactions = await currentTransactionHelper
+        .getItems(await _getCurrentTransactionIds());
     await _writeTransactionsToFile(newTransactions);
+    currentTransactionHelper.close();
   }
 
   Future<List<AggregatedData>> getAggregatedData() async {
@@ -33,7 +40,8 @@ class TransactionBloc {
   }
 
   CsvTransactionHelper _getTransactionHelper(
-      CsvImportSourceItemData importSource) {
+    CsvImportSourceItemData importSource,
+  ) {
     if (importSource.sourceFileType == nobitexSourceFileType) {
       return NobitexTransactions(importSource);
     } else {

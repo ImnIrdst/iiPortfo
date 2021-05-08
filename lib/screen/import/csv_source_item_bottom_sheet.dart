@@ -77,11 +77,6 @@ class _AddCsvSourceItemBottomSheetState
               hintText: "Enter the account name",
               labelText: "Account",
             ),
-            // onChanged: (text) {
-            //   setState(() {
-            //     _accountTextController.text = text;
-            //   });
-            // },
           ),
         ),
       ],
