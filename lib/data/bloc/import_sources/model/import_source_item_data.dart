@@ -2,38 +2,37 @@ import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dar
 
 abstract class ImportSourceItemData
     implements Comparable<ImportSourceItemData> {
+  String sourceName;
   String accountName;
+  DateTime createDate;
 
-  String getId();
+  ImportSourceItemData() : createDate = DateTime.now();
 
-  ImportSourceItemData(this.accountName);
+  ImportSourceItemData.fromJson(Map<String, dynamic> json)
+      : sourceName = json["source_name"],
+        accountName = json["account_name"],
+        createDate = DateTime.fromMillisecondsSinceEpoch(json["create_date"]);
 
-  static CsvImportSourceItemData fromJson(Map<String, dynamic> json) {
-    return CsvImportSourceItemData.fromJson(json);
-  }
-
-  Map<String, dynamic> toJson() {
-    if (this is CsvImportSourceItemData) {
-      return this.toJson();
-    } else {
-      throw Exception("Invalid ImportSourceItem");
-    }
-  }
+  Map<String, dynamic> toJson() => {
+        "source_name": sourceName,
+        "create_date": createDate.millisecondsSinceEpoch,
+        "account_name": accountName,
+      };
 
   @override
-  int get hashCode => getId().hashCode;
+  int get hashCode => createDate.hashCode;
 
   @override
   bool operator ==(Object other) {
     if (other is ImportSourceItemData) {
-      return this.getId() == other.getId();
+      return this.createDate == other.createDate;
     }
     return super == other;
   }
 
   @override
   int compareTo(ImportSourceItemData other) {
-    return this.getId().compareTo(other.getId());
+    return this.createDate.compareTo(other.createDate);
   }
 }
 
@@ -48,6 +47,11 @@ extension JsonToImportSourceItemDataList on List<dynamic> {
     if (this == null) {
       return {};
     }
-    return this.map((e) => ImportSourceItemData.fromJson(e)).toSet();
+    return this.map((e) {
+      try {
+        return CsvImportSourceItemData.fromJson(e);
+      } catch (ex) {}
+      throw Exception("Unknown import source subclass $e");
+    }).toSet();
   }
 }

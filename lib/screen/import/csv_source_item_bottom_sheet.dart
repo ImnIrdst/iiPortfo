@@ -5,29 +5,45 @@ import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_ite
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 
 class AddCSVSourceItemBottomSheet extends StatefulWidget {
+  final CsvImportSourceItemData sourceItem;
   final ImportSourcesBloc bloc;
 
-  const AddCSVSourceItemBottomSheet({Key key, this.bloc}) : super(key: key);
+  const AddCSVSourceItemBottomSheet({
+    Key key,
+    this.bloc,
+    this.sourceItem,
+  }) : super(key: key);
 
   @override
   _AddCsvSourceItemBottomSheetState createState() =>
-      _AddCsvSourceItemBottomSheetState(this.bloc);
+      _AddCsvSourceItemBottomSheetState(this.bloc, this.sourceItem);
 }
 
 class _AddCsvSourceItemBottomSheetState
     extends State<AddCSVSourceItemBottomSheet> {
-  var _curSourceItem = CsvImportSourceItemData(
+  final isInEditMode;
+  var curSourceItem = CsvImportSourceItemData(
     sourceFileType: CsvSourceFileTypeItemData.supportedItems.first,
   );
 
   var _errorMessage = "";
 
   final ImportSourcesBloc bloc;
+  final _sourceNameTextController = TextEditingController();
   final _accountTextController = TextEditingController();
-
   final _filePathTextController = TextEditingController();
 
-  _AddCsvSourceItemBottomSheetState(this.bloc);
+  _AddCsvSourceItemBottomSheetState(
+    this.bloc,
+    CsvImportSourceItemData sourceItem,
+  ) : isInEditMode = (sourceItem != null) {
+    _sourceNameTextController.text = sourceItem?.sourceName;
+    _accountTextController.text = sourceItem?.accountName;
+    _filePathTextController.text = sourceItem?.filePath;
+    if (sourceItem != null) {
+      curSourceItem = sourceItem;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +61,7 @@ class _AddCsvSourceItemBottomSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           _renderHeader(context),
+          _renderSourceName(context),
           _renderAccountNameRow(context),
           _renderPathNameRow(context),
           _renderSupportedCsvSourcesSelector(context),
@@ -59,7 +76,7 @@ class _AddCsvSourceItemBottomSheetState
     return Container(
       padding: EdgeInsets.all(16),
       child: Text(
-        "Add CSV Source Item",
+        _getHeaderText(),
         style: Theme.of(context).textTheme.headline4,
       ),
     );
@@ -100,7 +117,7 @@ class _AddCsvSourceItemBottomSheetState
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<CsvSourceFileTypeItemData>(
-                  value: _curSourceItem.sourceFileType,
+                  value: curSourceItem.sourceFileType,
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 24,
                   elevation: 16,
@@ -111,7 +128,7 @@ class _AddCsvSourceItemBottomSheetState
                   ),
                   onChanged: (CsvSourceFileTypeItemData newValue) {
                     setState(() {
-                      _curSourceItem.sourceFileType = newValue;
+                      curSourceItem.sourceFileType = newValue;
                     });
                   },
                   items: CsvSourceFileTypeItemData.supportedItems
@@ -197,10 +214,11 @@ class _AddCsvSourceItemBottomSheetState
   }
 
   void _onAddClicked(BuildContext context) {
-    _curSourceItem.accountName = _accountTextController.text;
-    _curSourceItem.filePath = _filePathTextController.text;
-    if (_curSourceItem.isCompleted) {
-      bloc.addImportSourceItem(_curSourceItem);
+    curSourceItem.sourceName = _sourceNameTextController.text;
+    curSourceItem.accountName = _accountTextController.text;
+    curSourceItem.filePath = _filePathTextController.text;
+    if (curSourceItem.isCompleted) {
+      bloc.addImportSourceItem(curSourceItem);
       Navigator.pop(context);
     } else {
       setState(() {
@@ -228,5 +246,27 @@ class _AddCsvSourceItemBottomSheetState
     } else {
       return Container();
     }
+  }
+
+  String _getHeaderText() {
+    return "${isInEditMode ? "Edit" : "Add"} CSV Source Item";
+  }
+
+  Widget _renderSourceName(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(16),
+          child: TextField(
+            controller: _sourceNameTextController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Enter the source name",
+              labelText: "Source Name",
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

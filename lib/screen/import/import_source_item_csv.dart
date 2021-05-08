@@ -4,6 +4,7 @@ import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dar
 import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
 import 'package:iiportfo/main.dart';
+import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
 
 class CsvImportSourceItem extends StatelessWidget {
   final CsvImportSourceItemData item;
@@ -19,53 +20,63 @@ class CsvImportSourceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      child: Card(
-        child: Dismissible(
-          background: stackBehindDismiss(),
-          onDismissed: (direction) {
-            importSourcesBloc.deleteItem(item);
-          },
-          key: ObjectKey(item.filePath),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.accountName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(color: primaryColor),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Text(
-                          item.filePath,
-                          style: Theme.of(context).textTheme.bodyText2,
+    return InkWell(
+      onTap: () => _onItemCLicked(context),
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        child: Card(
+          child: Dismissible(
+            background: stackBehindDismiss(),
+            onDismissed: (direction) {
+              importSourcesBloc.deleteItem(item);
+            },
+            key: ObjectKey(item.filePath),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.sourceName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(color: primaryColor),
                         ),
+                        Text(
+                          "Account: ${item.accountName}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .copyWith(color: primaryColor),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text(
+                            item.filePath,
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.sync),
+                        onPressed: () {
+                          showLoaderDialog(context);
+                          // transactionBloc.syncTransactions(item);
+                        },
                       ),
                     ],
                   ),
-                ),
-                Column(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.sync),
-                      onPressed: () {
-                        showLoaderDialog(context);
-                        // transactionBloc.syncTransactions(item);
-                      },
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -79,7 +90,6 @@ class CsvImportSourceItem extends StatelessWidget {
       content: StreamBuilder<ProgressState>(
         stream: transactionBloc.currentTransactionHelper.progressStream,
         builder: (context, snapshot) {
-          print(snapshot);
           if (snapshot.hasData) {
             return Row(
               children: [
@@ -136,6 +146,17 @@ class CsvImportSourceItem extends StatelessWidget {
             color: Colors.white,
           ),
         ],
+      ),
+    );
+  }
+
+  void _onItemCLicked(context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => AddCSVSourceItemBottomSheet(
+        bloc: importSourcesBloc,
+        sourceItem: item,
       ),
     );
   }

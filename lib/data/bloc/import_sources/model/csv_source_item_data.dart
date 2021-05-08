@@ -5,12 +5,13 @@ class CsvImportSourceItemData extends ImportSourceItemData {
   String filePath;
   CsvSourceFileTypeItemData sourceFileType;
 
-  CsvImportSourceItemData({accountName, this.filePath, this.sourceFileType})
-      : super(accountName);
+  CsvImportSourceItemData({this.sourceFileType}) : super();
 
   bool get isCompleted =>
       accountName != null &&
       accountName.isNotEmpty &&
+      sourceName != null &&
+      sourceName.isNotEmpty &&
       filePath != null &&
       filePath.isNotEmpty &&
       sourceFileType != null;
@@ -19,19 +20,19 @@ class CsvImportSourceItemData extends ImportSourceItemData {
       : filePath = json['file_path'],
         sourceFileType =
             CsvSourceFileTypeItemData.fromJson(json['source_file_type']),
-        super(json['account_name']);
+        super.fromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'account_name': accountName,
-        'file_path': filePath,
-        'source_file_type': sourceFileType,
-      };
+  Map<String, dynamic> toJson() {
+    final result = super.toJson();
+    result.addAll({
+      'file_path': filePath,
+      'source_file_type': sourceFileType.toJson(),
+    });
+    return result;
+  }
 
   @override
   String toString() {
     return 'CsvSourceItemData{accountName: $accountName, filePath: $filePath, sourceFileType: $sourceFileType}';
   }
-
-  @override
-  String getId() => filePath;
 }
