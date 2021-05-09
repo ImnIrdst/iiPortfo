@@ -88,6 +88,7 @@ class CsvImportSourceItem extends StatelessWidget {
     transactionBloc.createTransactionHelper(item);
     AlertDialog alert = AlertDialog(
       content: StreamBuilder<ProgressState>(
+        initialData: ProgressState(0, "Getting ready ..."),
         stream: transactionBloc.currentTransactionHelper.progressStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
