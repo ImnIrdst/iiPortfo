@@ -47,27 +47,29 @@ class _AddCsvSourceItemBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        border: Border.all(),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+          border: Border.all(),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _renderHeader(context),
-          _renderSourceName(context),
-          _renderAccountNameRow(context),
-          _renderPathNameRow(context),
-          _renderSupportedCsvSourcesSelector(context),
-          _renderError(),
-          _renderButtonRow(context),
-        ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _renderHeader(context),
+            _renderSourceName(context),
+            _renderAccountNameRow(context),
+            _renderPathNameRow(context),
+            _renderSupportedCsvSourcesSelector(context),
+            _renderError(),
+            _renderButtonRow(context),
+          ],
+        ),
       ),
     );
   }
