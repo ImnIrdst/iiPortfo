@@ -17,7 +17,8 @@ class TransactionItem extends Comparable<TransactionItem> {
     this.account,
   });
 
-  String toCsvRow() => "$id,$date,$symbol,$amount,$buyPrice,$description";
+  String toCsvRow() =>
+      "$id,$date,$symbol,$amount,$buyPrice,$description,$account";
 
   static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
 

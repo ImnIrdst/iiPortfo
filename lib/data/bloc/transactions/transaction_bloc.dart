@@ -71,7 +71,7 @@ class TransactionBloc {
     if (!await transactionFile.exists()) {}
     String fileContent = await transactionFile.readAsString();
 
-    final csvRows = fileContent.split("\n");
+    final csvRows = fileContent.split("\r\n");
     final transactions = <TransactionItem>[];
     for (var i = 1; i < csvRows.length - 1; i++) {
       final columns = csvRows[i].split(",");
@@ -83,6 +83,7 @@ class TransactionBloc {
         amount: double.parse(columns[3]),
         buyPrice: double.parse(columns[4]),
         description: columns[5],
+        account: columns[6],
       );
       transactions.add(transactionItem);
     }
@@ -103,12 +104,12 @@ class TransactionBloc {
       uniqueTransactionsMap[e.id] = e;
     });
 
-    var fileContent = "${TransactionItem.getCsvHeader()}\n";
+    var fileContent = "${TransactionItem.getCsvHeader()}\r\n";
 
     final uniqueTransactions = uniqueTransactionsMap.values.toList();
     uniqueTransactions.sort();
     uniqueTransactions.forEach((transaction) {
-      fileContent += "${transaction.toCsvRow()}\n";
+      fileContent += "${transaction.toCsvRow()}\r\n";
     });
 
     await transactionFile.writeAsString(fileContent);
