@@ -69,10 +69,24 @@ class _MyHomePageState extends State<MyHomePage> {
           child: RefreshIndicator(
             child: ListView.builder(
               padding: EdgeInsets.only(bottom: 64),
-              itemCount: _items.length + 1,
+              itemCount: _items.length + 2,
               itemBuilder: (context, i) {
                 if (i == 0) {
                   return SummaryHeader(_items);
+                } else if (i == _items.length + 1) {
+                  if (_items.length == 0) {
+                    return Container();
+                  }
+                  return Container(
+                    padding: EdgeInsets.all(16),
+                    child: OutlinedButton(
+                      child: Text("Clear All Transactions"),
+                      onPressed: () async {
+                        await clearAllTransactions();
+                        await _onRefresh();
+                      },
+                    ),
+                  );
                 } else {
                   return PortfoItem(_items[i - 1]);
                 }

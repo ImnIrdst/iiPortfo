@@ -59,10 +59,6 @@ class TransactionBloc {
     if (!await transactionFile.exists()) {
       await transactionFile.create();
     }
-    // else {
-    //   await transactionFile.delete();
-    //   await transactionFile.create();
-    // }
     return transactionFile;
   }
 
@@ -113,5 +109,9 @@ class TransactionBloc {
     });
 
     await transactionFile.writeAsString(fileContent);
+  }
+
+  Future<void> clearAllTransactions() async {
+    (await _getIIPortfoTransactionFile()).delete();
   }
 }

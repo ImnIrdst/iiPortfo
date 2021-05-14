@@ -69,3 +69,7 @@ Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
   portfoItems.sort();
   return portfoItems;
 }
+
+Future<void> clearAllTransactions() async {
+  await TransactionBloc().clearAllTransactions();
+}
