@@ -7,13 +7,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NobitexAPI {
   // url = "https://api.nobitex.ir/market/udf/history?symbol=%s&resolution=60&from=%.0f&to=%.0f" \
   // % (coin, start.timestamp(), end.timestamp())
-  static final _baseUrl = "api.nobitex.ir";
-  static final _marketHistory = "/market/udf/history";
-  static final _marketStatsApiUrl = "/market/stats";
+  final _baseUrl = "api.nobitex.ir";
+  final _marketHistory = "/market/udf/history";
+  final _marketStatsApiUrl = "/market/stats";
 
-  static final _cache = _NobitexCache();
+  final _cache = _NobitexCache();
 
-  static Future<double> getCurrentUSDTPriceInIRR(bool loadFromCache) async {
+  final supportedCoins = {
+    "BTC",
+    "ETH",
+    "BCH",
+    "LTC",
+    "XRP",
+    "BNB",
+    "EOS",
+    "DOGE",
+  };
+
+  Future<double> getCurrentUSDTPriceInIRR(bool loadFromCache) async {
     if (!loadFromCache || (await _cache.getCurrentUsdtPrice()) == null) {
       await _cache.setCurrentUsdtPrice(
         await getPairPrice(DateTime.now(), "USDTIRT"),
@@ -22,11 +33,11 @@ class NobitexAPI {
     return _cache.getCurrentUsdtPrice();
   }
 
-  static Future<double> getUSDTPriceInIRR(DateTime dateTime) async {
+  Future<double> getUSDTPriceInIRR(DateTime dateTime) async {
     return await getPairPrice(dateTime, "USDTIRT");
   }
 
-  static Future<double> getPairPrice(DateTime dateTime, String pair) async {
+  Future<double> getPairPrice(DateTime dateTime, String pair) async {
     final from = dateTime.subtract(Duration(hours: 1));
 
     final url = Uri.https(_baseUrl, _marketHistory, {
@@ -46,7 +57,7 @@ class NobitexAPI {
     return ((c + o) / 2);
   }
 
-  static Future<double> getDayChange() async {
+  Future<double> getDayChange() async {
     final url = Uri.https(_baseUrl, _marketStatsApiUrl);
 
     final response = await http.post(
@@ -60,6 +71,14 @@ class NobitexAPI {
 
     return percentChange / 100;
   }
+
+  static final NobitexAPI _singleton = NobitexAPI._internal();
+
+  factory NobitexAPI() {
+    return _singleton;
+  }
+
+  NobitexAPI._internal();
 }
 
 class _NobitexCache {

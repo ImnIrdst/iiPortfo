@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:iiportfo/data/api/nobitex_api.dart';
+import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
@@ -20,6 +20,8 @@ abstract class CsvTransactionHelper {
   final int dateColumnIndex;
   final int symbolColumnIndex;
   final int amountColumnIndex;
+  
+  final _priceHelper = PriceHelper();
 
   PublishSubject<ProgressState> _progressSubject = PublishSubject();
 
@@ -86,7 +88,7 @@ abstract class CsvTransactionHelper {
         date: dateTime,
         symbol: symbol,
         amount: amount,
-        buyPrice: await _getUSDBuyPrice(symbol, dateTime),
+        buyPrice: await _priceHelper.getCoinPriceInUSD(dateTime, symbol),
         description: getDescription(columns),
       );
       transactions.add(transactionItem);
@@ -127,21 +129,6 @@ abstract class CsvTransactionHelper {
   }
 
   String getDescription(List<dynamic> columns);
-
-  // TODO write this better
-  Future<double> _getUSDBuyPrice(
-    String symbol,
-    DateTime dateTime,
-  ) async {
-    if (symbol == IRR_SYMBOL) {
-      return 1 / await NobitexAPI.getUSDTPriceInIRR(dateTime);
-    }
-    if (symbol == "USDT") {
-      return 1;
-    } else {
-      return await NobitexAPI.getPairPrice(dateTime, "${symbol}USDT");
-    }
-  }
 
   void close() {
     _progressSubject.close();

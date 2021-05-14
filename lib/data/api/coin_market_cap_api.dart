@@ -66,8 +66,8 @@ class CoinMarketCapAPI {
 
     final responseBody = await _cache.getCachedResponse(url);
     final data = jsonDecode(responseBody)["data"];
-    final usdt = await NobitexAPI.getCurrentUSDTPriceInIRR(loadFromCache);
-    final usdtPercentChange = await NobitexAPI.getDayChange();
+    final usdt = await NobitexAPI().getCurrentUSDTPriceInIRR(loadFromCache);
+    final usdtPercentChange = await NobitexAPI().getDayChange();
 
     cachedQuotes = symbols.map((symbol) {
       if (symbol == IRR_SYMBOL) {

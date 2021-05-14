@@ -48,7 +48,7 @@ Future<List<PortfoItemData>> getPortfolioItems(bool loadFromCache) async {
   final aggregatedData = await TransactionBloc().getAggregatedData();
   final symbols = aggregatedData.map((e) => e.symbol).toList();
   final quotes = await CoinMarketCapAPI.getQuotes(symbols, loadFromCache);
-  final usdt = await NobitexAPI.getCurrentUSDTPriceInIRR(loadFromCache);
+  final usdt = await NobitexAPI().getCurrentUSDTPriceInIRR(loadFromCache);
 
   final portfoItems = quotes.mapIndexed(
     (q, i) {
