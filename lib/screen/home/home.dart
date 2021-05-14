@@ -21,12 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    getPortfolioItems(true).then((value) {
-      setState(() {
-        _items = value;
-        _isLoading = false;
-      });
-    });
+    _loadPortfolioItems();
     super.initState();
   }
 
@@ -37,7 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) => ImportPage(),
         settings: RouteSettings(name: ImportPage.ROUTE_NAME),
       ),
-    );
+    ).then((value) {
+      _loadPortfolioItems();
+    });
   }
 
   @override
@@ -104,6 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       this._items = newItems;
+    });
+  }
+
+  void _loadPortfolioItems() {
+    getPortfolioItems(true).then((value) {
+      setState(() {
+        _items = value;
+        _isLoading = false;
+      });
     });
   }
 }
