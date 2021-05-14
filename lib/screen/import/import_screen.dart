@@ -7,6 +7,8 @@ import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
 import 'package:iiportfo/screen/import/import_source_item_csv.dart';
 
 class ImportPage extends StatefulWidget {
+  static const ROUTE_NAME = "import_page";
+
   ImportPage({Key key, this.title = "Import Sources"}) : super(key: key);
 
   final String title;

@@ -33,7 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void _navigateToImportPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ImportPage()),
+      MaterialPageRoute(
+        builder: (context) => ImportPage(),
+        settings: RouteSettings(name: ImportPage.ROUTE_NAME),
+      ),
     );
   }
 

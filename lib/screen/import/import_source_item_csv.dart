@@ -91,6 +91,7 @@ class CsvImportSourceItem extends StatelessWidget {
       useRootNavigator: true,
       useSafeArea: true,
       context: context,
+      routeSettings: RouteSettings(name: ProgressDialog.ROUTE_NAME),
       builder: (context) => ProgressDialog(
         progressStream: transactionBloc.currentTransactionHelper.progressStream,
       ),

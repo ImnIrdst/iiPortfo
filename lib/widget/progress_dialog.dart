@@ -50,7 +50,9 @@ class ProgressDialog extends StatelessWidget {
 
   void _dismiss(BuildContext context) {
     Future.delayed(Duration(seconds: 1)).then((value) {
-      Navigator.of(context, rootNavigator: true).pop(ROUTE_NAME);
+      Navigator.of(context, rootNavigator: true).popUntil((route) {
+        return route.settings.name != ROUTE_NAME;
+      });
     });
   }
 }
