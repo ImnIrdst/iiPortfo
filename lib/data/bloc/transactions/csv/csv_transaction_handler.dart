@@ -56,6 +56,7 @@ abstract class CsvTransactionHelper {
     final List<TransactionItem> transactions = [];
     for (var i = hasHeader ? 1 : 0; i < csvRows.length; i++) {
       final columns = csvRows[i];
+
       if (columns.length == 0) {
         continue;
       }
@@ -64,6 +65,17 @@ abstract class CsvTransactionHelper {
       final symbol = getSymbol(columns[symbolColumnIndex]);
       final amount = getAmount(columns[amountColumnIndex], symbol);
       final id = getId(columns);
+
+      if (_progressSubject.isClosed) {
+        return [];
+      }
+
+      _progressSubject.add(
+        ProgressState(
+          i.toDouble() / csvRows.length,
+          "Processing item $i from ${csvRows.length}",
+        ),
+      );
 
       if (prevIds.contains(id)) {
         continue;
@@ -77,19 +89,14 @@ abstract class CsvTransactionHelper {
         buyPrice: await _getUSDBuyPrice(symbol, dateTime),
         description: getDescription(columns),
       );
-
-      if (_progressSubject.isClosed) {
-        return [];
-      }
-      _progressSubject.add(
-        ProgressState(
-          i.toDouble() / csvRows.length,
-          "Processing item $i from ${csvRows.length}",
-        ),
-      );
       transactions.add(transactionItem);
     }
-
+    _progressSubject.add(
+      ProgressState(
+        1,
+        "Completed!",
+      ),
+    );
     return transactions;
   }
 

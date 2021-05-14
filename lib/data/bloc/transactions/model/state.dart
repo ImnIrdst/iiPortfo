@@ -5,4 +5,6 @@ class ProgressState {
   ProgressState(this.progress, this.info);
 
   int get progressPercent => (progress * 100).toInt();
+
+  bool get isCompleted => progress == 1;
 }

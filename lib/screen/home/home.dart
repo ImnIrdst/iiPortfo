@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void _showImportBottomSheet() {
+  void _navigateToImportPage(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ImportPage()),
@@ -45,7 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _renderBody(),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showImportBottomSheet,
+        onPressed: () {
+          _navigateToImportPage(context);
+        },
         tooltip: 'Import',
         icon: Icon(Icons.add),
         label: Text("IMPORT"),

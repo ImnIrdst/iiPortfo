@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
-import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
 import 'package:iiportfo/main.dart';
 import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
+import 'package:iiportfo/widget/progress_dialog.dart';
 
 class CsvImportSourceItem extends StatelessWidget {
   final CsvImportSourceItemData item;
@@ -86,45 +86,14 @@ class CsvImportSourceItem extends StatelessWidget {
 
   showLoaderDialog(BuildContext context) async {
     transactionBloc.createTransactionHelper(item);
-    AlertDialog alert = AlertDialog(
-      content: StreamBuilder<ProgressState>(
-        initialData: ProgressState(0, "Getting ready ..."),
-        stream: transactionBloc.currentTransactionHelper.progressStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Row(
-              children: [
-                Stack(
-                  children: [
-                    CircularProgressIndicator(
-                      value: snapshot.data.progress,
-                    ),
-                    Text(
-                      "${(snapshot.data.progressPercent)}%",
-                      style: TextStyle(fontSize: 10),
-                    ),
-                  ],
-                  alignment: AlignmentDirectional.center,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(snapshot.data.info, maxLines: 1),
-                ),
-              ],
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            Navigator.of(context).pop();
-          }
-          return Row();
-        },
-      ),
-    );
     showDialog(
       barrierDismissible: false,
+      useRootNavigator: true,
+      useSafeArea: true,
       context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
+      builder: (context) => ProgressDialog(
+        progressStream: transactionBloc.currentTransactionHelper.progressStream,
+      ),
     ).then((value) {
       transactionBloc.currentTransactionHelper?.close();
     });
