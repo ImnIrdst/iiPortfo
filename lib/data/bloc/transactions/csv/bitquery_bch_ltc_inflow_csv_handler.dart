@@ -1,8 +1,8 @@
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 
-class BitqueryBCHInflowTransactions extends CsvTransactionHelper {
-  BitqueryBCHInflowTransactions(
+class BitqueryBCHLTCInflowTransactions extends CsvTransactionHelper {
+  BitqueryBCHLTCInflowTransactions(
     CsvImportSourceItemData importSource,
   ) : super(
           idPrefix: importSource.sourceFileType.id,

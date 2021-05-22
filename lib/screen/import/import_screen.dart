@@ -47,6 +47,7 @@ class _ImportPageState extends State<ImportPage> {
             return Center(child: Text("No Imported sources created"));
           }
           return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 64),
             itemBuilder: (BuildContext context, int index) {
               final item = snapshot.data[index];
               if (item is CsvImportSourceItemData) {

@@ -4,8 +4,8 @@ import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_ite
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitpay_csv_handler.dart';
-import 'package:iiportfo/data/bloc/transactions/csv/bitquery_bch_inflow_csv_handler.dart';
-import 'package:iiportfo/data/bloc/transactions/csv/bitquery_bch_outflow_csv_handler.dart';
+import 'package:iiportfo/data/bloc/transactions/csv/bitquery_bch_ltc_inflow_csv_handler.dart';
+import 'package:iiportfo/data/bloc/transactions/csv/bitquery_bch_ltc_outflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/nobitex_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/model/aggregated_data.dart';
@@ -50,10 +50,12 @@ class TransactionBloc {
       return NobitexTransactions(importSource);
     } else if (importSource.sourceFileType == bitPaySourceFileType) {
       return BitpayTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBCHInflowSourceFileType) {
-      return BitqueryBCHInflowTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBCHOutflowSourceFileType) {
-      return BitqueryBCHOutFlowTransactions(importSource);
+    } else if (importSource.sourceFileType == bqBCHInflowSourceFileType ||
+        importSource.sourceFileType == bqLTCInflowSourceFileType) {
+      return BitqueryBCHLTCInflowTransactions(importSource);
+    } else if (importSource.sourceFileType == bqBCHOutflowSourceFileType ||
+        importSource.sourceFileType == bqLTCOutflowSourceFileType) {
+      return BitqueryBCHLTCOutFlowTransactions(importSource);
     } else {
       throw Exception("Unknown import source type");
     }
