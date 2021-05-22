@@ -2,7 +2,7 @@
 //
 // import 'package:iiportfo/data/csv/binance_csv_data.dart';
 // import 'package:iiportfo/data/csv/bitcoin_com_csv_data.dart';
-// import 'package:iiportfo/data/csv/bitpay_csv_data.dart';
+// import 'package:iiportfo/data/csv/bitpay_csv_handler.dart';
 // import 'package:iiportfo/data/csv/bitquery_csv_data.dart';
 // import 'package:iiportfo/data/csv/cryptoid_csv_data.dart';
 // import 'package:iiportfo/data/csv/custom_csv_data.dart';

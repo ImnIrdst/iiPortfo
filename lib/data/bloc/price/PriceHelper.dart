@@ -22,6 +22,7 @@ class PriceHelper {
         return _cryptoWatchAPI.getPairPrice(dateTime, "${symbol}BUSD");
       }
     }
+    return 0;
   }
 
   Future<double> getUSDTIRRPrice(DateTime dateTime) async =>

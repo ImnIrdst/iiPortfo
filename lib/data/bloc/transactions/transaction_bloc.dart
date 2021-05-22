@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/transactions/csv/bitpay_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/nobitex_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/model/aggregated_data.dart';
@@ -44,6 +45,8 @@ class TransactionBloc {
   ) {
     if (importSource.sourceFileType == nobitexSourceFileType) {
       return NobitexTransactions(importSource);
+    } else if (importSource.sourceFileType == bitPaySourceFileType) {
+      return BitpayTransactions(importSource);
     } else {
       throw Exception("Unknown import source type");
     }
