@@ -166,9 +166,6 @@ class _AddCsvSourceItemBottomSheetState
                 border: OutlineInputBorder(),
                 hintText: 'The CSV File Path',
               ),
-              // onChanged: (text) {
-              //   _filePathTextController.text = text;
-              // },
             ),
           ),
           Container(

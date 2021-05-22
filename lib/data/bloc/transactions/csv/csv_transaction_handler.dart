@@ -56,6 +56,7 @@ abstract class CsvTransactionHelper {
   Future<List<TransactionItem>> getItems(Set<String> prevIds) async {
     final csvRows = await getFields();
     final List<TransactionItem> transactions = [];
+    print(csvRows[0]);
     for (var i = hasHeader ? 1 : 0; i < csvRows.length; i++) {
       final columns = csvRows[i];
 
@@ -102,7 +103,8 @@ abstract class CsvTransactionHelper {
     return transactions;
   }
 
-  String getId(List<dynamic> columns);
+  String getId(List<dynamic> columns) =>
+      "$idPrefix-${columns[dateColumnIndex]}-${columns[amountColumnIndex]}-${columns[symbolColumnIndex]}";
 
   DateTime getDate(String cell) => DateTime.parse(cell);
 

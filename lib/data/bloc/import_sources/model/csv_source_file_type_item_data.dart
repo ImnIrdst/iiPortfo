@@ -24,6 +24,8 @@ class CsvSourceFileTypeItemData {
   static final supportedItems = [
     nobitexSourceFileType,
     bitPaySourceFileType,
+    bqBCHInflowSourceFileType,
+    bqBCHOutflowSourceFileType,
   ];
 }
 
@@ -32,3 +34,9 @@ final nobitexSourceFileType =
 
 final bitPaySourceFileType =
     CsvSourceFileTypeItemData("bitpay", "Bitpay Transactions");
+
+final bqBCHInflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bch-inflow", "Bitquery BCH Inflow Transactions");
+
+final bqBCHOutflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bch-outflow", "Bitquery BCH Outflow Transactions");

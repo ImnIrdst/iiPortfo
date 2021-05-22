@@ -18,6 +18,7 @@ class ImportSourcesBloc {
 
   Future<void> addImportSourceItem(ImportSourceItemData item) async {
     final importSourceItems = await getImportSourceItems();
+    importSourceItems.remove(item);
     importSourceItems.add(item);
 
     await saveImportSourceItems(importSourceItems);

@@ -19,8 +19,4 @@ class BitpayTransactions extends CsvTransactionHelper {
   @override
   String getDescription(List<dynamic> columns) =>
       "${columns[1]}-${columns[2]}-${columns[5]}";
-
-  @override
-  String getId(List<dynamic> columns) =>
-      "$idPrefix-${columns[dateColumnIndex]}-${columns[amountColumnIndex]}-${columns[symbolColumnIndex]}";
 }
