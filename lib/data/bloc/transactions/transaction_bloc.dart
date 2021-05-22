@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitpay_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/nobitex_csv_handler.dart';
@@ -84,8 +85,11 @@ class TransactionBloc {
         description: columns[5],
         account: columns[6],
       );
+      // TODO performance can be improved
+      PriceHelper().cachePriceFromTransaction(transactionItem);
       transactions.add(transactionItem);
     }
+
     return transactions;
   }
 

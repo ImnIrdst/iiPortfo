@@ -5,7 +5,7 @@ class BitpayTransactions extends CsvTransactionHelper {
   BitpayTransactions(
     CsvImportSourceItemData importSource,
   ) : super(
-          idPrefix: "bitpay",
+          idPrefix: importSource.sourceFileType.id,
           filePath: importSource.filePath,
           account: importSource.accountName,
           delimiterChar: ",",
