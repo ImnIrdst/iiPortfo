@@ -28,6 +28,10 @@ class CsvSourceFileTypeItemData {
     bqBCHOutflowSourceFileType,
     bqLTCInflowSourceFileType,
     bqLTCOutflowSourceFileType,
+    bqBNBInflowSourceFileType,
+    bqBNBOutflowSourceFileType,
+    bqBSCInflowSourceFileType,
+    bqBSCOutflowSourceFileType,
   ];
 }
 
@@ -48,3 +52,15 @@ final bqLTCInflowSourceFileType = CsvSourceFileTypeItemData(
 
 final bqLTCOutflowSourceFileType = CsvSourceFileTypeItemData(
     "bitquery-ltc-outflow", "Bitquery LTC Outflow Transactions");
+
+final bqBNBInflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bnb-inflow", "Bitquery BNB Inflow Transactions");
+
+final bqBNBOutflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bnb-outflow", "Bitquery BNB Outflow Transactions");
+
+final bqBSCInflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bsc-inflow", "Bitquery BSC Inflow Transactions");
+
+final bqBSCOutflowSourceFileType = CsvSourceFileTypeItemData(
+    "bitquery-bsc-outflow", "Bitquery BSC Outflow Transactions");
