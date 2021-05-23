@@ -67,6 +67,7 @@ abstract class CsvTransactionHelper {
       final dateTime = getDate(columns[dateColumnIndex]);
       final symbol = getSymbol(columns[symbolColumnIndex]);
       final amount = getAmount(columns[amountColumnIndex], symbol);
+      final fee = getFeeAmount(columns);
       final id = getId(columns);
 
       if (_progressSubject.isClosed) {
@@ -88,12 +89,14 @@ abstract class CsvTransactionHelper {
         id: id,
         date: dateTime,
         symbol: symbol,
-        amount: amount,
+        amount: amount + fee,
         buyPrice: await _priceHelper.getCoinPriceInUSD(dateTime, symbol),
         description: getDescription(columns),
       );
+      PriceHelper().cachePriceFromTransaction(transactionItem);
       transactions.add(transactionItem);
     }
+
     _progressSubject.add(
       ProgressState(
         1,
@@ -129,6 +132,8 @@ abstract class CsvTransactionHelper {
 
     return result;
   }
+
+  double getFeeAmount(columns) => 0;
 
   String getDescription(List<dynamic> columns);
 

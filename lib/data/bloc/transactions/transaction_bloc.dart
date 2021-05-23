@@ -4,6 +4,7 @@ import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_ite
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_deposit_csv_handler.dart';
+import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_withdrawal_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitpay/bitpay_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bch_ltc_inflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bch_ltc_outflow_csv_handler.dart';
@@ -58,6 +59,9 @@ class TransactionBloc {
       return CustomCSVTransactions(importSource);
     } else if (importSource.sourceFileType == binanceDepositsSourceFileType) {
       return BinanceDepositTransactions(importSource);
+    } else if (importSource.sourceFileType ==
+        binanceWithdrawalsSourceFileType) {
+      return BinanceWithdrawalTransactions(importSource);
     } else if (importSource.sourceFileType == bqBCHInflowSourceFileType ||
         importSource.sourceFileType == bqLTCInflowSourceFileType) {
       return BitqueryBCHLTCInflowTransactions(importSource);
