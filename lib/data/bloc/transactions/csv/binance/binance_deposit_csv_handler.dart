@@ -1,8 +1,8 @@
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 
-class CustomCSVTransactions extends CsvTransactionHelper {
-  CustomCSVTransactions(
+class BinanceDepositTransactions extends CsvTransactionHelper {
+  BinanceDepositTransactions(
     CsvImportSourceItemData importSource,
   ) : super(
           idPrefix: importSource.sourceFileType.id,
@@ -17,9 +17,5 @@ class CustomCSVTransactions extends CsvTransactionHelper {
         );
 
   @override
-  String getDescription(List<dynamic> columns) => columns[3].toString();
-
-  @override
-  DateTime getDate(String cell) =>
-      DateTime.fromMillisecondsSinceEpoch(int.parse(cell));
+  String getDescription(List<dynamic> columns) => columns[5].toString();
 }

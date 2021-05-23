@@ -25,6 +25,7 @@ class CsvSourceFileTypeItemData {
     nobitexSourceFileType,
     bitPaySourceFileType,
     customCsvSourceFileType,
+    binanceDepositsSourceFileType,
     bqBCHInflowSourceFileType,
     bqBCHOutflowSourceFileType,
     bqLTCInflowSourceFileType,
@@ -44,6 +45,9 @@ final bitPaySourceFileType =
 
 final customCsvSourceFileType =
     CsvSourceFileTypeItemData("custom", "Custom Transactions");
+
+final binanceDepositsSourceFileType = CsvSourceFileTypeItemData(
+    "binance-deposits", "Binance Deposit Transactions");
 
 final bqBCHInflowSourceFileType = CsvSourceFileTypeItemData(
     "bitquery-bch-inflow", "Bitquery BCH Inflow Transactions");
