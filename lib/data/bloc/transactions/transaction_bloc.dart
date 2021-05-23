@@ -9,6 +9,7 @@ import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bch_ltc_ou
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bnb_bch_inflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bnb_bch_outflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
+import 'package:iiportfo/data/bloc/transactions/csv/custom/custom_csv_data.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/nobitex/nobitex_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/model/aggregated_data.dart';
 import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
@@ -52,6 +53,8 @@ class TransactionBloc {
       return NobitexTransactions(importSource);
     } else if (importSource.sourceFileType == bitPaySourceFileType) {
       return BitpayTransactions(importSource);
+    } else if (importSource.sourceFileType == customCsvSourceFileType) {
+      return CustomCSVTransactions(importSource);
     } else if (importSource.sourceFileType == bqBCHInflowSourceFileType ||
         importSource.sourceFileType == bqLTCInflowSourceFileType) {
       return BitqueryBCHLTCInflowTransactions(importSource);
@@ -104,6 +107,7 @@ class TransactionBloc {
       // TODO performance can be improved
       PriceHelper().cachePriceFromTransaction(transactionItem);
       transactions.add(transactionItem);
+      print(transactionItem.toCsvRow());
     }
 
     return transactions;

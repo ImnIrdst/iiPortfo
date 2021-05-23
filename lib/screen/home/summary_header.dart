@@ -10,7 +10,7 @@ class SummaryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(vertical: 16),
       child: Flex(
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

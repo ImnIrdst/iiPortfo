@@ -26,14 +26,17 @@ class PriceHelper {
       if (result == CryptoWatchAPI.ERROR_RESULT) {
         return _cryptoWatchAPI.getPairPrice(dateTime, "${symbol}BUSD");
       }
+      return result;
     }
-    return 0;
   }
 
   Future<double> getUSDTIRRPrice(DateTime dateTime) async =>
       _nobitexAPI.getUSDTPriceInIRR(dateTime);
 
   void cachePriceFromTransaction(TransactionItem transaction) {
+    if (transaction.buyPrice == CryptoWatchAPI.ERROR_RESULT) {
+      return;
+    }
     final key = _getPriceCacheKey(transaction.date, transaction.symbol);
     priceCacheMap[key] = transaction.buyPrice;
   }
