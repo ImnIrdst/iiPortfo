@@ -27,6 +27,7 @@ class CsvSourceFileTypeItemData {
     customCsvSourceFileType,
     binanceDepositsSourceFileType,
     binanceWithdrawalsSourceFileType,
+    binanceTradesSourceFileType,
     bqBCHInflowSourceFileType,
     bqBCHOutflowSourceFileType,
     bqLTCInflowSourceFileType,
@@ -52,6 +53,9 @@ final binanceDepositsSourceFileType = CsvSourceFileTypeItemData(
 
 final binanceWithdrawalsSourceFileType = CsvSourceFileTypeItemData(
     "binance-withdrawals", "Binance Withdrawal Transactions");
+
+final binanceTradesSourceFileType =
+    CsvSourceFileTypeItemData("binance-trades", "Binance Trades Transactions");
 
 final bqBCHInflowSourceFileType = CsvSourceFileTypeItemData(
     "bitquery-bch-inflow", "Bitquery BCH Inflow Transactions");

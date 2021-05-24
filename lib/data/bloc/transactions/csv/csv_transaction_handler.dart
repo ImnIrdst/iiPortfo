@@ -20,12 +20,12 @@ abstract class CsvTransactionHelper {
   final int dateColumnIndex;
   final int symbolColumnIndex;
   final int amountColumnIndex;
-  
+
   final _priceHelper = PriceHelper();
 
-  PublishSubject<ProgressState> _progressSubject = PublishSubject();
+  PublishSubject<ProgressState> progressSubject = PublishSubject();
 
-  Stream<ProgressState> get progressStream => _progressSubject.stream;
+  Stream<ProgressState> get progressStream => progressSubject.stream;
 
   CsvTransactionHelper({
     @required this.idPrefix,
@@ -70,11 +70,11 @@ abstract class CsvTransactionHelper {
       final fee = getFeeAmount(columns);
       final id = getId(columns);
 
-      if (_progressSubject.isClosed) {
+      if (progressSubject.isClosed) {
         return [];
       }
 
-      _progressSubject.add(
+      progressSubject.add(
         ProgressState(
           i.toDouble() / csvRows.length,
           "Processing item $i from ${csvRows.length}",
@@ -97,7 +97,7 @@ abstract class CsvTransactionHelper {
       transactions.add(transactionItem);
     }
 
-    _progressSubject.add(
+    progressSubject.add(
       ProgressState(
         1,
         "Completed!",
@@ -109,7 +109,7 @@ abstract class CsvTransactionHelper {
   String getId(List<dynamic> columns) =>
       "$idPrefix-${columns[dateColumnIndex]}-${columns[amountColumnIndex]}-${columns[symbolColumnIndex]}";
 
-  DateTime getDate(String cell) => DateTime.parse(cell);
+  DateTime getDate(dynamic cell) => DateTime.parse(cell);
 
   String getSymbol(String cell) =>
       cell == "rls" ? IRR_SYMBOL : cell.toUpperCase();
@@ -138,6 +138,6 @@ abstract class CsvTransactionHelper {
   String getDescription(List<dynamic> columns);
 
   void close() {
-    _progressSubject.close();
+    progressSubject.close();
   }
 }

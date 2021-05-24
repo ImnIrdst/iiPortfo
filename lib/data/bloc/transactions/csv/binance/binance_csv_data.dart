@@ -188,34 +188,3 @@
 //   }
 // }
 //
-// class _CoinAmount {
-//   final String symbol;
-//   final double amount;
-//
-//   _CoinAmount(this.symbol, this.amount);
-// }
-//
-// class _CoinPair {
-//   final String first;
-//   final String second;
-//
-//   _CoinPair(this.first, this.second);
-//
-//   static _CoinPair fromString(String pair) {
-//     for (String coin in _binanceBaseCoins) {
-//       if (pair.startsWith(coin)) {
-//         final second = pair.replaceAll(coin, "");
-//         return _CoinPair(coin, second);
-//       }
-//       if (pair.endsWith(coin)) {
-//         final first = pair.replaceAll(coin, "");
-//         return _CoinPair(first, coin);
-//       }
-//     }
-//     throw Exception("Unhandled pair $pair");
-//   }
-//
-//   static final _binanceBaseCoins = ["BNB", "BUSD", "USDT"];
-// }
-//
-// final _usdCoinsSet = HashSet.from(["USDT", "USDC", "BUSD"]);

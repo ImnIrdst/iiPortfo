@@ -20,6 +20,12 @@ class CustomCSVTransactions extends CsvTransactionHelper {
   String getDescription(List<dynamic> columns) => columns[3].toString();
 
   @override
-  DateTime getDate(String cell) =>
-      DateTime.fromMillisecondsSinceEpoch(int.parse(cell));
+  DateTime getDate(dynamic cell) {
+    if (cell is String) {
+      return DateTime.fromMillisecondsSinceEpoch(int.parse(cell));
+    } else if (cell is int) {
+      return DateTime.fromMillisecondsSinceEpoch(cell);
+    }
+    throw Exception("Unhandled date type");
+  }
 }
