@@ -23,10 +23,10 @@ class BinanceTradeTransactions extends CsvTransactionHelper {
         );
 
   @override
-  Future<List<TransactionItem>> getItems(Set<String> prevIds) async {
+  Future<List<TransactionItemData>> getItems(Set<String> prevIds) async {
     final localPrevIds = HashSet();
     final fields = await getFields();
-    final List<TransactionItem> transactions = [];
+    final List<TransactionItemData> transactions = [];
     for (var i = 1; i < fields.length; i++) {
       final columns = fields[i];
       print(columns);
@@ -62,7 +62,7 @@ class BinanceTradeTransactions extends CsvTransactionHelper {
           id += "${Random().nextInt(1024)}";
         }
         localPrevIds.add(id);
-        final transactionItem = TransactionItem(
+        final transactionItem = TransactionItemData(
           id: id,
           date: date,
           symbol: coinAmount.symbol,

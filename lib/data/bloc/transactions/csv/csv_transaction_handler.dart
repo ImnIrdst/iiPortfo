@@ -53,9 +53,9 @@ abstract class CsvTransactionHelper {
     return fields;
   }
 
-  Future<List<TransactionItem>> getItems(Set<String> prevIds) async {
+  Future<List<TransactionItemData>> getItems(Set<String> prevIds) async {
     final csvRows = await getFields();
-    final List<TransactionItem> transactions = [];
+    final List<TransactionItemData> transactions = [];
     print(csvRows[0]);
     for (var i = hasHeader ? 1 : 0; i < csvRows.length; i++) {
       final columns = csvRows[i];
@@ -85,7 +85,7 @@ abstract class CsvTransactionHelper {
         continue;
       }
 
-      final transactionItem = TransactionItem(
+      final transactionItem = TransactionItemData(
         id: id,
         date: dateTime,
         symbol: symbol,

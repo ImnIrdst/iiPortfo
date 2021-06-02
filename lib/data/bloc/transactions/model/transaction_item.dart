@@ -1,4 +1,4 @@
-class TransactionItem extends Comparable<TransactionItem> {
+class TransactionItemData extends Comparable<TransactionItemData> {
   final String id;
   final DateTime date;
   final String symbol;
@@ -7,7 +7,7 @@ class TransactionItem extends Comparable<TransactionItem> {
   final String description;
   final String account;
 
-  TransactionItem({
+  TransactionItemData({
     this.id,
     this.date,
     this.symbol,
@@ -23,7 +23,7 @@ class TransactionItem extends Comparable<TransactionItem> {
   static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
 
   @override
-  int compareTo(TransactionItem other) {
+  int compareTo(TransactionItemData other) {
     final dateCompare = this.date.compareTo(other.date);
     if (dateCompare != 0) return dateCompare;
     return this.amount.compareTo(other.amount);

@@ -137,7 +137,7 @@ class PortfoItem extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CoinDetailsPage(title: "${_item.symbol} Details"),
+        builder: (context) => CoinDetailsPage(symbol: _item.symbol),
         settings: RouteSettings(name: CoinDetailsPage.ROUTE_NAME),
       ),
     );

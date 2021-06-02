@@ -33,7 +33,7 @@ class PriceHelper {
   Future<double> getUSDTIRRPrice(DateTime dateTime) async =>
       _nobitexAPI.getUSDTPriceInIRR(dateTime);
 
-  void cachePriceFromTransaction(TransactionItem transaction) {
+  void cachePriceFromTransaction(TransactionItemData transaction) {
     if (transaction.buyPrice == CryptoWatchAPI.ERROR_RESULT) {
       return;
     }

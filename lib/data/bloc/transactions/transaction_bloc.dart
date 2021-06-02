@@ -49,6 +49,13 @@ class TransactionBloc {
     return aggregatedData.values.toList();
   }
 
+  Future<List<TransactionItemData>> getTransactionsForCoin(
+      String symbol) async {
+    final transactions = await _getTransactions();
+
+    return transactions.where((element) => element.symbol == symbol).toList();
+  }
+
   CsvTransactionHelper _getTransactionHelper(
     CsvImportSourceItemData importSource,
   ) {
@@ -95,17 +102,17 @@ class TransactionBloc {
     return transactionFile;
   }
 
-  Future<List<TransactionItem>> _getTransactions() async {
+  Future<List<TransactionItemData>> _getTransactions() async {
     final transactionFile = await _getIIPortfoTransactionFile();
     if (!await transactionFile.exists()) {}
     String fileContent = await transactionFile.readAsString();
 
     final csvRows = fileContent.split("\r\n");
-    final transactions = <TransactionItem>[];
+    final transactions = <TransactionItemData>[];
     for (var i = 1; i < csvRows.length - 1; i++) {
       final columns = csvRows[i].split(",");
 
-      final transactionItem = TransactionItem(
+      final transactionItem = TransactionItemData(
         id: columns[0],
         date: DateTime.parse(columns[1]),
         symbol: columns[2],
@@ -124,10 +131,10 @@ class TransactionBloc {
   }
 
   Future<void> _writeTransactionsToFile(
-      List<TransactionItem> newTransactions) async {
+      List<TransactionItemData> newTransactions) async {
     final transactionFile = await _getIIPortfoTransactionFile();
     final prevTransactions = await _getTransactions();
-    final uniqueTransactionsMap = <String, TransactionItem>{};
+    final uniqueTransactionsMap = <String, TransactionItemData>{};
 
     prevTransactions.forEach((e) {
       uniqueTransactionsMap[e.id] = e;
@@ -137,7 +144,7 @@ class TransactionBloc {
       uniqueTransactionsMap[e.id] = e;
     });
 
-    var fileContent = "${TransactionItem.getCsvHeader()}\r\n";
+    var fileContent = "${TransactionItemData.getCsvHeader()}\r\n";
 
     final uniqueTransactions = uniqueTransactionsMap.values.toList();
     uniqueTransactions.sort();
