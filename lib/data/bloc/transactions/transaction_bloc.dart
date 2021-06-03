@@ -52,8 +52,11 @@ class TransactionBloc {
   Future<List<TransactionItemData>> getTransactionsForCoin(
       String symbol) async {
     final transactions = await _getTransactions();
+    final result =
+        transactions.where((element) => element.symbol == symbol).toList();
+    result.sort();
 
-    return transactions.where((element) => element.symbol == symbol).toList();
+    return result.reversed.toList();
   }
 
   CsvTransactionHelper _getTransactionHelper(

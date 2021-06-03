@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 final usdNumberFormat = NumberFormat("\$,##0.0#");
 final irrNumberFormat = NumberFormat.compact();
 final percentNumberFormat = NumberFormat("#,##0.#%");
-final amountFormat = NumberFormat("##0.00000#");
+final amountFormat = NumberFormat("##0.00####");
 
 extension PriceUtils on double {
   String toIRRFormatted() => irrNumberFormat.format(this);
