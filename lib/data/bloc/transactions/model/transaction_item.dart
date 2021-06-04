@@ -20,7 +20,8 @@ class TransactionItemData extends Comparable<TransactionItemData> {
   String toCsvRow() =>
       "$id,$date,$symbol,$amount,$buyPrice,$description,$account";
 
-  static String getCsvHeader() => "id,date,symbol,amount,buyPrice,description";
+  static String getCsvHeader() =>
+      "id,date,symbol,amount,buyPrice,description,account";
 
   @override
   int compareTo(TransactionItemData other) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 
 class ProgressDialog extends StatelessWidget {
-  static const String ROUTE_NAME = "progress_dialog";
+  static const String ROUTE_NAME = "/progress_dialog";
 
   final Stream<ProgressState> progressStream;
 
