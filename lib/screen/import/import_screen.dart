@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
+import 'package:iiportfo/main.dart';
 import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
 import 'package:iiportfo/screen/import/import_source_item_csv.dart';
 
@@ -28,11 +30,35 @@ class _ImportPageState extends State<ImportPage> {
         title: Text(widget.title),
       ),
       body: _renderBody(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showAddSourcesBottomSheet,
-        tooltip: 'Add Sources',
-        icon: Icon(Icons.add),
-        label: Text("ADD SOURCES"),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        buttonSize: 56.0,
+        visible: true,
+        closeManually: false,
+        renderOverlay: false,
+        overlayOpacity: 0,
+        tooltip: 'Import sources',
+        heroTag: 'import-sources-hero-tag',
+        foregroundColor: Colors.black,
+        backgroundColor: primaryColor,
+        activeBackgroundColor: Colors.grey,
+        children: [
+          SpeedDialChild(
+            child: Icon(Icons.account_balance_wallet),
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.black,
+            label: 'Wallet',
+            onTap: () => _showAddCsvSourcesBottomSheet(),
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.table_chart_outlined),
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.black,
+            label: 'CSV',
+            onTap: () => _showAddCsvSourcesBottomSheet(),
+          ),
+        ],
       ),
     );
   }
@@ -68,7 +94,7 @@ class _ImportPageState extends State<ImportPage> {
     );
   }
 
-  void _showAddSourcesBottomSheet() {
+  void _showAddCsvSourcesBottomSheet() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
