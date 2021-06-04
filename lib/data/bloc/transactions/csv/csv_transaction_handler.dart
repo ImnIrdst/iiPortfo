@@ -6,10 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/model/state.dart';
 import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
+import 'package:iiportfo/data/bloc/transactions/transaction_helper.dart';
 import 'package:iiportfo/data/portfo_item_data.dart';
-import 'package:rxdart/rxdart.dart';
 
-abstract class CsvTransactionHelper {
+abstract class CsvTransactionHelper extends TransactionHelper {
   final String idPrefix;
   final String filePath;
   final String account;
@@ -23,9 +23,6 @@ abstract class CsvTransactionHelper {
 
   final _priceHelper = PriceHelper();
 
-  PublishSubject<ProgressState> progressSubject = PublishSubject();
-
-  Stream<ProgressState> get progressStream => progressSubject.stream;
 
   CsvTransactionHelper({
     @required this.idPrefix,
@@ -53,6 +50,7 @@ abstract class CsvTransactionHelper {
     return fields;
   }
 
+  @override
   Future<List<TransactionItemData>> getItems(Set<String> prevIds) async {
     final csvRows = await getFields();
     final List<TransactionItemData> transactions = [];
@@ -136,8 +134,4 @@ abstract class CsvTransactionHelper {
   double getFeeAmount(columns) => 0;
 
   String getDescription(List<dynamic> columns);
-
-  void close() {
-    progressSubject.close();
-  }
 }

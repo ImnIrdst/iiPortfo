@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_file_type_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_type.dart';
 import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_deposit_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_trades_csv_handler.dart';
@@ -11,18 +14,18 @@ import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bch_ltc_in
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bch_ltc_outflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bnb_bch_inflow_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/bitquery/bitquery_bnb_bch_outflow_csv_handler.dart';
-import 'package:iiportfo/data/bloc/transactions/csv/csv_transaction_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/custom/custom_csv_data.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/nobitex/nobitex_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/model/aggregated_data.dart';
 import 'package:iiportfo/data/bloc/transactions/model/transaction_item.dart';
+import 'package:iiportfo/data/bloc/transactions/transaction_helper.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TransactionBloc {
-  CsvTransactionHelper currentTransactionHelper;
+  TransactionHelper currentTransactionHelper;
 
-  CsvTransactionHelper createTransactionHelper(
-    CsvImportSourceItemData importSource,
+  TransactionHelper createTransactionHelper(
+    ImportSourceItemData importSource,
   ) {
     return currentTransactionHelper = _getTransactionHelper(importSource);
   }
@@ -59,37 +62,42 @@ class TransactionBloc {
     return result.reversed.toList();
   }
 
-  CsvTransactionHelper _getTransactionHelper(
-    CsvImportSourceItemData importSource,
+  TransactionHelper _getTransactionHelper(
+    ImportSourceItemData importSource,
   ) {
-    if (importSource.sourceFileType == nobitexSourceFileType) {
-      return NobitexTransactions(importSource);
-    } else if (importSource.sourceFileType == bitPaySourceFileType) {
-      return BitpayTransactions(importSource);
-    } else if (importSource.sourceFileType == customCsvSourceFileType) {
-      return CustomCSVTransactions(importSource);
-    } else if (importSource.sourceFileType == binanceDepositsSourceFileType) {
-      return BinanceDepositTransactions(importSource);
-    } else if (importSource.sourceFileType ==
-        binanceWithdrawalsSourceFileType) {
-      return BinanceWithdrawalTransactions(importSource);
-    } else if (importSource.sourceFileType == binanceTradesSourceFileType) {
-      return BinanceTradeTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBCHInflowSourceFileType ||
-        importSource.sourceFileType == bqLTCInflowSourceFileType) {
-      return BitqueryBCHLTCInflowTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBCHOutflowSourceFileType ||
-        importSource.sourceFileType == bqLTCOutflowSourceFileType) {
-      return BitqueryBCHLTCOutFlowTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBNBInflowSourceFileType ||
-        importSource.sourceFileType == bqBSCInflowSourceFileType) {
-      return BitqueryBNBBCHInflowTransactions(importSource);
-    } else if (importSource.sourceFileType == bqBNBOutflowSourceFileType ||
-        importSource.sourceFileType == bqBSCOutflowSourceFileType) {
-      return BitqueryBNBBCHOutFlowTransactions(importSource);
-    } else {
-      throw Exception("Unknown import source type");
+    if (importSource is WalletImportSourceItemData) {
+      if (importSource.walletType == ltcWalletType) {
+        throw Exception("ltc wallet type selected");
+      }
+    } else if (importSource is CsvImportSourceItemData) {
+      if (importSource.sourceFileType == nobitexSourceFileType) {
+        return NobitexTransactions(importSource);
+      } else if (importSource.sourceFileType == bitPaySourceFileType) {
+        return BitpayTransactions(importSource);
+      } else if (importSource.sourceFileType == customCsvSourceFileType) {
+        return CustomCSVTransactions(importSource);
+      } else if (importSource.sourceFileType == binanceDepositsSourceFileType) {
+        return BinanceDepositTransactions(importSource);
+      } else if (importSource.sourceFileType ==
+          binanceWithdrawalsSourceFileType) {
+        return BinanceWithdrawalTransactions(importSource);
+      } else if (importSource.sourceFileType == binanceTradesSourceFileType) {
+        return BinanceTradeTransactions(importSource);
+      } else if (importSource.sourceFileType == bqBCHInflowSourceFileType ||
+          importSource.sourceFileType == bqLTCInflowSourceFileType) {
+        return BitqueryBCHLTCInflowTransactions(importSource);
+      } else if (importSource.sourceFileType == bqBCHOutflowSourceFileType ||
+          importSource.sourceFileType == bqLTCOutflowSourceFileType) {
+        return BitqueryBCHLTCOutFlowTransactions(importSource);
+      } else if (importSource.sourceFileType == bqBNBInflowSourceFileType ||
+          importSource.sourceFileType == bqBSCInflowSourceFileType) {
+        return BitqueryBNBBCHInflowTransactions(importSource);
+      } else if (importSource.sourceFileType == bqBNBOutflowSourceFileType ||
+          importSource.sourceFileType == bqBSCOutflowSourceFileType) {
+        return BitqueryBNBBCHOutFlowTransactions(importSource);
+      }
     }
+    throw Exception("Unknown import source type");
   }
 
   Future<Set<String>> _getCurrentTransactionIds() async =>

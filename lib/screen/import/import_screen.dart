@@ -3,11 +3,13 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
 import 'package:iiportfo/main.dart';
-import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
-import 'package:iiportfo/screen/import/import_source_item_csv.dart';
-import 'package:iiportfo/screen/import/wallet_source_item_bottom_sheet.dart';
+import 'package:iiportfo/screen/import/csv/csv_source_item_bottom_sheet.dart';
+import 'package:iiportfo/screen/import/csv/import_source_item_csv.dart';
+import 'package:iiportfo/screen/import/wallet/import_source_item_wallet.dart';
+import 'package:iiportfo/screen/import/wallet/wallet_source_item_bottom_sheet.dart';
 
 class ImportPage extends StatefulWidget {
   static const ROUTE_NAME = "/import_page";
@@ -79,6 +81,12 @@ class _ImportPageState extends State<ImportPage> {
               final item = snapshot.data[index];
               if (item is CsvImportSourceItemData) {
                 return CsvImportSourceItem(
+                  item: item,
+                  importSourcesBloc: importSourcesBloc,
+                  transactionBloc: transactionBloc,
+                );
+              } else if (item is WalletImportSourceItemData) {
+                return WalletImportSourceItem(
                   item: item,
                   importSourcesBloc: importSourcesBloc,
                   transactionBloc: transactionBloc,

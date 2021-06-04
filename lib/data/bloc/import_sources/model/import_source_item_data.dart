@@ -1,4 +1,5 @@
 import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
 
 abstract class ImportSourceItemData
     implements Comparable<ImportSourceItemData> {
@@ -50,8 +51,13 @@ extension JsonToImportSourceItemDataList on List<dynamic> {
     return this.map((e) {
       try {
         return CsvImportSourceItemData.fromJson(e);
-      } catch (ex) {}
-      throw Exception("Unknown import source subclass $e");
+      } catch (ex) {
+        try {
+          return WalletImportSourceItemData.fromJson(e);
+        } catch (ex) {
+          throw Exception("Unknown import source subclass $ex");
+        }
+      }
     }).toSet();
   }
 }

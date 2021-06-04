@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
-import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
 import 'package:iiportfo/data/bloc/transactions/transaction_bloc.dart';
 import 'package:iiportfo/main.dart';
-import 'package:iiportfo/screen/import/csv_source_item_bottom_sheet.dart';
+import 'package:iiportfo/screen/import/wallet/wallet_source_item_bottom_sheet.dart';
 import 'package:iiportfo/widget/progress_dialog.dart';
 
-class CsvImportSourceItem extends StatelessWidget {
-  final CsvImportSourceItemData item;
+class WalletImportSourceItem extends StatelessWidget {
+  final WalletImportSourceItemData item;
   final ImportSourcesBloc importSourcesBloc;
   final TransactionBloc transactionBloc;
 
-  const CsvImportSourceItem({
+  const WalletImportSourceItem({
     Key key,
     this.item,
     this.importSourcesBloc,
@@ -30,7 +30,7 @@ class CsvImportSourceItem extends StatelessWidget {
             onDismissed: (direction) {
               importSourcesBloc.deleteItem(item);
             },
-            key: ObjectKey(item.filePath),
+            key: ObjectKey(item.address),
             child: Container(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -57,7 +57,7 @@ class CsvImportSourceItem extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.only(top: 16),
                           child: Text(
-                            item.filePath,
+                            item.address,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
@@ -125,7 +125,7 @@ class CsvImportSourceItem extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => AddCSVSourceItemBottomSheet(
+      builder: (context) => AddWalletSourceItemBottomSheet(
         bloc: importSourcesBloc,
         sourceItem: item,
       ),

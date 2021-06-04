@@ -25,10 +25,15 @@ class WalletType {
     return 'WalletType{id: $id, name: $name}';
   }
 
-  static final supportedItems = [bch, ltc, bnb, bsc];
+  static final supportedItems = [
+    bchWalletType,
+    ltcWalletType,
+    bnbWalletType,
+    bscWalletType,
+  ];
 }
 
-final bch = WalletType("bch", "Bitcoin cash");
-final ltc = WalletType("ltc", "Lite Coin");
-final bnb = WalletType("bnb", "Binance Chain");
-final bsc = WalletType("bsc", "Binance Smart Chain");
+final bchWalletType = WalletType("bch", "Bitcoin cash");
+final ltcWalletType = WalletType("ltc", "Lite Coin");
+final bnbWalletType = WalletType("bnb", "Binance Chain");
+final bscWalletType = WalletType("bsc", "Binance Smart Chain");
