@@ -49,7 +49,8 @@ class _AddCsvSourceItemBottomSheetState
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: MediaQuery.of(context).viewInsets +
+            EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           color: Colors.grey[900],
           border: Border.all(),
