@@ -1,29 +1,28 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iiportfo/data/bloc/import_sources/import_sources_bloc.dart';
-import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_item_data.dart';
-import 'package:iiportfo/data/bloc/import_sources/model/csv_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_type.dart';
 
-class AddCSVSourceItemBottomSheet extends StatefulWidget {
-  final CsvImportSourceItemData sourceItem;
+class AddWalletSourceItemBottomSheet extends StatefulWidget {
+  final WalletImportSourceItemData sourceItem;
   final ImportSourcesBloc bloc;
 
-  const AddCSVSourceItemBottomSheet({
+  const AddWalletSourceItemBottomSheet({
     Key key,
     this.bloc,
     this.sourceItem,
   }) : super(key: key);
 
   @override
-  _AddCsvSourceItemBottomSheetState createState() =>
-      _AddCsvSourceItemBottomSheetState(this.bloc, this.sourceItem);
+  _AddWalletSourceItemBottomSheetState createState() =>
+      _AddWalletSourceItemBottomSheetState(this.bloc, this.sourceItem);
 }
 
-class _AddCsvSourceItemBottomSheetState
-    extends State<AddCSVSourceItemBottomSheet> {
+class _AddWalletSourceItemBottomSheetState
+    extends State<AddWalletSourceItemBottomSheet> {
   final isInEditMode;
-  var curSourceItem = CsvImportSourceItemData(
-    sourceFileType: CsvSourceFileTypeItemData.supportedItems.first,
+  var curSourceItem = WalletImportSourceItemData(
+    walletType: WalletType.supportedItems.first,
   );
 
   var _errorMessage = "";
@@ -31,15 +30,15 @@ class _AddCsvSourceItemBottomSheetState
   final ImportSourcesBloc bloc;
   final _sourceNameTextController = TextEditingController();
   final _accountTextController = TextEditingController();
-  final _filePathTextController = TextEditingController();
+  final _addressTextController = TextEditingController();
 
-  _AddCsvSourceItemBottomSheetState(
+  _AddWalletSourceItemBottomSheetState(
     this.bloc,
-    CsvImportSourceItemData sourceItem,
+    WalletImportSourceItemData sourceItem,
   ) : isInEditMode = (sourceItem != null) {
     _sourceNameTextController.text = sourceItem?.sourceName;
     _accountTextController.text = sourceItem?.accountName;
-    _filePathTextController.text = sourceItem?.filePath;
+    _addressTextController.text = sourceItem?.address;
     if (sourceItem != null) {
       curSourceItem = sourceItem;
     }
@@ -65,8 +64,8 @@ class _AddCsvSourceItemBottomSheetState
             _renderHeader(context),
             _renderSourceName(context),
             _renderAccountNameRow(context),
-            _renderPathNameRow(context),
-            _renderSupportedCsvSourcesSelector(context),
+            _renderAddressRow(context),
+            _renderSupportedWalletSourcesSelector(context),
             _renderError(),
             _renderButtonRow(context),
           ],
@@ -103,7 +102,7 @@ class _AddCsvSourceItemBottomSheetState
     );
   }
 
-  Widget _renderSupportedCsvSourcesSelector(BuildContext context) {
+  Widget _renderSupportedWalletSourcesSelector(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
@@ -119,8 +118,8 @@ class _AddCsvSourceItemBottomSheetState
                 border: Border.all(color: Colors.grey[400]),
               ),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton<CsvSourceFileTypeItemData>(
-                  value: curSourceItem.sourceFileType,
+                child: DropdownButton<WalletType>(
+                  value: curSourceItem.walletType,
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 24,
                   elevation: 16,
@@ -129,21 +128,21 @@ class _AddCsvSourceItemBottomSheetState
                     height: 2,
                     color: Colors.grey[400],
                   ),
-                  onChanged: (CsvSourceFileTypeItemData newValue) {
+                  onChanged: (WalletType newValue) {
                     setState(() {
-                      curSourceItem.sourceFileType = newValue;
+                      curSourceItem.walletType = newValue;
                     });
                   },
-                  items: CsvSourceFileTypeItemData.supportedItems
+                  items: WalletType.supportedItems
                       .map(
-                        (e) => DropdownMenuItem<CsvSourceFileTypeItemData>(
-                      child: Container(
+                        (e) => DropdownMenuItem<WalletType>(
+                          child: Container(
                             padding: EdgeInsets.only(right: 16),
                             child: Text(e.name),
                           ),
                           value: e,
                         ),
-                  )
+                      )
                       .toList(),
                 ),
               ),
@@ -154,32 +153,15 @@ class _AddCsvSourceItemBottomSheetState
     );
   }
 
-  Widget _renderPathNameRow(BuildContext context) {
+  Widget _renderAddressRow(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Expanded(
-            // width: MediaQuery.of(context).size.width - 114,
-            child: TextField(
-              controller: _filePathTextController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'The CSV File Path',
-              ),
-            ),
-          ),
-          Container(
-            height: 52,
-            padding: EdgeInsets.only(left: 16),
-            child: ElevatedButton(
-              child: Icon(Icons.folder_open),
-              onPressed: () {
-                _onChooseFileItemCLicked(context);
-              },
-            ),
-          )
-        ],
+      child: TextField(
+        controller: _addressTextController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'The Wallet Address',
+        ),
       ),
     );
   }
@@ -204,19 +186,10 @@ class _AddCsvSourceItemBottomSheetState
     );
   }
 
-  void _onChooseFileItemCLicked(BuildContext context) async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      setState(() {
-        _filePathTextController.text = result.files.single.path;
-      });
-    }
-  }
-
   void _onAddClicked(BuildContext context) {
     curSourceItem.sourceName = _sourceNameTextController.text;
     curSourceItem.accountName = _accountTextController.text;
-    curSourceItem.filePath = _filePathTextController.text;
+    curSourceItem.address = _addressTextController.text;
     if (curSourceItem.isCompleted) {
       bloc.addImportSourceItem(curSourceItem);
       Navigator.pop(context);
@@ -249,7 +222,7 @@ class _AddCsvSourceItemBottomSheetState
   }
 
   String _getHeaderText() {
-    return "${isInEditMode ? "Edit" : "Add"} CSV Source Item";
+    return "${isInEditMode ? "Edit" : "Add"} Wallet Source Item";
   }
 
   Widget _renderSourceName(BuildContext context) {

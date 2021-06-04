@@ -1,4 +1,4 @@
-import 'package:iiportfo/data/bloc/import_sources/model/csv_source_file_type_item_data.dart';
+import 'package:iiportfo/data/bloc/import_sources/model/csv/csv_source_file_type_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.dart';
 
 class CsvImportSourceItemData extends ImportSourceItemData {
