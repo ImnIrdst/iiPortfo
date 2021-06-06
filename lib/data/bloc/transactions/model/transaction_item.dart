@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class TransactionItemData extends Comparable<TransactionItemData> {
   final String id;
   final DateTime date;
@@ -8,13 +10,13 @@ class TransactionItemData extends Comparable<TransactionItemData> {
   final String account;
 
   TransactionItemData({
-    this.id,
-    this.date,
-    this.symbol,
-    this.amount,
-    this.buyPrice,
-    this.description,
-    this.account,
+    @required this.id,
+    @required this.date,
+    @required this.symbol,
+    @required this.amount,
+    @required this.buyPrice,
+    @required this.description,
+    @required this.account,
   });
 
   String toCsvRow() =>
@@ -22,6 +24,9 @@ class TransactionItemData extends Comparable<TransactionItemData> {
 
   static String getCsvHeader() =>
       "id,date,symbol,amount,buyPrice,description,account";
+
+  @override
+  String toString() => toCsvRow();
 
   @override
   int compareTo(TransactionItemData other) {

@@ -91,7 +91,7 @@ abstract class CsvTransactionHelper extends TransactionHelper {
         buyPrice: await _priceHelper.getCoinPriceInUSD(dateTime, symbol),
         description: getDescription(columns),
       );
-      PriceHelper().cachePriceFromTransaction(transactionItem);
+      _priceHelper.cachePriceFromTransaction(transactionItem);
       transactions.add(transactionItem);
     }
 

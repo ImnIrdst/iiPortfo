@@ -35,7 +35,11 @@ class ProgressDialog extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(snapshot.data.info, maxLines: 1),
+                  child: Text(
+                    snapshot.data.info,
+                    maxLines: 1,
+                    style: TextStyle(fontSize: 13),
+                  ),
                 ),
               ],
             );

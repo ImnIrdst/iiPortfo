@@ -21,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    // clearAllTransactions();
     _loadPortfolioItems();
     super.initState();
   }

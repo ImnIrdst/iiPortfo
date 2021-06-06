@@ -12,6 +12,7 @@ import 'package:iiportfo/main.dart';
 void main() {
   testWidgets("afafs", (WidgetTester tester) async {
     print(double.parse("-0.055000"));
+    print(DateTime.parse("2021-03-04 19:36:04"));
   });
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

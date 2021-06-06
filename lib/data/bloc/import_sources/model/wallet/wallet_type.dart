@@ -2,6 +2,8 @@ class WalletType {
   final String id;
   final String name;
 
+  String get symbol => id.toUpperCase();
+
   WalletType(this.id, this.name);
 
   WalletType.fromJson(Map<String, dynamic> json)

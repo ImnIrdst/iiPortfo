@@ -6,6 +6,7 @@ import 'package:iiportfo/data/bloc/import_sources/model/import_source_item_data.
 import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_source_item_data.dart';
 import 'package:iiportfo/data/bloc/import_sources/model/wallet/wallet_type.dart';
 import 'package:iiportfo/data/bloc/price/PriceHelper.dart';
+import 'package:iiportfo/data/bloc/transactions/api/bitquery_ltc.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_deposit_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_trades_csv_handler.dart';
 import 'package:iiportfo/data/bloc/transactions/csv/binance/binance_withdrawal_csv_handler.dart';
@@ -67,7 +68,7 @@ class TransactionBloc {
   ) {
     if (importSource is WalletImportSourceItemData) {
       if (importSource.walletType == ltcWalletType) {
-        throw Exception("ltc wallet type selected");
+        return BitQueryLtcTransactionsApi(importSource);
       }
     } else if (importSource is CsvImportSourceItemData) {
       if (importSource.sourceFileType == nobitexSourceFileType) {

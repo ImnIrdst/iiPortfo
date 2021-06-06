@@ -18,6 +18,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.26.0
   flutter_speed_dial: ^3.0.5
+  graphql_flutter: ^5.0.0-nullsafety.5
 
 dev_dependencies:
   flutter_test:
