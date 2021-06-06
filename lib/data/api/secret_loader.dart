@@ -5,11 +5,15 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class Secret {
   final String coinMarketCapApiKey;
+  final String bitqueryApiKey;
 
-  Secret({this.coinMarketCapApiKey = ""});
+  Secret({this.coinMarketCapApiKey, this.bitqueryApiKey});
 
   factory Secret.fromJson(Map<String, dynamic> jsonMap) {
-    return new Secret(coinMarketCapApiKey: jsonMap["coin_market_cap_api_key"]);
+    return new Secret(
+      coinMarketCapApiKey: jsonMap["coin_market_cap_api_key"],
+      bitqueryApiKey: jsonMap["bitquery_api_key"],
+    );
   }
 }
 
