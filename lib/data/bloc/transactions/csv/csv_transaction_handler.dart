@@ -88,6 +88,7 @@ abstract class CsvTransactionHelper extends TransactionHelper {
         date: dateTime,
         symbol: symbol,
         amount: amount + fee,
+        account: account,
         buyPrice: await _priceHelper.getCoinPriceInUSD(dateTime, symbol),
         description: getDescription(columns),
       );
